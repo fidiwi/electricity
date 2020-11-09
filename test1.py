@@ -1,6 +1,5 @@
 print("Moin")
 print("lel")
 print("moin")
-print("moin")
-print("moin")
-print("moin")
+def i():
+  
