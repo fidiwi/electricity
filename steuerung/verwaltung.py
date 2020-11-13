@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     dif = {}
     for house_key in houses:
-        house_verbrauch = houses[house_key].max_consumption * verbrauch
+        house_verbrauch = houses[house_key].max_consumption * verbrauch + houses[house_key].cars * 11
         house_erzeugung = houses[house_key].solar_space * erzeugung
         difference = house_erzeugung - house_verbrauch
         dif[house_key] = difference
