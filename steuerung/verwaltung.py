@@ -14,22 +14,24 @@ class Apartment(House):
 
 class Einfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=15, solar_space=200,
+        super().__init__(max_consumption=15, solar_space=175,
                          cars=2)
                         
 class Reihenhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=10, solar_space=75,
+        super().__init__(max_consumption=10, solar_space=40,
                          cars=1)
 
 class Mehrfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=60, solar_space=150,
+        super().__init__(max_consumption=60, solar_space=70,
                          cars=6)
 
 class Storage:
-    def __init__(self, size):
+    def __init__(self):
         self.size = size
+
+
 
     def startCharging(power):  # Power ist die abzugebende Leistung (kW)
         pass
