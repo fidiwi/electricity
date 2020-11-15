@@ -17,4 +17,4 @@ for x in range(0,LED_COUNT):
     strip.setPixelColor(x,Color(255,0,0))
 
 strip.show()
-# https://github.com/BSFEMA/RPi_WS2812
+# https://github.com/BSFEMA/RPi_WS2812 lol
