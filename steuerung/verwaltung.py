@@ -3,7 +3,7 @@
 class House:
     def __init__(self, max_consumption, solar_space):
         self.max_consumption = max_consumption  # Maximaler Verbrauch in kW(h)
-        self.solar_space = solar_space  # Solarfläche (optimale Einstellung)
+        self.solar_space = solar_space  # Solarenergie -> Leistung
 
 class Apartment(House):
     def __init__(self):
@@ -33,8 +33,8 @@ if __name__ == "__main__":
     houses = {}
 
     verbrauch = 0.75
-    erzeugung = 0.5
-    charge_cars = 5
+    erzeugung = 0.45
+    charge_cars = 5 # wie viele Autos gerade aufgeladen werden
 
     houses[1] = Apartment()
     houses[2] = Reihenhaus()
