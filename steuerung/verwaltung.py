@@ -7,19 +7,19 @@ class House:
 
 class Apartment(House):
     def __init__(self):
-        super().__init__(max_consumption=80, solar_space=100)
+        super().__init__(max_consumption=5.7, solar_space=100)
 
 class Einfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=15, solar_space=175)          
+        super().__init__(max_consumption=1.2, solar_space=175)          
 
 class Reihenhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=10, solar_space=40)
+        super().__init__(max_consumption=1.5, solar_space=40)
 
 class Mehrfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=60, solar_space=70)
+        super().__init__(max_consumption=4, solar_space=70)
 
 class Storage():
     def __init__(self, capacity, min, max):
@@ -40,11 +40,12 @@ class Storage():
 
 if __name__ == "__main__":
     houses = {}
-    storage = Storage(200, 0, 350)
+    storage = Storage(350, 0, 350)
 
-    verbrauch = 0.75
-    erzeugung = 0.5
-    charge_cars = 5 # wie viele Autos gerade aufgeladen werden
+    verbrauch = 0.5
+    erzeugung = 0
+    charge_cars = 15 # wie viele Autos gerade aufgeladen werden
+    hours = 0
 
     houses[1] = Apartment()
     houses[2] = Reihenhaus()
@@ -57,7 +58,7 @@ if __name__ == "__main__":
             dif = {}
             total_dif = 0 # Verbrauch der Siedlung
             for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption * verbrauch + charge_cars * 11 / 5 # mit Autos
+                house_verbrauch = houses[house_key].max_consumption * verbrauch + charge_cars * 0.04
                 house_erzeugung = houses[house_key].solar_space * erzeugung
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
@@ -68,5 +69,7 @@ if __name__ == "__main__":
             storage.startCharging(total_dif)
             print(storage.capacity)
             time.sleep(1)
+            hours+=1
+            print(hours)
     except KeyboardInterrupt:
         pass
