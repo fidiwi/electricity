@@ -5,7 +5,6 @@ class House:
         self.max_consumption = max_consumption  # Maximaler Verbrauch in kW(h)
         self.solar_space = solar_space  # Solarfläche (optimale Einstellung)
         self.cars = cars  # Anzahl der E-Autos des Hauses
-    
 
 class Apartment(House):
     def __init__(self):
@@ -15,8 +14,8 @@ class Apartment(House):
 class Einfamilienhaus(House):
     def __init__(self):
         super().__init__(max_consumption=15, solar_space=175,
-                         cars=2)
-                        
+                         cars=2)          
+
 class Reihenhaus(House):
     def __init__(self):
         super().__init__(max_consumption=10, solar_space=40,
@@ -30,8 +29,6 @@ class Mehrfamilienhaus(House):
 class Storage:
     def __init__(self):
         self.size = size
-
-
 
     def startCharging(power):  # Power ist die abzugebende Leistung (kW)
         pass
