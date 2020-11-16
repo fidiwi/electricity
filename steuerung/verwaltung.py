@@ -40,10 +40,10 @@ class Storage():
 
 if __name__ == "__main__":
     houses = {}
-    storage = Storage(350, 0, 350)
+    storage = Storage(200, 0, 350)
 
     verbrauch = 0.5
-    erzeugung = 0
+    erzeugung = 0.2
     charge_cars = 15 # wie viele Autos gerade aufgeladen werden
     hours = 0
 
@@ -63,7 +63,6 @@ if __name__ == "__main__":
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
                 total_dif = total_dif + difference
-                print(difference)
             print(dif)
             print(total_dif)
             storage.startCharging(total_dif)
