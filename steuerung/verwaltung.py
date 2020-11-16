@@ -7,19 +7,19 @@ class House:
 
 class Apartment(House):
     def __init__(self):
-        super().__init__(max_consumption=5.7, solar_space=100)
+        super().__init__(max_consumption=5.7, solar_space=12.5)
 
 class Einfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=1.2, solar_space=175)          
+        super().__init__(max_consumption=1.2, solar_space=18.75)          
 
 class Reihenhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=1.5, solar_space=40)
+        super().__init__(max_consumption=1.5, solar_space=3.75)
 
 class Mehrfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=4, solar_space=70)
+        super().__init__(max_consumption=4, solar_space=8.75)
 
 class Storage():
     def __init__(self, capacity, min, max):
