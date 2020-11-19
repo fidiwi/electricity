@@ -7,19 +7,19 @@ class House:
 
 class Apartment(House):
     def __init__(self):
-        super().__init__(max_consumption=5.7, solar_space=100)
+        super().__init__(max_consumption=5.7, solar_space=12.5)
 
 class Einfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=1.2, solar_space=175)          
+        super().__init__(max_consumption=1.2, solar_space=18.75)          
 
 class Reihenhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=1.5, solar_space=40)
+        super().__init__(max_consumption=1.5, solar_space=3.75)
 
 class Mehrfamilienhaus(House):
     def __init__(self):
-        super().__init__(max_consumption=4, solar_space=70)
+        super().__init__(max_consumption=4, solar_space=8.75)
 
 class Storage():
     def __init__(self, capacity, min, max):
@@ -40,10 +40,10 @@ class Storage():
 
 if __name__ == "__main__":
     houses = {}
-    storage = Storage(350, 0, 350)
+    storage = Storage(200, 0, 350)
 
     verbrauch = 0.5
-    erzeugung = 0
+    erzeugung = 0.2
     charge_cars = 15 # wie viele Autos gerade aufgeladen werden
     hours = 0
 
@@ -63,7 +63,6 @@ if __name__ == "__main__":
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
                 total_dif = total_dif + difference
-                print(difference)
             print(dif)
             print(total_dif)
             storage.startCharging(total_dif)
