@@ -1,25 +1,32 @@
 import time
+import hardware
+
 
 class House:
     def __init__(self, max_consumption, solar_space):
         self.max_consumption = max_consumption  # Maximaler Verbrauch in kW(h)
         self.solar_space = solar_space  # Solarenergie -> Leistung
 
+
 class Apartment(House):
     def __init__(self):
         super().__init__(max_consumption=5.7, solar_space=12.5)
+
 
 class Einfamilienhaus(House):
     def __init__(self):
         super().__init__(max_consumption=1.2, solar_space=18.75)          
 
+
 class Reihenhaus(House):
     def __init__(self):
         super().__init__(max_consumption=1.5, solar_space=3.75)
 
+
 class Mehrfamilienhaus(House):
     def __init__(self):
         super().__init__(max_consumption=4, solar_space=8.75)
+
 
 class Storage():
     def __init__(self, capacity, min, max):
@@ -42,8 +49,8 @@ if __name__ == "__main__":
     houses = {}
     storage = Storage(200, 0, 350)
 
-    verbrauch = 0.5
-    erzeugung = 0.2
+    verbrauch = hardware.getAnalogPercent(0)  # 0.5
+    erzeugung = hardware.getAnalogPercent(1)  # 0.2
     charge_cars = 15 # wie viele Autos gerade aufgeladen werden
     hours = 0
 
