@@ -43,14 +43,21 @@ class Storage():
             self.capacity = self.min
             print("empty")
 
+class Firma(House):
+    def __init__(self):
+        super().__init__(max_consumption=4, solar_space=8.75)
+
 
 
 if __name__ == "__main__":
     houses = {}
     storage = Storage(200, 0, 350)
 
-    verbrauch = hardware.getAnalogPercent(0)  # 0.5
-    erzeugung = hardware.getAnalogPercent(1)  # 0.2
+    verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
+    erzeugung_haus = hardware.getAnalogPercent(1)  # 0.2
+    verbrauch_firma = hardware.getAnalogPercent(2)  
+    erzeugung_firma = hardware.getAnalogPercent(3)
+    preis_vorhersage = hardware.getAnalogPercent(4)
     charge_cars = 15 # wie viele Autos gerade aufgeladen werden
     hours = 0
 
@@ -59,14 +66,15 @@ if __name__ == "__main__":
     houses[3] = Reihenhaus()
     houses[4] = Einfamilienhaus()
     houses[5] = Mehrfamilienhaus()
+    firma = Firma()
     try:
 
         while True:
             dif = {}
             total_dif = 0 # Verbrauch der Siedlung
             for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption * verbrauch + charge_cars * 0.04
-                house_erzeugung = houses[house_key].solar_space * erzeugung
+                house_verbrauch = houses[house_key].max_consumption * verbrauch_haus + charge_cars * 0.04
+                house_erzeugung = houses[house_key].solar_space * erzeugung_haus
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
                 total_dif = total_dif + difference
@@ -77,5 +85,7 @@ if __name__ == "__main__":
             time.sleep(1)
             hours+=1
             print(hours)
+            total_dif = total_dif + firma.max_consumption * verbrauch_firma - firma.solar_space * erzeugung_firma
+            print(total_dif)
     except KeyboardInterrupt:
         pass
