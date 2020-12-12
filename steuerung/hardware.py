@@ -1,6 +1,6 @@
 import time
 from rpi_ws281x import *
-from rpi_ws281x import Adafruit_NeoPixel
+from rpi_ss281x import Adafruit_NeoPixel
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import RPi.GPIO as gpio
@@ -56,8 +56,8 @@ class LEDStrip(Adafruit_NeoPixel):
             for item in reversed(main):
                 if reversed(receiver_object)[0] < item:
                     way.append(item)
-
         return way
+
 
     # Define functions which animate LEDs in various ways.
     def stromfluss(self, color, speed_percent, sender_object, receiver_object):
@@ -74,6 +74,13 @@ class LEDStrip(Adafruit_NeoPixel):
             super().show()
             time.sleep(wait_ms/1000.0)
             super().setPixelColor(i, color)
+
+
+    def sonne(self, brightness):
+        way = sun
+        for i in way:
+            super().setPixelColor(i, Color(255*brightness, 180*brightness, 20*brightness))
+            super().show()
 
     def theaterChase(color, wait_ms=50, iterations=10):
         """Movie theater light style chaser animation."""
