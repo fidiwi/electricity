@@ -95,9 +95,9 @@ if __name__ == "__main__":
             dif = {}
             total_dif = 0  # Verbrauch der Siedlung
             for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption 
+                house_verbrauch = houses[house_key].max_consumption
                 * verbrauch_haus + charge_cars * 0.04
-                house_erzeugung = houses[house_key].solar_space 
+                house_erzeugung = houses[house_key].solar_space
                 * erzeugung_solar
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
@@ -109,11 +109,11 @@ if __name__ == "__main__":
             time.sleep(1)
             hours += 1
             print(hours)
-            verbrauchfirma = firma.solar_space * erzeugung_solar 
-            + windpark.windenergy * erzeugung_wind 
+            verbrauchfirma = firma.solar_space * erzeugung_solar
+            + windpark.windenergy * erzeugung_wind
             - firma.max_consumption * verbrauch_firma
             print("Firma ", verbrauchfirma)
-            total_dif = total_dif + verbrauchfirma        
+            total_dif = total_dif + verbrauchfirma       
             print("Endverbrauch ", total_dif)
 
     except KeyboardInterrupt:
