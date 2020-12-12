@@ -23,7 +23,7 @@ LED_BRIGHTNESS = 30     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-main = [*range(1,9), *range(18, 29), *range(38, 82), *range(96, 106), *range(120, 140)]
+main = [*range(1,9), *range(18, 29), *range(38, 82), *range(96, 106), *range(120, 129), *range(136, 140)]
 house1 = [*range(82, 89)]
 house2 = [*range(89, 96)]
 house3 = [*range(106, 113)]
@@ -31,6 +31,7 @@ storage = [*range(113, 120)]
 house5 = [*range(129, 136)]
 wind = [*range(9, 18)]
 firma = [*range(29, 38)]
+sun = [*range(140, 180)]
 
 
 class LEDStrip(Adafruit_NeoPixel):
