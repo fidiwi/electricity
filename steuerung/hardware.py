@@ -1,6 +1,6 @@
 import time
 from rpi_ws281x import *
-from rpi_ss281x import Adafruit_NeoPixel
+from rpi_ws281x import Adafruit_NeoPixel
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import RPi.GPIO as gpio
