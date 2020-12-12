@@ -54,6 +54,13 @@ class Windpark():
         self.windenergy = 50 #maximale Produktion
 
 
+def updatePotiValues():
+    global verbrauch_haus = 0.5 #hardware.getAnalogPercent(0) 
+    global erzeugung_solar = 0.25 #hardware.getAnalogPercent(1)  
+    global verbrauch_firma = 1 #hardware.getAnalogPercent(2)  
+    global erzeugung_wind = 0.5 #hardware.getAnalogPercent(3)
+    global preis_vorhersage = 0 #hardware.getAnalogPercent(4)
+
 if __name__ == "__main__":
     houses = {}
     storage = Storage(200, 0, 350)
