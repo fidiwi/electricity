@@ -57,19 +57,17 @@ class LEDStrip(Adafruit_NeoPixel):
     # Define functions which animate LEDs in various ways.
     def stromfluss(self, color, speed_percent, sender_object, receiver_object):
         # 25 = Minimum, 50 + 25 = Maximum
-        wait_ms = (1 - speed_percent) * 50 + 25
+        wait_ms = (1 - speed_percent) * 400 + 100
         way = self.calculateWay(sender_object, receiver_object)
         """Wipe color across display a pixel at a time."""
-
-        for i in way:
-            super().setPixelColor(i-1, color)
-            super().show()
-
-        for i in way:
-            super().setPixelColor(i-1, Color(0, 0, 0))
-            super().show()
-            time.sleep(wait_ms/1000.0)
-            super().setPixelColor(i-1, color)
+        for j in range(way):
+            for q in range(4):
+                    for i in range(0, super().numPixels(), 4):
+                        super().setPixelColor(i+q, 0)
+                    super().show(wait_ms)
+                    time.sleep(wait_ms)
+                    for i in range(0, super().numPixels(), 4):
+                        super().setPixelColor(i+q, color)
 
     def sonne(self, brightness):
         way = sun
