@@ -33,14 +33,8 @@ wind = [*range(9, 18)]
 firma = [*range(29, 38)]
 sun = [*range(140, 180)]
 
-
-class LEDStrip(Adafruit_NeoPixel):
-    def __init__(self, LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_BRIGHTNESS, LED_INVERT, LED_CHANNEL):
-        # Create NeoPixel object with appropriate configuration.
-        super().__init__(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-        # Intialize the library (must be called once before other functions).
-        super().begin()
- 
+# Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
+class LEDStrip(Adafruit_NeoPixel): 
     def calculateWay(self, sender_object, receiver_object):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
