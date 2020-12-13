@@ -33,6 +33,7 @@ wind = [*range(9, 18)]
 firma = [*range(29, 38)]
 sun = [*range(140, 180)]
 
+
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
 class LEDStrip(Adafruit_NeoPixel): 
     def calculateWay(self, sender_object, receiver_object):
@@ -61,10 +62,14 @@ class LEDStrip(Adafruit_NeoPixel):
         """Wipe color across display a pixel at a time."""
 
         for i in way:
-            super().setPixelColor(i, color)
+            super().setPixelColor(i-1, color)
+            super().show()
+
+        for i in way:
+            super().setPixelColor(i-1, Color(0, 0, 0))
             super().show()
             time.sleep(wait_ms/1000.0)
-            super().setPixelColor(i, Color(0, 0, 0))
+            super().setPixelColor(i-1, color)
 
     def sonne(self, brightness):
         way = sun
