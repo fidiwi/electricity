@@ -41,3 +41,14 @@ def wheel(pos):
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, super().numPixels(), 3):
                     super().setPixelColor(i+q, 0)
+    def theaterChase(color, wait_ms=50, iterations=10):
+        """Movie theater light style chaser animation."""
+        for j in range(iterations):
+            for q in range(3):
+                for i in range(0, super().numPixels(), 3):
+                    super().setPixelColor(i+q, color)
+                super().show()
+                time.sleep(wait_ms/1000.0)
+                for i in range(0, super().numPixels(), 3):
+                    super().setPixelColor(i+q, 0)
+    

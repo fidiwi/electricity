@@ -72,17 +72,6 @@ class LEDStrip(Adafruit_NeoPixel):
             super().setPixelColor(i, Color(255*brightness, 180*brightness, 20*brightness))
             super().show()
 
-    def theaterChase(color, wait_ms=50, iterations=10):
-        """Movie theater light style chaser animation."""
-        for j in range(iterations):
-            for q in range(3):
-                for i in range(0, super().numPixels(), 3):
-                    super().setPixelColor(i+q, color)
-                super().show()
-                time.sleep(wait_ms/1000.0)
-                for i in range(0, super().numPixels(), 3):
-                    super().setPixelColor(i+q, 0)
-    
 
 
 
