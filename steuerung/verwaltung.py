@@ -109,10 +109,8 @@ if __name__ == "__main__":
             dif = {}
             total_dif = 0  # Verbrauch der Siedlung
             for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption
-                * verbrauch_haus + charge_cars * 0.04
-                house_erzeugung = houses[house_key].solar_space
-                * erzeugung_solar
+                house_verbrauch = houses[house_key].max_consumption * verbrauch_haus + charge_cars * 0.04
+                house_erzeugung = houses[house_key].solar_space * erzeugung_solar
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
                 total_dif = total_dif + difference
@@ -129,7 +127,7 @@ if __name__ == "__main__":
             print("Firma ", verbrauchfirma)
             total_dif = total_dif + verbrauchfirma   
             print("Endverbrauch ", total_dif)
-            ledStrip.stromfluss(Color(255, 0, 0), 0.5, hardware.house1, hardware.storage)
+            ledStrip.stromfluss(Color(50, 0, 0), 0.5, hardware.house1, hardware.storage)
 
     except KeyboardInterrupt:
         pass
