@@ -47,14 +47,16 @@ class LEDStrip(Adafruit_NeoPixel):
         if sender_object[0] < receiver_object[0]:
             way = sender_object
             for item in main:
-                if receiver_object[0] > item:
+                if item > sender_object[0] and item < receiver_object[0]:
                     way.append(item)
+            way += receiver_object
         # Stromfluss von größerem Pixelindex zu kleinerem
-        else: 
+        else:
             way = reversed(sender_object)
             for item in reversed(main):
-                if reversed(receiver_object)[0] < item:
+                if item < reversed(sender_object) and item > reversed(receiver_object)[0]:
                     way.append(item)
+            way += reversed(receiver_object)
         return way
 
     # Define functions which animate LEDs in various ways.
