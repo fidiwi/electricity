@@ -23,15 +23,15 @@ LED_BRIGHTNESS = 30     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-main = [*range(1,9), *range(18, 29), *range(38, 82), *range(96, 106), *range(120, 129), *range(136, 140)]
-house1 = [*range(82, 89)]
-house2 = [*range(89, 96)]
-house3 = [*range(106, 113)]
-storage = [*range(113, 120)]
-house5 = [*range(129, 136)]
-wind = [*range(9, 18)]
-firma = [*range(29, 38)]
-sun = [*range(140, 180)]
+main = [*range(0, 8), *range(17, 28), *range(37, 81), *range(95, 105), *range(119, 128), *range(135, 139)]
+house1 = [*range(81, 88)]
+house2 = [*range(88, 95)]
+house3 = [*range(105, 112)]
+storage = [*range(112, 119)]
+house5 = [*range(128, 135)]
+wind = [*range(8, 17)]
+firma = [*range(28, 37)]
+sun = [*range(139, 179)]
 
 
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
@@ -62,12 +62,12 @@ class LEDStrip(Adafruit_NeoPixel):
         """Wipe color across display a pixel at a time."""
         for j in range(way):
             for q in range(4):
-                    for i in range(0, super().numPixels(), 4):
-                        super().setPixelColor(i+q, 0)
-                    super().show(wait_ms)
-                    time.sleep(wait_ms)
-                    for i in range(0, super().numPixels(), 4):
-                        super().setPixelColor(i+q, color)
+                for i in range(0, super().numPixels(), 4):
+                    super().setPixelColor(i+q, 0)
+                super().show
+                time.sleep(wait_ms)
+                for i in range(0, super().numPixels(), 4):
+                    super().setPixelColor(i+q, color)
 
     def sonne(self, brightness):
         way = sun
