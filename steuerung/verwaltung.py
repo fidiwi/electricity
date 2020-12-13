@@ -1,6 +1,16 @@
 import time
 import hardware
+from rpi_ws281x import Color
 
+# LED strip configuration:
+LED_COUNT      = 180     # Number of LED pixels.
+LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
+#LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
+LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 30     # Set to 0 for darkest and 255 for brightest
+LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 class House:
     def __init__(self, max_consumption, solar_space):
@@ -89,6 +99,10 @@ if __name__ == "__main__":
     houses[5] = Mehrfamilienhaus()
     firma = Firma()
     windpark = Windpark()
+
+    ledStrip = hardware.LEDStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ,
+                                 LED_DMA, LED_INVERT, LED_BRIGHTNESS,
+                                 LED_CHANNEL)
     try:
 
         while True:
@@ -106,15 +120,16 @@ if __name__ == "__main__":
             print(total_dif)
             storage.startCharging(total_dif)
             print(storage.capacity)
-            time.sleep(1)
+            time.sleep(2)
             hours += 1
             print(hours)
             verbrauchfirma = firma.solar_space * erzeugung_solar
             + windpark.windenergy * erzeugung_wind
             - firma.max_consumption * verbrauch_firma
             print("Firma ", verbrauchfirma)
-            total_dif = total_dif + verbrauchfirma       
+            total_dif = total_dif + verbrauchfirma   
             print("Endverbrauch ", total_dif)
+            ledStrip.stromfluss(Color(255, 0, 0), 0.5, hardware.house1, hardware.storage)
 
     except KeyboardInterrupt:
         pass

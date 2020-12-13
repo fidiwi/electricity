@@ -1,6 +1,6 @@
 import time
 from rpi_ws281x import *
-from rpi_ss281x import Adafruit_NeoPixel
+from rpi_ws281x import Adafruit_NeoPixel
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import RPi.GPIO as gpio
@@ -41,7 +41,6 @@ class LEDStrip(Adafruit_NeoPixel):
         # Intialize the library (must be called once before other functions).
         super().begin()
  
-    
     def calculateWay(self, sender_object, receiver_object):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
@@ -58,23 +57,18 @@ class LEDStrip(Adafruit_NeoPixel):
                     way.append(item)
         return way
 
-
     # Define functions which animate LEDs in various ways.
     def stromfluss(self, color, speed_percent, sender_object, receiver_object):
         # 25 = Minimum, 50 + 25 = Maximum
         wait_ms = (1 - speed_percent) * 50 + 25
         way = self.calculateWay(sender_object, receiver_object)
         """Wipe color across display a pixel at a time."""
-        for i in way:
-            super().setPixelColor(i, color)
-            super().show()
 
         for i in way:
-            super().setPixelColor(i, Color(0, 0, 0))
+            super().setPixelColor(i, color)
             super().show()
             time.sleep(wait_ms/1000.0)
-            super().setPixelColor(i, color)
-
+            super().setPixelColor(i, Color(0, 0, 0))
 
     def sonne(self, brightness):
         way = sun
