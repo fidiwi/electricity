@@ -72,7 +72,7 @@ class LEDStrip(Adafruit_NeoPixel):
     def sonne(self, brightness):
         way = sun
         for i in way:
-            super().setPixelColor(i, Color(255*brightness, 180*brightness, 20*brightness))
+            super().setPixelColor(i, Color(int(255*brightness), int(180*brightness), int(20*brightness)))
             super().show()
 
 
