@@ -60,14 +60,16 @@ class LEDStrip(Adafruit_NeoPixel):
         wait_ms = ((1-speed_percent) * 400 + 100) / 1000
         way = self.calculateWay(sender_object, receiver_object)
         """Wipe color across display a pixel at a time."""
-        for j in range(5):
+        for iteration in range(5):
             for q in range(4):
-                for i in way[::4]:
-                    super().setPixelColor(i+q, 0)
+                for nthEntry in way[::4]:
+                    index = way.index(nthEntry)
+                    super().setPixelColor(way[index+q], 0)
                 super().show()
                 time.sleep(wait_ms)
-                for i in way[::4]:
-                    super().setPixelColor(i+q, color)
+                for nthEntry in way[::4]:
+                    index = way.index(nthEntry)
+                    super().setPixelColor(way[index+q], color)
 
     def sonne(self, brightness):
         way = sun
