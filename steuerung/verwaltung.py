@@ -145,13 +145,12 @@ if __name__ == "__main__":
             dic = {"house1": housevb[0], "house2": housevb[1], "house3": housevb[2], "storage": housevb[3], "house5": housevb[4]}
             vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
             
-            name = ["house1", "house2", "house3", "storage", "house5"]
+            name = ["hardware.house1", "hardware.house2", "hardware.house3", "hardware.storage", "hardware.house5"]
             pos = 0
             print(housevb) # verbrauch UND name wird sortiert
             for a in range(5):
                 max = housevb[a]
                 for b in range(1+a, 5):
-                    #print(housevb[b+1])
                     if max > housevb[b]:
                         max = housevb[b]
                         pos = b
@@ -168,7 +167,7 @@ if __name__ == "__main__":
 
 
 
-            dic = {name[0]: housevb[0], name[1]: housevb[1], name[2]: housevb[2], name[3]: housevb[3], name[4]: housevb[4]}
+            #dic = {name[0]: housevb[0], name[1]: housevb[1], name[2]: housevb[2], name[3]: housevb[3], name[4]: housevb[4]}
             #vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])} 
 
     except KeyboardInterrupt:
