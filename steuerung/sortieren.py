@@ -1,12 +1,8 @@
 
 
-name = ["house1", "house2", "house3", "storage","house5"]
+name = ["hardware.house1", "hardware.house2", "hardware.house3", "hardware.storage", "hardware.house5"]
 housevb = [-6, -23, -4, 9, -14]
-"""dic = {"house1": housevb[0], "house2": housevb[1], "house3": housevb[2], "storage": housevb[3], "house5": housevb[4]}
-dic2 = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
-print(dic2)
-for i in range(5):
-    print(dic2["house1"])"""
+
 pos = 0
 print(housevb)
 for a in range(5):
@@ -23,6 +19,36 @@ for a in range(5):
     tausch = name[a]
     name[a] = name[pos]
     name[pos] = tausch
+
+def speed():
+
+
+def calcled(nr1, vb1, nr2, vb2):
+    if vb1 - vb2 < 0:
+        vb3 = vb1 - vb2
+        speed = vb3 / #100
+        ledStrip.stromfluss(Color(50, 0, 0), speed, nr1, nr2)
+        def calcled(nr3, vb3, nr4, vb4)
+    
+    else:
+        vb4 = vb1 - vb2 
+        speed = vb4 / #100
+        ledStrip.stromfluss(Color(50, 0, 0), speed, nr1, nr2)
+        def calcled(nr3, vb3, nr4, vb4)
+
+
+if housevb[0] > 0 and housevb[4] < 0:
+    calcled(name[0], housevb[0], name[4], housevb[4])
+
+elif housevb[4] > 0:
+    for i in range(5):
+        if i == 3:
+            pass
+        else:
+            ledStrip.stromfluss(Color(0, 50, 0), speed, name[i], name[3])
+
+
+
 
 print(housevb)
 print(name)
