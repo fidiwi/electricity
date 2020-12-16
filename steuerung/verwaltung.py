@@ -48,10 +48,17 @@ class Storage():
         self.capacity += power
         if self.capacity > self.max:
             self.capacity = self.max
+            full(power)
             print("full")
         if self.capacity < self.min:
             self.capacity = self.min
+            empty(power)
             print("empty")
+    def full(self, energie):
+
+
+    def empty(self, energie):
+
 
 
 class Firma(House):
@@ -129,6 +136,40 @@ if __name__ == "__main__":
             total_dif = total_dif + verbrauchfirma   
             print("Endverbrauch ", total_dif)
             ledStrip.stromfluss(Color(50, 0, 0), 0.5, hardware.house1, hardware.storage)
+
+            #led rechnen            
+            housevb = []
+            for i in range(5):
+                housevb.append(-(houses[i].max_consumption * verbrauch_haus + charge_cars * 0.04) + houses[i].solar_space * erzeugung_solar)
+            
+            dic = {"house1": housevb[0], "house2": housevb[1], "house3": housevb[2], "storage": housevb[3], "house5": housevb[4]}
+            vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
+            
+            name = ["house1", "house2", "house3", "storage", "house5"]
+            pos = 0
+            print(housevb) # verbrauch UND name wird sortiert
+            for a in range(5):
+                max = housevb[a]
+                for b in range(1+a, 5):
+                    #print(housevb[b+1])
+                    if max > housevb[b]:
+                        max = housevb[b]
+                        pos = b
+
+                tausch = housevb[a]
+                housevb[a] = max
+                housevb[pos] = tausch
+                tausch = name[a]
+                name[a] = name[pos]
+                name[pos] = tausch
+            
+
+
+
+
+
+            dic = {name[0]: housevb[0], name[1]: housevb[1], name[2]: housevb[2], name[3]: housevb[3], name[4]: housevb[4]}
+            #vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])} 
 
     except KeyboardInterrupt:
         pass
