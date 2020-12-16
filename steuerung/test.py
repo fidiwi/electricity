@@ -26,4 +26,4 @@ housevb = []
                 else:
                     lieferant = 
                 speed = 
-                ledStrip.stromfluss(Color(50, 0, 0), speed, hunger, lieferant)
+                ledStrip.stromfluss(Color(50, 0, 0), speed, hunger, lieferant)# moin
