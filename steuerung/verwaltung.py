@@ -71,6 +71,11 @@ class Windpark():
     def __init__(self):
         self.windenergy = 50  # maximale Produktion
 
+def speed(dif):
+    if abs(dif) > 10:
+        dif = 10
+    difference = abs(dif) * 0.1
+    return difference
 
 def updatePotiValues():
     global verbrauch_haus
@@ -161,6 +166,40 @@ if __name__ == "__main__":
                 name[a] = name[pos]
                 name[pos] = tausch
             
+
+            if housevb[4] > 0:
+                if storage.capacity < 350:
+                    for i in range(5):
+                        if i == 3:
+                            pass
+                        else:
+                            ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], name[3])
+                else:
+                    for i in range(5):
+                    ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.firma)
+
+            elif housevb[0] < 0:
+                if storage.capacity > 0:
+                    for i in range(5):
+                        if i == 3:
+                            pass
+                        else:
+                else:
+                    for i in range(5):
+                    ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), hardware.wind, name[i])
+
+            elif sum(housevb) > 0:
+                if storage.capacity < 350:
+                
+                else:
+
+            elif sum(housevb) < 0:
+                if storage.capacity > 0:
+                
+                else:
+
+            else:
+                ledStrip.stromfluss(Color(50, 50, 50), speed(), hardware.wind, hardware.storage)
 
 
 
