@@ -46,18 +46,18 @@ class Storage():
 
     def startCharging(self, power):  # Power ist die abzugebende Leistung (kW)
         self.capacity += power
+        hauptleitung = 0
         if self.capacity > self.max:
             self.capacity = self.max
+            hauptleitung += power
             full(power)
             print("full")
         if self.capacity < self.min:
             self.capacity = self.min
+            hauptleitung += power
             empty(power)
             print("empty")
-    def full(self, energie):
-
-
-    def empty(self, energie):
+    
 
 
 
@@ -126,7 +126,6 @@ if __name__ == "__main__":
             print(total_dif)
             storage.startCharging(total_dif)
             print(storage.capacity)
-            time.sleep(2)
             hours += 1
             print(hours)
             verbrauchfirma = firma.solar_space * erzeugung_solar
@@ -166,7 +165,7 @@ if __name__ == "__main__":
 
 
 
-
+            time.sleep(10)
             #dic = {name[0]: housevb[0], name[1]: housevb[1], name[2]: housevb[2], name[3]: housevb[3], name[4]: housevb[4]}
             #vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])} 
 
