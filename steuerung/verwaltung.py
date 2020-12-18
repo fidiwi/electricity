@@ -59,8 +59,6 @@ class Storage():
             print("empty")
     
 
-
-
 class Firma(House):
     def __init__(self):
         super().__init__(max_consumption=20, solar_space=20)  # Zahlen für den
@@ -71,11 +69,53 @@ class Windpark():
     def __init__(self):
         self.windenergy = 50  # maximale Produktion
 
+
 def speed(dif):
     if abs(dif) > 10:
         dif = 10
     difference = abs(dif) * 0.1
     return difference
+
+
+def calcled(i, j, temp):
+    housevb[i]+=temp
+    if housevb[i] > 0 and housevb[j] < 0:
+        if housevb[i] - housevb[j] > 0:
+            temp = housevb[i] - housevb[j]
+            ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[i], name[j])
+            j-=1
+            if i <= j:
+                calcled(i, j, temp)
+        else:
+            temp = housevb[i] - housevb[j]
+            ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], name[j])
+            i+=1
+            if i <= j:
+                calcled(i, j, temp)
+    
+    elif housevb[i] > 0 and housevb[j] > 0:
+        if storage < 350:
+            while i >= j:
+                if name[i] == "hardware.storage":
+                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[j], hardware.storage)
+                    i+=1
+                    j-=1
+                elif name[j] == "hardware.storage":
+                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], hardware.storage)
+                    i+=1
+                    j-=1
+                else:
+                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], hardware.storage)
+                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[j], hardware.storage)
+                    i+=1
+                    j-=1
+        else:
+            while i >= j:
+                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], hardware.firma)
+                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[j], hardware.firma)
+                i+=1
+                j-=1
+
 
 def updatePotiValues():
     global verbrauch_haus
@@ -189,19 +229,13 @@ if __name__ == "__main__":
                     ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), hardware.wind, name[i])
 
             elif sum(housevb) > 0:
-                if storage.capacity < 350:
-                
-                else:
+                calcled(0, 4, 0)
 
             elif sum(housevb) < 0:
-                if storage.capacity > 0:
-                
-                else:
+                calcled(0, 4, 0)
 
             else:
                 ledStrip.stromfluss(Color(50, 50, 50), speed(), hardware.wind, hardware.storage)
-
-
 
 
             time.sleep(10)
