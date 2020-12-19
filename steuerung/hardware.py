@@ -33,25 +33,27 @@ wind = [*range(8, 17)]
 firma = [*range(28, 37)]
 sun = [*range(139, 179)]
 
+ways = {1: house1, 2: house2, 3: house3, 4: storage, 5: house5}
+
 
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
-class LEDStrip(Adafruit_NeoPixel): 
-    def calculateWay(self, sender_object, receiver_object):
+class LEDStrip(Adafruit_NeoPixel):
+    def calculateWay(self, sender_object_way, receiver_object_way):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
-        if sender_object[0] < receiver_object[0]:
-            way += reversed(sender_object)
+        if sender_object_way[0] < receiver_object_way[0]:
+            way += reversed(sender_object_way)
             for item in main:
-                if item > sender_object[0] and item < receiver_object[0]:
+                if item > sender_object_way[0] and item < receiver_object_way[0]:
                     way.append(item)
-            way += receiver_object
+            way += receiver_object_way
         # Stromfluss von größerem Pixelindex zu kleinerem
         else:
-            way += reversed(sender_object)
+            way += reversed(sender_object_way)
             for item in reversed(main):
-                if item < reversed(sender_object) and item > reversed(receiver_object)[0]:
+                if item < reversed(sender_object_way) and item > reversed(receiver_object_way)[0]:
                     way.append(item)
-            way += reversed(receiver_object)
+            way += reversed(receiver_object_way)
         return way
 
     # Define functions which animate LEDs in various ways.

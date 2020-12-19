@@ -12,30 +12,32 @@ LED_BRIGHTNESS = 30     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+
 class House:
-    def __init__(self, max_consumption, solar_space):
+    def __init__(self, max_consumption, solar_space, slot):
         self.max_consumption = max_consumption  # Maximaler Verbrauch in kW(h)
         self.solar_space = solar_space  # Solarenergie -> Leistung
+        self.way = hardware.ways[slot]  # Wähle den Weg des zugehörigen Slots
 
 
 class Apartment(House):
-    def __init__(self):
-        super().__init__(max_consumption=5.7, solar_space=12.5)
+    def __init__(self, slot):
+        super().__init__(max_consumption=5.7, solar_space=12.5, slot)
 
 
 class Einfamilienhaus(House):
-    def __init__(self):
-        super().__init__(max_consumption=1.2, solar_space=18.75)          
+    def __init__(self, slot):
+        super().__init__(max_consumption=1.2, solar_space=18.75, slot)          
 
 
 class Reihenhaus(House):
-    def __init__(self):
-        super().__init__(max_consumption=1.5, solar_space=3.75)
+    def __init__(self, slot):
+        super().__init__(max_consumption=1.5, solar_space=3.75, slot)
 
 
 class Mehrfamilienhaus(House):
-    def __init__(self):
-        super().__init__(max_consumption=4, solar_space=8.75)
+    def __init__(self, slot):
+        super().__init__(max_consumption=4, solar_space=8.75, slot)
 
 
 class Storage():
@@ -60,8 +62,8 @@ class Storage():
     
 
 class Firma(House):
-    def __init__(self):
-        super().__init__(max_consumption=20, solar_space=20)  # Zahlen für den
+    def __init__(self, slot):
+        super().__init__(max_consumption=20, solar_space=20, slot)  # Zahlen für den
         # Verbrauch einsetzen
 
 
@@ -78,66 +80,66 @@ def speed(dif):
 
 
 
-def calcled(i, j): #i = erstes haus von links; j = rechtes haus in der list, temp = reststrom/verbrauch 
-    if housevb[i] > 0 and housevb[j] < 0:
-        if housevb[i] - housevb[j] > 0:
-            housevb[i]+=housevb[j]
+def calcled(i, j): #i = erstes haus von links; j = rechtes haus in der list
+    if housevb[i] > 0 and housevb[j] < 0:  # Wenn i erzeugt und j verbraucht
+        if housevb[i] - housevb[j] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
+            housevb[i] += housevb[j]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
             ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[j]), name[i], name[j])
-            j-=1
+            j -= 1  # Springe zum nächsten verbrauchenden Haus
             if i < j:
-                calcled(i, j, temp)
+                calcled(i, j)
         else:
             ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], name[j])
-            housevb[j]+=housevb[i]
-            i+=1
+            housevb[j] += housevb[i]  # Verbrauch von j mit der Erzeugung von i senken
+            i += 1  # Springe zum nächsten erzeugenden Haus
             if i < j:
-                calcled(i, j, temp)
+                calcled(i, j)
     
-    elif housevb[i] > 0 and housevb[j] > 0:
+    elif housevb[i] > 0 and housevb[j] > 0:  # Wenn i und j erzeugen
         if storage.capacity < 350:
             while i < j:
                 if name[i] == "hardware.storage":
                     ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[j]), name[j], hardware.storage)
-                    i+=1
-                    j-=1
+                    i += 1
+                    j -= 1
                 elif name[j] == "hardware.storage":
                     ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.storage)
-                    i+=1
-                    j-=1
+                    i += 1
+                    j -= 1
                 else:
                     ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.storage)
                     ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[j]), name[j], hardware.storage)
-                    i+=1
-                    j-=1
+                    i += 1
+                    j -= 1
         else:
             while i < j:
                 ledStrip.stromfluss(Color(0, 0, 50), speed(housevb[i]), name[i], hardware.firma)
                 ledStrip.stromfluss(Color(0, 0, 50), speed(housevb[j]), name[j], hardware.firma)
-                i+=1
-                j-=1
+                i += 1
+                j -= 1
 
-    else:
+    else: #  Wenn beide verbrauchen
         if storage.capacity > 0:
             while i >= j:
                 if name[i] == "hardware.storage":
                     ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[j]), hardware.storage, name[j])
-                    i+=1
-                    j-=1
+                    i += 1
+                    j -= 1
                 elif name[j] == "hardware.storage":
                     ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[i]), hardware.storage, name[i])
-                    i+=1
-                    j-=1
+                    i += 1
+                    j -= 1
                 else:
                     ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[i]), hardware.storage, name[i])
                     ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[j]), hardware.storage, name[j])
-                    i+=1
-                    j-=1
+                    i += 1
+                    j -= 1
         else:
             while i >= j:
                 ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), hardware.wind, name[i])
                 ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), hardware.wind, name[j])
-                i+=1
-                j-=1
+                i += 1
+                j -= 1
 
 
 def updatePotiValues():
@@ -167,11 +169,12 @@ if __name__ == "__main__":
     charge_cars = 15  # wie viele Autos gerade aufgeladen werden
     hours = 0
 
-    houses[1] = Apartment()
-    houses[2] = Reihenhaus()
-    houses[3] = Reihenhaus()
-    houses[4] = Einfamilienhaus()
-    houses[5] = Mehrfamilienhaus()
+    # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!
+    houses[1] = Apartment(1)  
+    houses[2] = Reihenhaus(2)
+    houses[3] = Reihenhaus(3)
+    houses[4] = Einfamilienhaus(4)
+    houses[5] = Mehrfamilienhaus(5)
     firma = Firma()
     windpark = Windpark()
 
@@ -202,15 +205,28 @@ if __name__ == "__main__":
             print("Firma ", verbrauchfirma)
             total_dif = total_dif + verbrauchfirma   
             print("Endverbrauch ", total_dif)
-            ledStrip.stromfluss(Color(50, 0, 0), 0.5, hardware.house1, hardware.storage)
+            ledStrip.stromfluss(Color(50, 0, 0), 0.5, houses[1].way, houses[4].way)
 
             #led rechnen            
             housevb = []
             for i in range(5):
                 housevb.append(-(houses[i].max_consumption * verbrauch_haus + charge_cars * 0.04) + houses[i].solar_space * erzeugung_solar)
             
-            dic = {"house1": housevb[0], "house2": housevb[1], "house3": housevb[2], "storage": housevb[3], "house5": housevb[4]}
+            dic = {houses[1]: housevb[0], houses[2]: housevb[1], houses[3]: housevb[2], houses[4]: housevb[3], houses[5]: housevb[4]}
             vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
+
+            # Wichtig: Bei der Benutzung von stromfluss() wie folgt vorgehen:
+            # stromfluss(FARBE, SPEED, SENDER_WEG, EMPFÄNGER_WEG)
+            # Empfänger- und Senderwege werden dabei wie folgt abgerufen:
+            #                     >> houses[x].way <<
+
+            # Der Verbrauch eines bestimmten Hauses wird in dem Dict abgerufen mit:
+            #                 >> vb_sortiert[houses[x]] <<
+
+            # Beachte hierbei, dass houses[] ein dict ist und die Nummerierung bei 1 startet,
+            # nicht bei 0. (Also 1-5 statt 0-4).
+            # Der Weg des Storage ist abrufbar mit:
+            #                    >> houses[4].way <<
             
             name = [hardware.house1, hardware.house2, hardware.house3, hardware.storage, hardware.house5]
             pos = 0
