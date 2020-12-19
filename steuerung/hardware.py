@@ -51,7 +51,7 @@ class LEDStrip(Adafruit_NeoPixel):
         else:
             way += reversed(sender_object_way)
             for item in reversed(main):
-                if item < reversed(sender_object_way) and item > reversed(receiver_object_way)[0]:
+                if item < reversed(sender_object_way)[0] and item > reversed(receiver_object_way)[0]:
                     way.append(item)
             way += reversed(receiver_object_way)
         return way
@@ -74,6 +74,8 @@ class LEDStrip(Adafruit_NeoPixel):
                     index = way.index(nthEntry)
                     if index+q < len(way):
                         super().setPixelColor(way[index+q], color)
+        for led in way:
+            super().setPixelColor(led, 0)
 
     def sonne(self, brightness):
         way = sun
