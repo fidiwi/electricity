@@ -83,13 +83,13 @@ def speed(dif):
 def calcled(i, j): #i = erstes haus von links; j = rechtes haus in der list
     if vb_sortiert[houses[i]] < 0 and vb_sortiert[houses[j]] > 0:  # Wenn j erzeugt und i verbraucht
         if vb_sortiert[houses[j]] - vb_sortiert[houses[i]] > 0:  # Wenn j den Verbrauch von i mehr als decken kann
+            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[i]]), houses[j].way, houses[i].way)
             vb_sortiert[houses[j]] += vb_sortiert[houses[i]]  # Erzeugung von j mit dem Verbrauch von i subtrahieren
             i += 1  # Springe zum nächsten verbrauchenden Haus
-            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[j]]), houses[j].way, houses[i].way)
             if i < j:
                 calcled(i, j)
         else:
-            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[i]]), houses[j].way, houses[i].way)
+            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[j]]), houses[j].way, houses[i].way)
             vb_sortiert[houses[i]] += vb_sortiert[houses[j]]  # Verbrauch von i mit der Erzeugung von j senken
             j -= 1  # Springe zum nächsten erzeugenden Haus
             if i < j:
@@ -250,13 +250,11 @@ if __name__ == "__main__":
                     for i in range(1, 6):
                         ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[houses[i]]), houses[7].way, houses[i].way)
 
-
             elif vb_sortiert[houses[1]] < 0 and vb_sortiert[houses[5]] > 0:
                 calcled(1, 5)
-
             
             else:
-                ledStrip.stromfluss(Color(50, 50, 50), speed(10), hardware.wind, hardware.storage)
+                ledStrip.stromfluss(Color(50, 50, 50), speed(10), houses[7].way, houses[4].way)
 
 
             time.sleep(10)
