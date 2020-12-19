@@ -51,7 +51,9 @@ class LEDStrip(Adafruit_NeoPixel):
         else:
             way += reversed(sender_object_way)
             for item in reversed(main):
-                if item < reversed(sender_object_way)[0] and item > reversed(receiver_object_way)[0]:
+                reversed_sender = reversed(sender_object_way)
+                reversed_receiver = reversed(receiver_object_way)
+                if item < reversed_sender[0] and item > reversed_receiver[0]:
                     way.append(item)
             way += reversed(receiver_object_way)
         return way
