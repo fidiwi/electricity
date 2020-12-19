@@ -166,6 +166,7 @@ if __name__ == "__main__":
     try:
 
         while True:
+            updatePotiValues()
             dif = {}
             total_dif = 0  # Verbrauch der Siedlung
             for house_key in houses:
@@ -232,9 +233,7 @@ if __name__ == "__main__":
             if vb_sortiert[keys[0]] > 0:
                 if storage.capacity < 350:
                     for i in range(5):
-                        if i == 3:
-                            pass
-                        else:
+                        if not i == 3:
                             ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
                 else:
                     for i in range(5):
