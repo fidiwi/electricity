@@ -67,9 +67,9 @@ class Firma(House):
         # Verbrauch einsetzen
 
 
-class Windpark():
-    def __init__(self):
-        self.windenergy = 50  # maximale Produktion
+class Windpark(House):
+    def __init__(self, slot):
+        super().__init__(windenergy = 50, slot)  # maximale Produktion
 
 
 def speed(dif):
@@ -81,65 +81,45 @@ def speed(dif):
 
 
 def calcled(i, j): #i = erstes haus von links; j = rechtes haus in der list
-    if housevb[i] > 0 and housevb[j] < 0:  # Wenn i erzeugt und j verbraucht
-        if housevb[i] - housevb[j] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
-            housevb[i] += housevb[j]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
-            ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[j]), name[i], name[j])
-            j -= 1  # Springe zum nächsten verbrauchenden Haus
+    if vb_sortiert[houses[i]] < 0 and vb_sortiert[houses[j]] > 0:  # Wenn j erzeugt und i verbraucht
+        if vb_sortiert[houses[j]] - vb_sortiert[houses[i]] > 0:  # Wenn j den Verbrauch von i mehr als decken kann
+            vb_sortiert[houses[j]] += vb_sortiert[houses[i]]  # Erzeugung von j mit dem Verbrauch von i subtrahieren
+            i += 1  # Springe zum nächsten verbrauchenden Haus
+            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[j]]), houses[j].way, houses[i].way)
             if i < j:
                 calcled(i, j)
         else:
-            ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], name[j])
-            housevb[j] += housevb[i]  # Verbrauch von j mit der Erzeugung von i senken
-            i += 1  # Springe zum nächsten erzeugenden Haus
+            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[i]]), houses[j].way, houses[i].way)
+            vb_sortiert[houses[i]] += vb_sortiert[houses[j]]  # Verbrauch von i mit der Erzeugung von j senken
+            j -= 1  # Springe zum nächsten erzeugenden Haus
             if i < j:
                 calcled(i, j)
     
-    elif housevb[i] > 0 and housevb[j] > 0:  # Wenn i und j erzeugen
+    elif vb_sortiert[houses[i]] > 0 and vb_sortiert[houses[j]] > 0:  # Wenn i und j erzeugen
         if storage.capacity < 350:
-            while i < j:
-                if name[i] == "hardware.storage":
-                    ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[j]), name[j], hardware.storage)
-                    i += 1
-                    j -= 1
-                elif name[j] == "hardware.storage":
-                    ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.storage)
-                    i += 1
-                    j -= 1
+            while i < j+1:  # j+1, da auch das house[j] angezeigt werden muss
+                if i == 4:
+                    pass
                 else:
-                    ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.storage)
-                    ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[j]), name[j], hardware.storage)
-                    i += 1
-                    j -= 1
-        else:
-            while i < j:
-                ledStrip.stromfluss(Color(0, 0, 50), speed(housevb[i]), name[i], hardware.firma)
-                ledStrip.stromfluss(Color(0, 0, 50), speed(housevb[j]), name[j], hardware.firma)
+                    ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[i]]), houses[i].way, houses[4].way)
                 i += 1
-                j -= 1
+        else:
+            while i < j+1:
+                ledStrip.stromfluss(Color(0, 0, 50), speed(vb_sortiert[houses[i]]), houses[i].way, houses[6].way)
+                i += 1
 
     else: #  Wenn beide verbrauchen
         if storage.capacity > 0:
-            while i >= j:
-                if name[i] == "hardware.storage":
-                    ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[j]), hardware.storage, name[j])
-                    i += 1
-                    j -= 1
-                elif name[j] == "hardware.storage":
-                    ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[i]), hardware.storage, name[i])
-                    i += 1
-                    j -= 1
+            while i < j+1:
+                if i == 4:
+                    pass
                 else:
-                    ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[i]), hardware.storage, name[i])
-                    ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[j]), hardware.storage, name[j])
-                    i += 1
-                    j -= 1
-        else:
-            while i >= j:
-                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), hardware.wind, name[i])
-                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), hardware.wind, name[j])
+                    ledStrip.stromfluss(Color(50, 50, 0), speed(vb_sortiert[houses[i]]), houses[4].way, houses[i].way)
                 i += 1
-                j -= 1
+        else:
+            while i < j+1:
+                ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[houses[i]]), houses[7].way, houses[i].way)
+                i += 1
 
 
 def updatePotiValues():
@@ -205,7 +185,7 @@ if __name__ == "__main__":
             print("Firma ", verbrauchfirma)
             total_dif = total_dif + verbrauchfirma   
             print("Endverbrauch ", total_dif)
-            ledStrip.stromfluss(Color(50, 0, 0), 0.5, houses[1].way, houses[4].way)
+            # ledStrip.stromfluss(Color(50, 0, 0), 0.5, houses[1].way, houses[4].way)
 
             #led rechnen            
             housevb = []
@@ -214,6 +194,7 @@ if __name__ == "__main__":
             
             dic = {houses[1]: housevb[0], houses[2]: housevb[1], houses[3]: housevb[2], houses[4]: housevb[3], houses[5]: housevb[4]}
             vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
+            #keys = list(vb_sotiert.keys())
 
             # Wichtig: Bei der Benutzung von stromfluss() wie folgt vorgehen:
             # stromfluss(FARBE, SPEED, SENDER_WEG, EMPFÄNGER_WEG)
@@ -227,8 +208,9 @@ if __name__ == "__main__":
             # nicht bei 0. (Also 1-5 statt 0-4).
             # Der Weg des Storage ist abrufbar mit:
             #                    >> houses[4].way <<
+            # houses[6].way = firma     houses[7].way = wind
             
-            name = [hardware.house1, hardware.house2, hardware.house3, hardware.storage, hardware.house5]
+            """name = [hardware.house1, hardware.house2, hardware.house3, hardware.storage, hardware.house5]
             pos = 0
             print(housevb) # verbrauch UND name wird sortiert
             for a in range(5):
@@ -243,45 +225,42 @@ if __name__ == "__main__":
                 housevb[pos] = tausch
                 tausch = name[a]
                 name[a] = name[pos]
-                name[pos] = tausch
+                name[pos] = tausch"""
             
 
-            if housevb[4] > 0:
+            if vb_sortiert[houses[1]] > 0:
                 if storage.capacity < 350:
-                    for i in range(5):
-                        if name[i] == "hardware.storage":
+                    for i in range(1, 6):
+                        if i == 4:
                             pass
                         else:
-                            ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.storage)
+                            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[i]]), houses[i].way, houses[4].way)
                 else:
-                    for i in range(5):
-                        ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.firma)
+                    for i in range(1, 6):
+                        ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[houses[i]]), houses[i].way, houses[6].way)
 
-            elif housevb[0] < 0:
+            elif vb_sortiert[houses[5]] < 0:
                 if storage.capacity > 0:
-                    for i in range(5):
-                        if name[i] == "hardware.storage":
+                    for i in range(1, 6):
+                        if i == 4:
                             pass
                         else:
-                            ledStrip.stromfluss(Color(50, 50, 0), speed(housevb[i]), hardware.storage, name[i])
+                            ledStrip.stromfluss(Color(50, 50, 0), speed(vb_sortiert[houses[i]]), houses[4].way, houses[i].way)
                 else:
-                    for i in range(5):
-                        ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), hardware.wind, name[i])
+                    for i in range(1, 6):
+                        ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[houses[i]]), houses[7].way, houses[i].way)
 
 
-            elif sum(housevb) > 0:
-                calcled(0, 4)
+            elif vb_sortiert[houses[1]] < 0 and vb_sortiert[houses[5]] > 0:
+                calcled(1, 5)
 
-            elif sum(housevb) < 0:
-                calcled(0, 4)
-
+            
             else:
-                ledStrip.stromfluss(Color(50, 50, 50), speed(), hardware.wind, hardware.storage)
+                ledStrip.stromfluss(Color(50, 50, 50), speed(10), hardware.wind, hardware.storage)
 
 
             time.sleep(10)
-            #dic = {name[0]: housevb[0], name[1]: housevb[1], name[2]: housevb[2], name[3]: housevb[3], name[4]: housevb[4]}
-            #vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])} 
+            
 
     except KeyboardInterrupt:
         pass
