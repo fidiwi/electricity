@@ -22,22 +22,22 @@ class House:
 
 class Apartment(House):
     def __init__(self, slot):
-        super().__init__(max_consumption=5.7, solar_space=12.5, slot)
+        super().__init__(5.7, 12.5, slot)
 
 
 class Einfamilienhaus(House):
     def __init__(self, slot):
-        super().__init__(max_consumption=1.2, solar_space=18.75, slot)          
+        super().__init__(1.2, 18.75, slot)          
 
 
 class Reihenhaus(House):
     def __init__(self, slot):
-        super().__init__(max_consumption=1.5, solar_space=3.75, slot)
+        super().__init__(1.5, 3.75, slot)
 
 
 class Mehrfamilienhaus(House):
     def __init__(self, slot):
-        super().__init__(max_consumption=4, solar_space=8.75, slot)
+        super().__init__(4, 8.75, slot)
 
 
 class Storage():
@@ -62,14 +62,15 @@ class Storage():
     
 
 class Firma(House):
-    def __init__(self, slot):
-        super().__init__(max_consumption=20, solar_space=20, slot)  # Zahlen für den
+    def __init__(self):
+        super().__init__(20, 20, 6)  # Zahlen für den
         # Verbrauch einsetzen
 
 
 class Windpark(House):
-    def __init__(self, slot):
-        super().__init__(windenergy = 50, slot)  # maximale Produktion
+    def __init__(self):
+        self.windenergy = 50 # maximale Produktion
+        self.way = hardware.ways[7]
 
 
 def speed(dif):
