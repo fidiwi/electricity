@@ -63,14 +63,14 @@ class Storage():
 
 class Firma(House):
     def __init__(self):
-        super().__init__(20, 20, 6)  # Zahlen für den
+        super().__init__(20, 20, 5)  # Zahlen für den
         # Verbrauch einsetzen
 
 
 class Windpark(House):
     def __init__(self):
         self.windenergy = 50 # maximale Produktion
-        self.way = hardware.ways[7]
+        self.way = hardware.ways[6]
 
 
 def speed(dif):
@@ -151,11 +151,11 @@ if __name__ == "__main__":
     hours = 0
 
     # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!
-    houses[1] = Apartment(1)  
+    houses[0] = Einfamilienhaus(0)
+    houses[1] = Reihenhaus(1)
     houses[2] = Reihenhaus(2)
-    houses[3] = Reihenhaus(3)
-    houses[4] = Einfamilienhaus(4)
-    houses[5] = Mehrfamilienhaus(5)
+    houses[3] = Apartment(3)
+    houses[4] = Mehrfamilienhaus(4)
     firma = Firma()
     windpark = Windpark()
 
@@ -193,8 +193,9 @@ if __name__ == "__main__":
             for i in range(5):
                 housevb.append(-(houses[i].max_consumption * verbrauch_haus + charge_cars * 0.04) + houses[i].solar_space * erzeugung_solar)
             
-            dic = {houses[1]: housevb[0], houses[2]: housevb[1], houses[3]: housevb[2], houses[4]: housevb[3], houses[5]: housevb[4]}
-            vb_sotiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
+            dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4]}
+            vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
+            keys = list(vb_sortiert.keys())
             #keys = list(vb_sotiert.keys())
 
             # Wichtig: Bei der Benutzung von stromfluss() wie folgt vorgehen:
@@ -228,8 +229,7 @@ if __name__ == "__main__":
                 name[a] = name[pos]
                 name[pos] = tausch"""
             
-
-            if vb_sortiert[houses[1]] > 0:
+            if vb_sortiert[keys[0]] > 0:
                 if storage.capacity < 350:
                     for i in range(1, 6):
                         if i == 4:
