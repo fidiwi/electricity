@@ -65,14 +65,14 @@ class LEDStrip(Adafruit_NeoPixel):
         for iteration in range(5):
             for q in range(4):
                 for nthEntry in way[::4]:
+                    index = way.index(nthEntry)
                     if index+q < len(way):
-                        index = way.index(nthEntry)
                         super().setPixelColor(way[index+q], 0)
                 super().show()
                 time.sleep(wait_ms)
                 for nthEntry in way[::4]:
+                    index = way.index(nthEntry)
                     if index+q < len(way):
-                        index = way.index(nthEntry)
                         super().setPixelColor(way[index+q], color)
 
     def sonne(self, brightness):
