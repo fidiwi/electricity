@@ -105,18 +105,18 @@ def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes ha
                 i += 1
         else:
             while not i > j:
-                ledStrip.stromfluss(Color(0, 0, 50), speed(vb_sortiert[keys[i]]), houses[i].way, houses[5].way)
+                ledStrip.stromfluss(Color(0, 0, 50), speed(vb_sortiert[keys[i]]), houses[i].way, firma.way)
                 i += 1
 
     else: #  Wenn beide verbrauchen
         if storage.capacity > 0:
             while not i > j:
                 if not i == 3:
-                    ledStrip.stromfluss(Color(50, 50, 0), speed(vb_sortiert[keys[i]]), houses[3].way, houses[i].way)
+                    ledStrip.stromfluss(Color(50, 50, 0), speed(vb_sortiert[keys[i]]), firma.way, houses[i].way)
                 i += 1
         else:
             while not i > j:
-                ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), houses[6].way, houses[i].way)
+                ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), windpark.way, houses[i].way)
                 i += 1
 
 
@@ -155,6 +155,8 @@ if __name__ == "__main__":
     houses[4] = Mehrfamilienhaus(4)
     firma = Firma()
     windpark = Windpark()
+    #houses[5] = firma
+    
 
     ledStrip = hardware.LEDStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ,
                                  LED_DMA, LED_INVERT, LED_BRIGHTNESS,
@@ -235,7 +237,7 @@ if __name__ == "__main__":
                             ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
                 else:
                     for i in range(5):
-                        ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[0]]), houses[i].way, houses[5].way)
+                        ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[0]]), houses[i].way, firma.way)
 
             elif vb_sortiert[keys[4]] < 0:
                 if storage.capacity > 0:
@@ -244,13 +246,13 @@ if __name__ == "__main__":
                             ledStrip.stromfluss(Color(50, 50, 0), speed(vb_sortiert[keys[i]]), houses[3].way, houses[i].way)
                 else:
                     for i in range(5):
-                        ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), houses[6].way, houses[i].way)
+                        ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), windpark.way, houses[i].way)
 
             elif vb_sortiert[keys[0]] < 0 and vb_sortiert[keys[4]] > 0:
                 calcled(0, 4, vb_sortiert, keys)
             
             else:
-                ledStrip.stromfluss(Color(50, 50, 50), speed(10), houses[6].way, houses[3].way)
+                ledStrip.stromfluss(Color(50, 50, 50), speed(10), windpark.way, houses[3].way)
 
 
             time.sleep(10)
