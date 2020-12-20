@@ -196,6 +196,7 @@ if __name__ == "__main__":
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4]}
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
             keys = list(vb_sortiert.keys())
+            print("sortierte Liste: ", vb_sortiert)
             #keys = list(vb_sotiert.keys())
 
             # Wichtig: Bei der Benutzung von stromfluss() wie folgt vorgehen:
