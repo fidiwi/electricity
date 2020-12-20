@@ -83,16 +83,16 @@ def speed(dif):
 
 def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes haus in der list
     global houses
-    if vb_sortiert[keys[i]] < 0 and vb_sortiert[keys[j]] > 0:  # Wenn j erzeugt und i verbraucht
-        if vb_sortiert[keys[j]] - vb_sortiert[keys[i]] > 0:  # Wenn j den Verbrauch von i mehr als decken kann
-            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[i]]), houses[j].way, houses[i].way)
-            vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Erzeugung von j mit dem Verbrauch von i subtrahieren
+    if vb_sortiert[keys[i]] > 0 and vb_sortiert[keys[j]] < 0:  # Wenn i erzeugt und j verbraucht
+        if vb_sortiert[keys[i]] + vb_sortiert[keys[j]] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
+            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[j]]), houses[i].way, houses[j].way)
+            vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Erzeugung von j mit dem Verbrauch von i subtrahieren
             i += 1  # Springe zum nächsten verbrauchenden Haus
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
         else:
-            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[j]]), houses[j].way, houses[i].way)
-            vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Verbrauch von i mit der Erzeugung von j senken
+            ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[i]]), houses[i].way, houses[j].way)
+            vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Verbrauch von i mit der Erzeugung von j senken
             j -= 1  # Springe zum nächsten erzeugenden Haus
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
@@ -194,7 +194,7 @@ if __name__ == "__main__":
                 housevb.append(-(houses[i].max_consumption * verbrauch_haus + charge_cars * 0.04) + houses[i].solar_space * erzeugung_solar)
             
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[5]}
-            vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1])}
+            vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
             keys = list(vb_sortiert.keys())
             print("sortierte Liste: ", vb_sortiert)
             #keys = list(vb_sotiert.keys())
@@ -230,7 +230,7 @@ if __name__ == "__main__":
                 name[a] = name[pos]
                 name[pos] = tausch"""
             
-            if vb_sortiert[keys[0]] > 0:
+            if vb_sortiert[keys[5]] > 0:
                 if storage.capacity < 350:
                     for i in range(6):
                         if not i == 3:
@@ -239,7 +239,7 @@ if __name__ == "__main__":
                     for i in range(6):
                         ledStrip.stromfluss(Color(0, 0, 50), speed(vb_sortiert[keys[0]]), houses[i].way, hardware.end)
 
-            elif vb_sortiert[keys[5]] < 0:
+            elif vb_sortiert[keys[0]] < 0:
                 if storage.capacity > 0:
                     for i in range(6):
                         if not i == 3:
@@ -248,7 +248,7 @@ if __name__ == "__main__":
                     for i in range(6):
                         ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), hardware.begin, houses[i].way)
 
-            elif vb_sortiert[keys[0]] < 0 and vb_sortiert[keys[5]] > 0:
+            elif vb_sortiert[keys[0]] > 0 and vb_sortiert[keys[5]] < 0:
                 calcled(0, 5, vb_sortiert, keys)
             
             else:
