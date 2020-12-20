@@ -255,7 +255,7 @@ if __name__ == "__main__":
                 ledStrip.stromfluss(Color(50, 50, 50), speed(10), windpark.way, houses[3].way)
 
 
-            time.sleep(10)
+            time.sleep(2)
             
 
     except KeyboardInterrupt:
