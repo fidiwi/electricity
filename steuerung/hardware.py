@@ -93,13 +93,13 @@ class LEDStrip(Adafruit_NeoPixel):
                 for nthEntry in way[::3]:
                     index = way.index(nthEntry)
                     if index+q < len(way):
-                        super().setPixelColor(way[index+q], 0)
+                        super().setPixelColor(way[index+q], color)
                 super().show()
                 time.sleep(wait_ms)
                 for nthEntry in way[::3]:
                     index = way.index(nthEntry)
                     if index+q < len(way):
-                        super().setPixelColor(way[index+q], color)
+                        super().setPixelColor(way[index+q], 0)
         for led in way:
             super().setPixelColor(led, 0)
     
