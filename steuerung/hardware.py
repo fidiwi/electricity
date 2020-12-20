@@ -38,8 +38,8 @@ house5 = [*range(128, 135)]
 wind = [*range(8, 17)]
 firma = [*range(28, 37)]
 sun = [*range(139, 179)]
-end = 139
-begin = 1
+end = [139]
+begin = [1]
 
 ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}
 pins = [MCP.P0, MCP.P1, MCP.P2, MCP.P3, MCP.P4, MCP.P5, MCP.P6, MCP.P7]
