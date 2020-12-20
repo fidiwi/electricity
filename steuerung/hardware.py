@@ -1,17 +1,23 @@
 import time
 from rpi_ws281x import *
 from rpi_ws281x import Adafruit_NeoPixel
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_MCP3008
 import RPi.GPIO as gpio
+import busio
+import digitalio
+import board
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xxx.analog_in import AnalogIn
 
+# create the spi bus
+spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
+
+# create the cs (chip select)
+cs = digitalio.DigitalInOut(board.D5)
+
+# create the mcp object
+mcp = MCP.MCP3008(spi, cs)
 
 gpio.setmode(gpio.BCM)
-
-# Hardware SPI configuration
-SPI_PORT = 0
-SPI_DEVICE = 0
-mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 # LED strip configuration:
 LED_COUNT      = 180     # Number of LED pixels.
@@ -34,7 +40,7 @@ firma = [*range(28, 37)]
 sun = [*range(139, 179)]
 
 ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}
-
+pins = [MCP.P0, MCP.P1, MCP.P2, MCP.P3, MCP.P4, MCP.P5, MCP.P6, MCP.P7]
 
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
 class LEDStrip(Adafruit_NeoPixel):
@@ -87,8 +93,9 @@ class LEDStrip(Adafruit_NeoPixel):
 
 
 def getAnalog(pin):  # Pin in range from 0-7
-    return mcp.read_adc(pin)
-
+    chan = AnalogIn(mcp, pins[pin])
+    return chan.voltage
 
 def getAnalogPercent(pin):
-    return mcp.read_adc(pin)/1023
+    chan = AnalogIn(mcp, pins[pin])
+    return chan.voltage/3.3
