@@ -2,7 +2,7 @@ import time
 import hardware
 from rpi_ws281x import Color
 
-houses  {}
+houses = {}
 
 # LED strip configuration:
 LED_COUNT      = 180     # Number of LED pixels.
