@@ -54,12 +54,10 @@ class Storage():
         if self.capacity > self.max:
             self.capacity = self.max
             hauptleitung += power
-            full(power)
             print("full")
         if self.capacity < self.min:
             self.capacity = self.min
             hauptleitung += power
-            empty(power)
             print("empty")
     
 
