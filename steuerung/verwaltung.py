@@ -162,6 +162,7 @@ if __name__ == "__main__":
     try:
 
         while True:
+            updatePotiValues()
             dif = {}
             total_dif = 0  # Verbrauch der Siedlung
             for house_key in houses:
