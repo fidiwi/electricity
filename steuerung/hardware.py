@@ -33,7 +33,7 @@ wind = [*range(8, 17)]
 firma = [*range(28, 37)]
 sun = [*range(139, 179)]
 
-ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5:firma, 6:wind}
+ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}
 
 
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
