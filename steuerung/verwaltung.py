@@ -62,7 +62,7 @@ class Storage():
     
 
 class Firma(House):
-    def __init__(self):
+    def __init__(self, slot):
         super().__init__(20, 20, slot)  # Zahlen für den
         # Verbrauch einsetzen
 
@@ -101,7 +101,7 @@ def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes ha
         if storage.capacity < 350:
             while not i > j:  # j+1, da auch das house[j] angezeigt werden muss
                 if not i == 3:
-                    ledStrip.stromfluss(Color(0, 80, 50), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
+                    ledStrip.stromfluss(Color(0, 150, 50), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
                 i += 1
         else:
             while not i > j:
@@ -234,7 +234,7 @@ if __name__ == "__main__":
                 if storage.capacity < 350:
                     for i in range(6):
                         if not i == 3:
-                            ledStrip.stromfluss(Color(0, 80, 50), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
+                            ledStrip.stromfluss(Color(0, 150, 50), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
                 else:
                     for i in range(6):
                         ledStrip.stromfluss(Color(0, 0, 50), speed(vb_sortiert[keys[0]]), houses[i].way, hardware.end)
