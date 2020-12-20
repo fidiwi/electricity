@@ -2,6 +2,8 @@ import time
 import hardware
 from rpi_ws281x import Color
 
+houses  {}
+
 # LED strip configuration:
 LED_COUNT      = 180     # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
@@ -82,6 +84,8 @@ def speed(dif):
 
 
 def calcled(i, j, vb_sortiert): #i = erstes haus von links; j = rechtes haus in der list
+    global houses
+    keys = list(vb_sortiert.keys())
     if vb_sortiert[keys[i]] < 0 and vb_sortiert[keys[j]] > 0:  # Wenn j erzeugt und i verbraucht
         if vb_sortiert[keys[j]] - vb_sortiert[keys[i]] > 0:  # Wenn j den Verbrauch von i mehr als decken kann
             ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[i]]), houses[j].way, houses[i].way)
