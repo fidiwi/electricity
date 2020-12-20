@@ -91,13 +91,13 @@ def calcled(i, j, vb_sortiert): #i = erstes haus von links; j = rechtes haus in 
             ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[i]]), houses[j].way, houses[i].way)
             vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Erzeugung von j mit dem Verbrauch von i subtrahieren
             i += 1  # Springe zum nächsten verbrauchenden Haus
-            if i < j:
+            if not i > j:
                 calcled(i, j, vb_sortiert)
         else:
             ledStrip.stromfluss(Color(0, 50, 0), speed(vb_sortiert[keys[j]]), houses[j].way, houses[i].way)
             vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Verbrauch von i mit der Erzeugung von j senken
             j -= 1  # Springe zum nächsten erzeugenden Haus
-            if i < j:
+            if not i > j:
                 calcled(i, j, vb_sortiert)
     
     elif vb_sortiert[keys[i]] > 0 and vb_sortiert[keys[j]] > 0:  # Wenn i und j erzeugen
