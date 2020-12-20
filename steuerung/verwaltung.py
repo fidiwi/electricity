@@ -63,7 +63,7 @@ class Storage():
 
 class Firma(House):
     def __init__(self):
-        super().__init__(20, 20, 5)  # Zahlen für den
+        super().__init__(20, 20, slot)  # Zahlen für den
         # Verbrauch einsetzen
 
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     houses[2] = Reihenhaus(2)
     houses[3] = Apartment(3)
     houses[4] = Mehrfamilienhaus(4)
-    firma = Firma()
+    firma = Firma(5)
     windpark = Windpark()
     houses[5] = firma
     
