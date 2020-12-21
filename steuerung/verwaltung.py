@@ -92,12 +92,13 @@ def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes ha
         summe = 0
         if vb_sortiert[keys[i]] + vb_sortiert[keys[j]] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
             #em = j
-            while vb_sortiert[keys[i]] < summe:
-                summe-=vb_sortiert[keys[j]]
-                speedSR+=vb_sortiert[keys[j]]
-                speedTeiler+=1
-                receiver+=houses[j].way
-                j-=1
+            while vb_sortiert[keys[i]] > summe:
+                if not i > j:
+                    summe-=vb_sortiert[keys[j]]
+                    speedSR+=vb_sortiert[keys[j]]
+                    speedTeiler+=1
+                    receiver+=houses[j].way
+                    j-=1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
             vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
             #j -= 1  # Springe zum nächsten verbrauchenden Haus
@@ -105,11 +106,12 @@ def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes ha
                 calcled(i, j, vb_sortiert, keys)
         else:
             while vb_sortiert[keys[j]] < summe:
-                summe+=vb_sortiert[keys[i]]
-                speedSR+=vb_sortiert[keys[i]]
-                speedTeiler+=1
-                sender+=houses[i].way
-                i+=1
+                if not i > j:
+                    summe+=vb_sortiert[keys[i]]
+                    speedSR+=vb_sortiert[keys[i]]
+                    speedTeiler+=1
+                    sender-=houses[i].way
+                    i+=1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
             vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Verbrauch von j mit der Erzeugung von i senken
             #i += 1  # Springe zum nächsten erzeugenden Haus
@@ -232,6 +234,7 @@ if __name__ == "__main__":
 
             calcled(0, 5, vb_sortiert, keys)
             
+            #hardware.sonne(erzeugung_solar)
 
             time.sleep(2)
             
