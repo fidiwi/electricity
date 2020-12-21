@@ -67,7 +67,7 @@ class Firma(House):
         # Verbrauch einsetzen
 
 
-class Windpark(House):
+class Windpark():
     def __init__(self):
         self.windenergy = 50 # maximale Produktion
         self.way = hardware.ways[6]
@@ -228,7 +228,7 @@ if __name__ == "__main__":
                 housevb[pos] = tausch
                 tausch = name[a]
                 name[a] = name[pos]
-                name[pos] = tausch"""
+                name[pos] = tausch
             
             if vb_sortiert[keys[5]] > 0:
                 if storage.capacity < 350:
@@ -248,11 +248,11 @@ if __name__ == "__main__":
                     for i in range(6):
                         ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), hardware.begin, houses[i].way)
 
-            elif vb_sortiert[keys[0]] > 0 and vb_sortiert[keys[5]] < 0:
-                calcled(0, 5, vb_sortiert, keys)
+            elif vb_sortiert[keys[0]] > 0 and vb_sortiert[keys[5]] < 0:"""
+            calcled(0, 5, vb_sortiert, keys)
             
-            else:
-                ledStrip.stromfluss(Color(50, 50, 50), speed(10), windpark.way, houses[3].way)
+            """else:
+                ledStrip.stromfluss(Color(50, 50, 50), speed(10), windpark.way, houses[3].way)"""
 
 
             time.sleep(2)
