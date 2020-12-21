@@ -26,24 +26,13 @@ const Tab1: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonGrid>
-            <IonRow>
+          <IonRow>
               <IonCol>
                 <IonCard>
-                  <IonIcon color="primary" size="large" icon={analytics}></IonIcon>
-                    <IonCardHeader>
+                  <img src="https://cdn.pixabay.com/photo/2016/11/27/21/42/stock-1863880_960_720.jpg"/>
+                  <IonCardHeader>
                       <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
-                      <IonCardTitle>30 Cent
-                    </IonCardTitle>
-                  </IonCardHeader>
-                </IonCard>
-              </IonCol>
-              <IonCol>
-                <IonCard>
-                  <IonIcon color="primary" size="large" icon={analytics}></IonIcon>
-                    <IonCardHeader>
-                      <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
-                      <IonCardTitle>30 Cent
-                    </IonCardTitle>
+                      <IonCardTitle>30 Cent</IonCardTitle>
                   </IonCardHeader>
                 </IonCard>
               </IonCol>
@@ -51,23 +40,39 @@ const Tab1: React.FC = () => {
             <IonRow>
               <IonCol>
                 <IonCard>
-                  <IonIcon slot="start" color="primary" size="large" icon={analytics}></IonIcon>
+                  <IonProgressBar className="bar" color="secondary" value={moin/100}>
+                  </IonProgressBar>
                   <IonCardHeader>
-                    <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
-                    <IonCardTitle>30 Cent
-                    </IonCardTitle>
+                      <IonCardSubtitle>Der Akku</IonCardSubtitle>
+                      <IonCardTitle>30%</IonCardTitle>
                   </IonCardHeader>
                 </IonCard>
               </IonCol>
               <IonCol>
-                <IonCard>
-                  <IonIcon color="primary" size="large" icon={analytics}></IonIcon>
-                    <IonCardHeader>
-                      <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
-                      <IonCardTitle>30 Cent
-                    </IonCardTitle>
-                  </IonCardHeader>
-                </IonCard>
+                <IonGrid>
+                  <IonRow>
+                    <IonCol>
+                      <IonCard>
+                      <img src="https://cdn.pixabay.com/photo/2017/09/12/13/22/photovoltaic-system-2742304_960_720.jpg"/>
+                      <IonCardHeader>
+                        <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
+                        <IonCardTitle>5kW</IonCardTitle>
+                      </IonCardHeader>
+                      </IonCard>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonCard>
+                        <img src="https://cdn.pixabay.com/photo/2013/03/26/06/44/electricity-meter-96863_960_720.jpg"/>
+                        <IonCardHeader>
+                          <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
+                          <IonCardTitle>3kW</IonCardTitle>
+                        </IonCardHeader>
+                      </IonCard>
+                    </IonCol>
+                  </IonRow>
+                </IonGrid>
               </IonCol>
             </IonRow>
               <IonRow>
