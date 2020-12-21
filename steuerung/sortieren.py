@@ -1,123 +1,13 @@
-name = [hardware.house1, hardware.house2, hardware.house3, hardware.storage, hardware.house5]
-housevb = [-6, -23, -4, 9, -14]
+main = [*range(0, 8), *range(17, 28), *range(37, 81), *range(95, 105), *range(119, 128), *range(135, 139)]
+house1 = [*range(81, 88)]
+house2 = [*range(88, 95)]
+house3 = [*range(105, 112)]
+storage = [*range(112, 119)]
+house5 = [*range(128, 135)]
+wind = [*range(8, 17)]
+firma = [*range(28, 37)]
+sun = [*range(139, 179)]
+end = [138]
+begin = [0]
 
-pos = 0
-print(housevb)
-for a in range(5):
-    max = housevb[a]
-    for b in range(1+a, 5):
-        #print(housevb[b+1])
-        if max > housevb[b]:
-            max = housevb[b]
-            pos = b
-
-    tausch = housevb[a]
-    housevb[a] = max
-    housevb[pos] = tausch
-    tausch = name[a]
-    name[a] = name[pos]
-    name[pos] = tausch
-
-def speed(dif):
-    if abs(dif) > 10:
-        dif = 10
-    difference = abs(dif) * 0.1
-    return difference
-
-def calcled(i, j): #i = erstes haus von links; j = rechtes haus in der list, temp = reststrom/verbrauch 
-    if housevb[i] > 0 and housevb[j] < 0:
-        if housevb[i] - housevb[j] > 0:
-            housevb[i]+=housevb[j]
-            ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[i], name[j])
-            j-=1
-            if i < j:
-                calcled(i, j, temp)
-        else:
-            ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], name[j])
-            housevb[j]+=housevb[i]
-            i+=1
-            if i < j:
-                calcled(i, j, temp)
-    
-    elif housevb[i] > 0 and housevb[j] > 0:
-        if storage.capacity < 350:
-            while i < j:
-                if name[i] == "hardware.storage":
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[j], hardware.storage)
-                    i+=1
-                    j-=1
-                elif name[j] == "hardware.storage":
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], hardware.storage)
-                    i+=1
-                    j-=1
-                else:
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], hardware.storage)
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[j], hardware.storage)
-                    i+=1
-                    j-=1
-        else:
-            while i < j:
-                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), name[i], hardware.firma)
-                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), name[j], hardware.firma)
-                i+=1
-                j-=1
-
-    else:
-        if storage.capacity > 0:
-            while i >= j:
-                if name[i] == "hardware.storage":
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), hardware.storage, name[j])
-                    i+=1
-                    j-=1
-                elif name[j] == "hardware.storage":
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), hardware.storage, name[i])
-                    i+=1
-                    j-=1
-                else:
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), hardware.storage, name[i])
-                    ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), hardware.storage, name[j])
-                    i+=1
-                    j-=1
-        else:
-            while i >= j:
-                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[i]), hardware.wind, name[i])
-                ledStrip.stromfluss(Color(50, 0, 0), speed(housevb[j]), hardware.wind, name[j])
-                i+=1
-                j-=1
-
-
-if housevb[4] > 0:
-    if storage.capacity < 350:
-        for i in range(5):
-            if name[i] == "hardware.storage":
-                pass
-            else:
-                ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.storage)
-    else:
-        for i in range(5):
-            ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), name[i], hardware.firma)
-
-elif housevb[0] < 0:
-    if storage.capacity > 0:
-        for i in range(5):
-            if name[i] == "hardware.storage":
-                pass
-            else:
-                ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), hardware.storage, name[i])
-    else:
-        for i in range(5):
-            ledStrip.stromfluss(Color(0, 50, 0), speed(housevb[i]), hardware.wind, name[i])
-
-elif sum(housevb) > 0:
-    calcled(0, 4)
-    print("es ist zu viel")
-
-elif sum(housevb) < 0:
-    calcled(0, 4)
-    print("es ist zu wenig")
-
-else:
-    ledStrip.stromfluss(Color(50, 50, 50), speed(), hardware.wind, hardware.storage)
-
-print(housevb)
-print(name)
+ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}

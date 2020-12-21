@@ -197,63 +197,10 @@ if __name__ == "__main__":
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
             keys = list(vb_sortiert.keys())
             print("sortierte Liste: ", vb_sortiert)
-            #keys = list(vb_sotiert.keys())
-
-            # Wichtig: Bei der Benutzung von stromfluss() wie folgt vorgehen:
-            # stromfluss(FARBE, SPEED, SENDER_WEG, EMPFÄNGER_WEG)
-            # Empfänger- und Senderwege werden dabei wie folgt abgerufen:
-            #                     >> houses[x].way <<
-
-            # Der Verbrauch eines bestimmten Hauses wird in dem Dict abgerufen mit:
-            #                 >> vb_sortiert[houses[x]] <<
-
-            # Beachte hierbei, dass houses[] ein dict ist und die Nummerierung bei 1 startet,
-            # nicht bei 0. (Also 1-5 statt 0-4).
-            # Der Weg des Storage ist abrufbar mit:
-            #                    >> houses[3].way <<
-            # houses[6].way = firma     houses[7].way = wind
             
-            """name = [hardware.house1, hardware.house2, hardware.house3, hardware.storage, hardware.house5]
-            pos = 0
-            print(housevb) # verbrauch UND name wird sortiert
-            for a in range(5):
-                max = housevb[a]
-                for b in range(1+a, 5):
-                    if max > housevb[b]:
-                        max = housevb[b]
-                        pos = b
 
-                tausch = housevb[a]
-                housevb[a] = max
-                housevb[pos] = tausch
-                tausch = name[a]
-                name[a] = name[pos]
-                name[pos] = tausch
-            
-            if vb_sortiert[keys[5]] > 0:
-                if storage.capacity < 350:
-                    for i in range(6):
-                        if not i == 3:
-                            ledStrip.stromfluss(Color(0, 150, 50), speed(vb_sortiert[keys[i]]), houses[i].way, houses[3].way)
-                else:
-                    for i in range(6):
-                        ledStrip.stromfluss(Color(0, 0, 50), speed(vb_sortiert[keys[0]]), houses[i].way, hardware.end)
-
-            elif vb_sortiert[keys[0]] < 0:
-                if storage.capacity > 0:
-                    for i in range(6):
-                        if not i == 3:
-                            ledStrip.stromfluss(Color(80, 50, 0), speed(vb_sortiert[keys[i]]), houses[3].way, houses[i].way)
-                else:
-                    for i in range(6):
-                        ledStrip.stromfluss(Color(50, 0, 0), speed(vb_sortiert[keys[i]]), hardware.begin, houses[i].way)
-
-            elif vb_sortiert[keys[0]] > 0 and vb_sortiert[keys[5]] < 0:"""
             calcled(0, 5, vb_sortiert, keys)
             
-            """else:
-                ledStrip.stromfluss(Color(50, 50, 50), speed(10), windpark.way, houses[3].way)"""
-
 
             time.sleep(2)
             
