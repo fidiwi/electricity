@@ -8,14 +8,16 @@ def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes hau
     global ledstriplist
     if houses[i] > 0 and houses[j] < 0:  # Wenn i erzeugt und j verbraucht
         if houses[i] + houses[j] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
-            ledstriplist+=[[(0, 50, 0), houses[j], houses[i], houses[j]]]
+            ledstriplist+=[[(0, 50, 0), houses[j]]]
+            ledstriplist+=sortieren.way[i]#, sortieren.way[j]
             houses[i] += houses[j]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
             j -= 1  # Springe zum nächsten verbrauchenden Haus
             print(1)
             if not i > j:
                 calcled(i, j, houses, capacity)
         else:
-            ledstriplist+=[[(0, 50, 0), houses[i], houses[i].way, houses[j].way]]
+            ledstriplist+=[[(0, 50, 0), houses[i]]]
+            ledstriplist+=sortieren.way[i]#, sortieren.way[j]
             houses[j] += houses[i]  # Verbrauch von j mit der Erzeugung von i senken
             i += 1  # Springe zum nächsten erzeugenden Haus
             print(2)
@@ -26,22 +28,26 @@ def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes hau
         if capacity < 350:
             while not i > j:  # j+1, da auch das house[j] angezeigt werden muss
                 if not i == 3:
-                    ledstriplist+=[[(0, 150 , 50), houses[i], houses[i], houses[3]]]
+                    ledstriplist+=[[(0, 150 , 50), houses[i]]]
+                    ledstriplist+=[sortieren.way[i], sortieren.way[3]]
                 i += 1
         else:
             while not i > j:
-                ledstriplist+=[[(0, 0, 50), houses[i], houses[i], hardware.end]]
+                ledstriplist+=[[(0, 0, 50), houses[i]]]
+                ledstriplist+=[sortieren.way[i], sortieren.end]
                 i += 1
 
     else: #  Wenn beide verbrauchen
         if capacity > 0:
             while not i > j:
                 if not i == 3:
-                    ledstriplist+=[[(50, 50, 0), houses[i], houses[3], houses[i]]]
+                    ledstriplist+=[[(50, 50, 0), houses[i]]]
+                    ledstriplist+=[sortieren.way[3], sortieren.way[i]]
                 i += 1
         else:
             while not i > j:
-                ledstriplist+=[[(0, 150 , 50), houses[i], houses[i], sortieren.begin]]
+                ledstriplist+=[[(0, 150 , 50), houses[i]]]
+                ledstriplist+=[sortieren.way[i], sortieren.begin]
                 i += 1
 
 calcled(0, 4, houses, capacity)
@@ -85,11 +91,23 @@ class LEDStrip():
 
 ausgabeled = []
 
-for i in range(len(ledstriplist)):
-    way = LEDStrip.calculateSingleWay(ledstriplist[i][2], ledstriplist[i][3])
-    del ledstriplist[i][3]
-    del ledstriplist[i][2]
-    ledstriplist[i].append(way)
 
-print(ledstriplist)
+
+for i in range(0, len(ledstriplist), 3):
+    way = LEDStrip.calculateSingleWay(ledstriplist[i+1], ledstriplist[i+2])
+    ausgabeled.append(ledstriplist[i])
+    ausgabeled.append(way)
+
+"""for i in range(1, len(ausgabeled), 2):
+    #a = 0
+    b = 0
+    for a in len(ausgabeled[i]):
+        if ausgabeled[i][a] == ausgabeled[i][b]:
+            while ausgabeled[i][a] == ausgabeled[i+2][b]:
+                del(ausgabeled[i][b])
+            ausgabeled[i-1][1] = ausgabeled[i-1][1] +ausgabeled[i+1][1]
+        ausgabeled[i-1][1]"""
+        
+print(ausgabeled)
+
 

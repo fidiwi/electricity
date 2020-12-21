@@ -46,7 +46,7 @@ pins = [MCP.P0, MCP.P1, MCP.P2, MCP.P3, MCP.P4, MCP.P5, MCP.P6, MCP.P7]
 
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
 class LEDStrip(Adafruit_NeoPixel):
-    def calculateSingleWay(self, sender_object_way, receiver_object_way):
+    """def calculateSingleWay(self, sender_object_way, receiver_object_way):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
         if sender_object_way[0] < receiver_object_way[0]:
@@ -62,31 +62,65 @@ class LEDStrip(Adafruit_NeoPixel):
                 if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way))[0]:
                     way.append(item)
             way += receiver_object_way
-        return way
+        return way"""
 
-    def calculateVieleRecWay(self, sender_object_way, receiver_object_way):
+    def calculateVieleSender(self, sender_object_way, receiver_object_way):
+        way = []
+        for i in range(len(sender_object_way)):
+            if sender_object_way[i][0] < receiver_object_way[0]:
+                way += reversed(sender_object_way)
+                for item in main:
+                    if item > sender_object_way[i][0] and item < receiver_object_way[0]:
+                        way.append(item)
+                way += receiver_object_way
+            # Stromfluss von größerem Pixelindex zu kleinerem
+            else:
+                way += reversed(sender_object_way[i])
+                for item in reversed(main):
+                    if item < list(reversed(sender_object_way[i]))[0] and item > list(reversed(receiver_object_way))[0]:
+                        way.append(item)
+                way += receiver_object_way
+        x = {}
+        returnWay = [x.setdefault(v, v) for v in way if v not in x]
+        return returnWay
+
+    # Benutzung: stromflussVieleReceiver(FARBE, SPEED, SENDER_WEG, [EMPFÄNGER_WEG1, EMPFÄNGER_WEG2, ...])
+    def stromflussVieleReceiver(self, color, speed_percent, sender_object_way, receiver_object_way_list):
+        # 25 = Minimum, 50 + 25 = Maximum
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
-        if sender_object_way[0] < receiver_object_way[0]:
-            way += reversed(sender_object_way)
-            for item in main:
-                if item > sender_object_way[0] and item < receiver_object_way[0]:
-                    way.append(item)
-            way += receiver_object_way
-        # Stromfluss von größerem Pixelindex zu kleinerem
-        else:
-            way += reversed(sender_object_way)
-            for item in reversed(main):
-                if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way))[0]:
-                    way.append(item)
-            way += receiver_object_way
-        return way
+        for i in range(len(receiver_object_way_list)):
+            if sender_object_way[0] < receiver_object_way[i][0]:
+                way += reversed(sender_object_way)
+                for item in main:
+                    if item > sender_object_way[0] and item < receiver_object_way[i][0]:
+                        way.append(item)
+                way += receiver_object_way
+            # Stromfluss von größerem Pixelindex zu kleinerem
+            else:
+                way += reversed(sender_object_way)
+                for item in reversed(main):
+                    if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way[i]))[0]:
+                        way.append(item)
+                way += receiver_object_way[i]
+        x = {}
+        returnWay = [x.setdefault(v, v) for v in way if v not in x]
+        return returnWay
+
+    def sonne(self, brightness):
+        way = sun
+        for i in way:
+            super().setPixelColor(i, Color(int(255*brightness), int(180*brightness), int(20*brightness)))
+            super().show()
 
     # Define functions which animate LEDs in various ways.
     def stromfluss(self, color, speed_percent, sender_object_way, receiver_object_way):
         # 25 = Minimum, 50 + 25 = Maximum
         wait_ms = ((1-speed_percent) * 400 + 100) / 1000
-        way = self.calculateSingleWay(sender_object_way, receiver_object_way)
+        if len(sender_object_way) > 1:
+            way = self.calculateVieleSender(sender_object_way, receiver_object_way)
+        else:
+            way = self.stromflussVieleReceiver(sender_object_way, receiver_object_way)
         """Wipe color across display a pixel at a time."""
         for iteration in range(5):
             for q in range(3):
@@ -103,17 +137,6 @@ class LEDStrip(Adafruit_NeoPixel):
         for led in way:
             super().setPixelColor(led, 0)
     
-    # Benutzung: stromflussVieleReceiver(FARBE, SPEED, SENDER_WEG, [EMPFÄNGER_WEG1, EMPFÄNGER_WEG2, ...])
-    def stromflussVieleReceiver(self, color, speed_percent, sender_object_way, receiver_object_way_list):
-        # 25 = Minimum, 50 + 25 = Maximum
-        wait_ms = ((1-speed_percent) * 400 + 100) / 1000
-        way = self.calculateVieleRecWay(sender_object_way, receiver_object_way_list)
-
-    def sonne(self, brightness):
-        way = sun
-        for i in way:
-            super().setPixelColor(i, Color(int(255*brightness), int(180*brightness), int(20*brightness)))
-            super().show()
 
 
 

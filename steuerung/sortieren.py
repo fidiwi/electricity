@@ -10,4 +10,4 @@ sun = [*range(139, 179)]
 end = [138]
 begin = [0]
 
-ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}
+way = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}
