@@ -48,7 +48,7 @@ pins = [MCP.P0, MCP.P1, MCP.P2, MCP.P3, MCP.P4, MCP.P5, MCP.P6, MCP.P7]
 
 
 class LEDStrip(Adafruit_NeoPixel):
-    """def calculateSingleWay(self, sender_object_way, receiver_object_way):
+    def calculateSingleWay(self, sender_object_way, receiver_object_way):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
         if sender_object_way[0] < receiver_object_way[0]:
@@ -64,7 +64,7 @@ class LEDStrip(Adafruit_NeoPixel):
                 if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way))[0]:
                     way.append(item)
             way += receiver_object_way
-        return way"""
+        return way
 
     def calculateVieleSender(self, sender_object_way, receiver_object_way):
         way = []
@@ -123,8 +123,10 @@ class LEDStrip(Adafruit_NeoPixel):
         wait_ms = ((1-speed_percent) * 400 + 100) / 1000
         if len(list(sender_object_way)) > 1:
             way = self.calculateVieleSender(sender_object_way, receiver_object_way)
-        else:
+        elif len(list(receiver_object_way)) > 1:
             way = self.stromflussVieleReceiver(sender_object_way, receiver_object_way)
+        else:
+            way = self.calculateSingleWay(sender_object_way, receiver_object_way)
         """Wipe color across display a pixel at a time."""
         for iteration in range(5):
             for q in range(3):
