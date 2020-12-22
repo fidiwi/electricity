@@ -45,6 +45,8 @@ ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: win
 pins = [MCP.P0, MCP.P1, MCP.P2, MCP.P3, MCP.P4, MCP.P5, MCP.P6, MCP.P7]
 
 # Darf keine __init__() haben, sonst hat sich bisher alles weiß geschaltet!
+
+
 class LEDStrip(Adafruit_NeoPixel):
     """def calculateSingleWay(self, sender_object_way, receiver_object_way):
         way = []
@@ -90,19 +92,19 @@ class LEDStrip(Adafruit_NeoPixel):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
         for i in range(len(receiver_object_way_list)):
-            if sender_object_way[0] < receiver_object_way[i][0]:
+            if sender_object_way[0] < receiver_object_way_list[i][0]:
                 way += reversed(sender_object_way)
                 for item in main:
-                    if item > sender_object_way[0] and item < receiver_object_way[i][0]:
+                    if item > sender_object_way[0] and item < receiver_object_way_list[i][0]:
                         way.append(item)
-                way += receiver_object_way[i]
+                way += receiver_object_way_list[i]
             # Stromfluss von größerem Pixelindex zu kleinerem
             else:
                 way += reversed(sender_object_way)
                 for item in reversed(main):
-                    if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way[i]))[0]:
+                    if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way_list[i]))[0]:
                         way.append(item)
-                way += receiver_object_way[i]
+                way += receiver_object_way_list[i]
         x = {}
         returnWay = [x.setdefault(v, v) for v in way if v not in x]
         return returnWay
@@ -136,14 +138,12 @@ class LEDStrip(Adafruit_NeoPixel):
                         super().setPixelColor(way[index+q], 0)
         for led in way:
             super().setPixelColor(led, 0)
-    
-
-
 
 
 def getAnalog(pin):  # Pin in range from 0-7
     chan = AnalogIn(mcp, pins[pin])
     return chan.voltage
+
 
 def getAnalogPercent(pin):
     chan = AnalogIn(mcp, pins[pin])
