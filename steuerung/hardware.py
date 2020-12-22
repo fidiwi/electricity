@@ -68,18 +68,18 @@ class LEDStrip(Adafruit_NeoPixel):
 
     def calculateVieleSender(self, sender_object_way, receiver_object_way):
         way = []
-        for i in range(len(list(sender_object_way))):
-            if sender_object_way[i][0] < receiver_object_way[0]:
-                way += reversed(sender_object_way)
+        for listen in sender_object_way:
+            if listen[0] < receiver_object_way[0]:
+                way += reversed(listen)
                 for item in main:
-                    if item > sender_object_way[i][0] and item < receiver_object_way[0]:
+                    if item > listen[0] and item < receiver_object_way[0]:
                         way.append(item)
                 way += receiver_object_way
             # Stromfluss von größerem Pixelindex zu kleinerem
             else:
-                way += reversed(sender_object_way[i])
+                way += reversed(listen)
                 for item in reversed(main):
-                    if item < list(reversed(sender_object_way[i]))[0] and item > list(reversed(receiver_object_way))[0]:
+                    if item < list(reversed(listen))[0] and item > list(reversed(receiver_object_way))[0]:
                         way.append(item)
                 way += receiver_object_way
         print(way)
@@ -92,20 +92,20 @@ class LEDStrip(Adafruit_NeoPixel):
         # 25 = Minimum, 50 + 25 = Maximum
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
-        for i in range(len(receiver_object_way_list)):
-            if sender_object_way[0] < receiver_object_way_list[i][0]:
+        for listen in receiver_object_way_list:
+            if sender_object_way[0] < listen[0]:
                 way += reversed(sender_object_way)
                 for item in main:
-                    if item > sender_object_way[0] and item < receiver_object_way_list[i][0]:
+                    if item > sender_object_way[0] and item < listen[0]:
                         way.append(item)
-                way += receiver_object_way_list[i]
+                way += listen
             # Stromfluss von größerem Pixelindex zu kleinerem
             else:
                 way += reversed(sender_object_way)
                 for item in reversed(main):
-                    if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way_list[i]))[0]:
+                    if item < list(reversed(sender_object_way))[0] and item > list(reversed(listen)[0]:
                         way.append(item)
-                way += receiver_object_way_list[i]
+                way += listen
         print(way)
         x = {}
         returnWay = [x.setdefault(v, v) for v in way if v not in x]

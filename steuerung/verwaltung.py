@@ -125,6 +125,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     speedTeiler += 1
                     sender += [houses[i].way]
                 i += 1
+            print(sender)
             ledStrip.stromfluss(Color(0, 150, 50), speed(speedSR/speedTeiler), sender, houses[3].way)
         else:
             while not i > j:
