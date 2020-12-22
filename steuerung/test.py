@@ -1,54 +1,81 @@
-houses = [14, 12, 5, -8, -20]
+houses = [14, 12, 10, 8, 2]
 capacity = 200
 ledstriplist = []
 import sortieren
 
 
 def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes haus in der list
-    global ledstriplist
+    global houses
+    sender = []
+    receiver = []
+    speedSR = 0
+    speedTeiler = 1
+
     if houses[i] > 0 and houses[j] < 0:  # Wenn i erzeugt und j verbraucht
+        summe = 0
         if houses[i] + houses[j] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
-            ledstriplist+=[[(0, 50, 0), houses[j]]]
-            ledstriplist+=sortieren.way[i]#, sortieren.way[j]
+            # em = j
+            while houses[i] > summe:
+                if not i > j:
+                    summe -= houses[j]
+                    speedSR += houses[j]
+                    speedTeiler += 1
+                    receiver += sortieren.way[j]
+                    j -= 1
+            ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
             houses[i] += houses[j]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
-            j -= 1  # Springe zum nächsten verbrauchenden Haus
-            print(1)
+            # j -= 1  # Springe zum nächsten verbrauchenden Haus
             if not i > j:
-                calcled(i, j, houses, capacity)
+                calcled(i, j, houses, keys)
         else:
-            ledstriplist+=[[(0, 50, 0), houses[i]]]
-            ledstriplist+=sortieren.way[i]#, sortieren.way[j]
+            while houses[j] < summe:
+                if not i > j:
+                    summe -= houses[i]
+                    speedSR += houses[i]
+                    speedTeiler += 1
+                    sender += houses[i].way
+                    i += 1
+            ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
             houses[j] += houses[i]  # Verbrauch von j mit der Erzeugung von i senken
-            i += 1  # Springe zum nächsten erzeugenden Haus
-            print(2)
+            # i += 1  # Springe zum nächsten erzeugenden Haus
             if not i > j:
-                calcled(i, j, houses, capacity)
-    
+                calcled(i, j, houses, keys)
+
     elif houses[i] > 0 and houses[j] > 0:  # Wenn i und j erzeugen
         if capacity < 350:
             while not i > j:  # j+1, da auch das house[j] angezeigt werden muss
                 if not i == 3:
-                    ledstriplist+=[[(0, 150 , 50), houses[i]]]
-                    ledstriplist+=[sortieren.way[i], sortieren.way[3]]
+                    speedSR += houses[i]
+                    speedTeiler += 1
+                    sender += [houses[i].way]
                 i += 1
+            ledStrip.stromfluss(Color(0, 150, 50), speed(speedSR/speedTeiler), sender, houses[3].way)
         else:
             while not i > j:
-                ledstriplist+=[[(0, 0, 50), houses[i]]]
-                ledstriplist+=[sortieren.way[i], sortieren.end]
+                speedSR += houses[i]
+                speedTeiler += 1
+                sender += [houses[i].way]
                 i += 1
+            ledStrip.stromfluss(Color(0, 0, 50), speed(speedSR/speedTeiler), sender, hardware.end)
 
-    else: #  Wenn beide verbrauchen
+    else:  # Wenn beide verbrauchen
         if capacity > 0:
             while not i > j:
                 if not i == 3:
-                    ledstriplist+=[[(50, 50, 0), houses[i]]]
-                    ledstriplist+=[sortieren.way[3], sortieren.way[i]]
+                    speedSR += houses[i]
+                    speedTeiler += 1
+                    receiver += [houses[i].way]
                 i += 1
+            ledStrip.stromfluss(Color(80, 50, 0), speed(speedSR/speedTeiler), houses[3].way, receiver)
         else:
             while not i > j:
-                ledstriplist+=[[(0, 150 , 50), houses[i]]]
-                ledstriplist+=[sortieren.way[i], sortieren.begin]
+                speedSR += houses[i]
+                speedTeiler += 1
+                receiver += [houses[i].way]
                 i += 1
+            ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
+
+
 
 calcled(0, 4, houses, capacity)
 
@@ -71,43 +98,62 @@ ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: win
 
 
 class LEDStrip():
-    def calculateSingleWay(sender_object_way, receiver_object_way):
+    def calculateVieleSender(self, sender_object_way, receiver_object_way):
+        way = []
+        for i in range(len(list(sender_object_way))):
+            if sender_object_way[i][0] < receiver_object_way[0]:
+                way += reversed(sender_object_way)
+                for item in main:
+                    if item > sender_object_way[i][0] and item < receiver_object_way[0]:
+                        way.append(item)
+                way += receiver_object_way
+            # Stromfluss von größerem Pixelindex zu kleinerem
+            else:
+                way += reversed(sender_object_way[i])
+                for item in reversed(main):
+                    if item < list(reversed(sender_object_way[i]))[0] and item > list(reversed(receiver_object_way))[0]:
+                        way.append(item)
+                way += receiver_object_way
+        print(way)
+        x = {}
+        returnWay = [x.setdefault(v, v) for v in way if v not in x]
+        return returnWay
+
+    # Benutzung: stromflussVieleReceiver(FARBE, SPEED, SENDER_WEG, [EMPFÄNGER_WEG1, EMPFÄNGER_WEG2, ...])
+    def stromflussVieleReceiver(self, color, speed_percent, sender_object_way, receiver_object_way_list):
+        # 25 = Minimum, 50 + 25 = Maximum
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
-        if sender_object_way[0] < receiver_object_way[0]:
-            way += reversed(sender_object_way)
-            for item in main:
-                if item > sender_object_way[0] and item < receiver_object_way[0]:
-                    way.append(item)
-            way += receiver_object_way
-        # Stromfluss von größerem Pixelindex zu kleinerem
-        else:
-            way += reversed(sender_object_way)
-            for item in reversed(main):
-                if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way))[0]:
-                    way.append(item)
-            way += receiver_object_way
-        return way
+        for i in range(len(receiver_object_way_list)):
+            if sender_object_way[0] < receiver_object_way_list[i][0]:
+                way += reversed(sender_object_way)
+                for item in main:
+                    if item > sender_object_way[0] and item < receiver_object_way_list[i][0]:
+                        way.append(item)
+                way += receiver_object_way_list[i]
+            # Stromfluss von größerem Pixelindex zu kleinerem
+            else:
+                way += reversed(sender_object_way)
+                for item in reversed(main):
+                    if item < list(reversed(sender_object_way))[0] and item > list(reversed(receiver_object_way_list[i]))[0]:
+                        way.append(item)
+                way += receiver_object_way_list[i]
+        print(way)
+        x = {}
+        returnWay = [x.setdefault(v, v) for v in way if v not in x]
+        return returnWay
 
 ausgabeled = []
 
+def stromfluss(self, color, speed_percent, sender_object_way, receiver_object_way):
+    # 25 = Minimum, 50 + 25 = Maximum
+    wait_ms = ((1-speed_percent) * 400 + 100) / 1000
+    if len(list(sender_object_way)) > 1:
+        way = self.calculateVieleSender(sender_object_way, receiver_object_way)
+    else:
+        way = self.stromflussVieleReceiver(sender_object_way, receiver_object_way)
+    ausgabeled = way
 
-
-for i in range(0, len(ledstriplist), 3):
-    way = LEDStrip.calculateSingleWay(ledstriplist[i+1], ledstriplist[i+2])
-    ausgabeled.append(ledstriplist[i])
-    ausgabeled.append(way)
-
-"""for i in range(1, len(ausgabeled), 2):
-    #a = 0
-    b = 0
-    for a in len(ausgabeled[i]):
-        if ausgabeled[i][a] == ausgabeled[i][b]:
-            while ausgabeled[i][a] == ausgabeled[i+2][b]:
-                del(ausgabeled[i][b])
-            ausgabeled[i-1][1] = ausgabeled[i-1][1] +ausgabeled[i+1][1]
-        ausgabeled[i-1][1]"""
-        
 print(ausgabeled)
 
 

@@ -230,13 +230,11 @@ if __name__ == "__main__":
             keys = list(vb_sortiert.keys())
             print("sortierte Liste: ", vb_sortiert)
 
-
             calcled(0, 5, vb_sortiert, keys)
 
             # hardware.sonne(erzeugung_solar)
 
             time.sleep(2)
-
 
     except KeyboardInterrupt:
         pass
