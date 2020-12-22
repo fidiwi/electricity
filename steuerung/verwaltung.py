@@ -29,7 +29,7 @@ class Apartment(House):
 
 class Einfamilienhaus(House):
     def __init__(self, slot):
-        super().__init__(1.2, 18.75, slot)          
+        super().__init__(1.2, 18.75, slot)
 
 
 class Reihenhaus(House):
@@ -59,7 +59,7 @@ class Storage():
             self.capacity = self.min
             hauptleitung += power
             print("empty")
-    
+
 
 class Firma(House):
     def __init__(self, slot):
@@ -69,7 +69,7 @@ class Firma(House):
 
 class Windpark():
     def __init__(self):
-        self.windenergy = 50 # maximale Produktion
+        self.windenergy = 50  # maximale Produktion
         self.way = hardware.ways[6]
 
 
@@ -80,8 +80,7 @@ def speed(dif):
     return difference
 
 
-
-def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes haus in der list
+def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes haus in der list
     global houses
     sender = []
     receiver = []
@@ -91,30 +90,30 @@ def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes ha
     if vb_sortiert[keys[i]] > 0 and vb_sortiert[keys[j]] < 0:  # Wenn i erzeugt und j verbraucht
         summe = 0
         if vb_sortiert[keys[i]] + vb_sortiert[keys[j]] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
-            #em = j
+            # em = j
             while vb_sortiert[keys[i]] > summe:
                 if not i > j:
-                    summe-=vb_sortiert[keys[j]]
-                    speedSR+=vb_sortiert[keys[j]]
-                    speedTeiler+=1
-                    receiver+=houses[j].way
-                    j-=1
+                    summe -= vb_sortiert[keys[j]]
+                    speedSR += vb_sortiert[keys[j]]
+                    speedTeiler += 1
+                    receiver += houses[j].way
+                    j -= 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
             vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
-            #j -= 1  # Springe zum nächsten verbrauchenden Haus
+            # j -= 1  # Springe zum nächsten verbrauchenden Haus
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
         else:
             while vb_sortiert[keys[j]] < summe:
                 if not i > j:
-                    summe-=vb_sortiert[keys[i]]
-                    speedSR+=vb_sortiert[keys[i]]
-                    speedTeiler+=1
-                    sender+=houses[i].way
-                    i+=1
+                    summe -= vb_sortiert[keys[i]]
+                    speedSR += vb_sortiert[keys[i]]
+                    speedTeiler += 1
+                    sender += houses[i].way
+                    i += 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
             vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Verbrauch von j mit der Erzeugung von i senken
-            #i += 1  # Springe zum nächsten erzeugenden Haus
+            # i += 1  # Springe zum nächsten erzeugenden Haus
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
 
@@ -122,33 +121,33 @@ def calcled(i, j, vb_sortiert, keys): #i = erstes haus von links; j = rechtes ha
         if storage.capacity < 350:
             while not i > j:  # j+1, da auch das house[j] angezeigt werden muss
                 if not i == 3:
-                    speedSR+=vb_sortiert[keys[i]]
-                    speedTeiler+=1
-                    sender+=[houses[i].way] 
+                    speedSR += vb_sortiert[keys[i]]
+                    speedTeiler += 1
+                    sender += [houses[i].way]
                 i += 1
             ledStrip.stromfluss(Color(0, 150, 50), speed(speedSR/speedTeiler), sender, houses[3].way)
         else:
             while not i > j:
-                speedSR+=vb_sortiert[keys[i]]
-                speedTeiler+=1
-                sender+=[houses[i].way]
+                speedSR += vb_sortiert[keys[i]]
+                speedTeiler += 1
+                sender += [houses[i].way]
                 i += 1
             ledStrip.stromfluss(Color(0, 0, 50), speed(speedSR/speedTeiler), sender, hardware.end)
 
-    else: #  Wenn beide verbrauchen
+    else:  # Wenn beide verbrauchen
         if storage.capacity > 0:
             while not i > j:
                 if not i == 3:
-                    speedSR+=vb_sortiert[keys[i]]
-                    speedTeiler+=1
-                    receiver+=[houses[i].way]
+                    speedSR += vb_sortiert[keys[i]]
+                    speedTeiler += 1
+                    receiver += [houses[i].way]
                 i += 1
             ledStrip.stromfluss(Color(80, 50, 0), speed(speedSR/speedTeiler), houses[3].way, receiver)
         else:
             while not i > j:
-                speedSR+=vb_sortiert[keys[i]]
-                speedTeiler+=1
-                receiver+=[houses[i].way]
+                speedSR += vb_sortiert[keys[i]]
+                speedTeiler += 1
+                receiver += [houses[i].way]
                 i += 1
             ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
 
@@ -189,7 +188,7 @@ if __name__ == "__main__":
     firma = Firma(5)
     windpark = Windpark()
     houses[5] = firma
-    
+
 
     ledStrip = hardware.LEDStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ,
                                  LED_DMA, LED_INVERT, LED_BRIGHTNESS,
@@ -217,27 +216,27 @@ if __name__ == "__main__":
             + windpark.windenergy * erzeugung_wind
             - firma.max_consumption * verbrauch_firma
             print("Firma ", verbrauchfirma)
-            total_dif = total_dif + verbrauchfirma   
+            total_dif = total_dif + verbrauchfirma
             print("Endverbrauch ", total_dif)
             # ledStrip.stromfluss(Color(50, 0, 0), 0.5, houses[1].way, houses[4].way)
 
-            #led rechnen            
+            # led rechnen
             housevb = []
             for i in range(6):
                 housevb.append(-(houses[i].max_consumption * verbrauch_haus + charge_cars * 0.04) + houses[i].solar_space * erzeugung_solar)
-            
+
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[5]}
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
             keys = list(vb_sortiert.keys())
             print("sortierte Liste: ", vb_sortiert)
-            
+
 
             calcled(0, 5, vb_sortiert, keys)
-            
-            #hardware.sonne(erzeugung_solar)
+
+            # hardware.sonne(erzeugung_solar)
 
             time.sleep(2)
-            
+
 
     except KeyboardInterrupt:
         pass
