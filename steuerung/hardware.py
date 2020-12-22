@@ -88,7 +88,7 @@ class LEDStrip(Adafruit_NeoPixel):
         return returnWay
 
     # Benutzung: stromflussVieleReceiver(FARBE, SPEED, SENDER_WEG, [EMPFÄNGER_WEG1, EMPFÄNGER_WEG2, ...])
-    def stromflussVieleReceiver(self, color, speed_percent, sender_object_way, receiver_object_way_list):
+    def stromflussVieleReceiver(self, sender_object_way, receiver_object_way_list):
         # 25 = Minimum, 50 + 25 = Maximum
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem
