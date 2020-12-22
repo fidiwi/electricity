@@ -5,7 +5,6 @@ import sortieren
 
 
 def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes haus in der list
-    global houses
     sender = []
     receiver = []
     speedSR = 0
@@ -20,26 +19,26 @@ def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes hau
                     summe -= houses[j]
                     speedSR += houses[j]
                     speedTeiler += 1
-                    receiver += sortieren.way[j]
+                    receiver += [sortieren.way[j]]
                     j -= 1
-            ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
+            ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sortieren.way[i], receiver)
             houses[i] += houses[j]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
             # j -= 1  # Springe zum nächsten verbrauchenden Haus
             if not i > j:
-                calcled(i, j, houses, keys)
+                calcled(i, j, houses, capacity)
         else:
             while houses[j] < summe:
                 if not i > j:
                     summe -= houses[i]
                     speedSR += houses[i]
                     speedTeiler += 1
-                    sender += houses[i].way
+                    sender += [sortieren.way[i]]
                     i += 1
-            ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
+            ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, sortieren.way[j])
             houses[j] += houses[i]  # Verbrauch von j mit der Erzeugung von i senken
             # i += 1  # Springe zum nächsten erzeugenden Haus
             if not i > j:
-                calcled(i, j, houses, keys)
+                calcled(i, j, houses, capacity)
 
     elif houses[i] > 0 and houses[j] > 0:  # Wenn i und j erzeugen
         if capacity < 350:
@@ -47,16 +46,16 @@ def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes hau
                 if not i == 3:
                     speedSR += houses[i]
                     speedTeiler += 1
-                    sender += [houses[i].way]
+                    sender += [sortieren.way[i]]
                 i += 1
-            ledStrip.stromfluss(Color(0, 150, 50), speed(speedSR/speedTeiler), sender, houses[3].way)
+            ledStrip.stromfluss(Color(0, 150, 50), speed(speedSR/speedTeiler), sender, sortieren.way[3])
         else:
             while not i > j:
                 speedSR += houses[i]
                 speedTeiler += 1
-                sender += [houses[i].way]
+                sender += [sortieren.way[i]]
                 i += 1
-            ledStrip.stromfluss(Color(0, 0, 50), speed(speedSR/speedTeiler), sender, hardware.end)
+            ledStrip.stromfluss(Color(0, 0, 50), speed(speedSR/speedTeiler), sender, sortieren.end)
 
     else:  # Wenn beide verbrauchen
         if capacity > 0:
@@ -64,16 +63,16 @@ def calcled(i, j, houses, capacity): #i = erstes haus von links; j = rechtes hau
                 if not i == 3:
                     speedSR += houses[i]
                     speedTeiler += 1
-                    receiver += [houses[i].way]
+                    receiver += [sortieren.way[j]]
                 i += 1
-            ledStrip.stromfluss(Color(80, 50, 0), speed(speedSR/speedTeiler), houses[3].way, receiver)
+            ledStrip.stromfluss(Color(80, 50, 0), speed(speedSR/speedTeiler), sortieren.way[3], receiver)
         else:
             while not i > j:
                 speedSR += houses[i]
                 speedTeiler += 1
-                receiver += [houses[i].way]
+                receiver += [sortieren.way[j]]
                 i += 1
-            ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
+            ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), sortieren.begin, receiver)
 
 
 
@@ -97,7 +96,7 @@ begin = [0]
 ways = {0: house1, 1: house2, 2: house3, 3: storage, 4: house5, 5: firma, 6: wind}
 
 
-class LEDStrip():
+"""class LEDStrip():
     def calculateVieleSender(self, sender_object_way, receiver_object_way):
         way = []
         for i in range(len(list(sender_object_way))):
@@ -143,17 +142,17 @@ class LEDStrip():
         returnWay = [x.setdefault(v, v) for v in way if v not in x]
         return returnWay
 
-ausgabeled = []
+    ausgabeled = []
 
-def stromfluss(self, color, speed_percent, sender_object_way, receiver_object_way):
-    # 25 = Minimum, 50 + 25 = Maximum
-    wait_ms = ((1-speed_percent) * 400 + 100) / 1000
-    if len(list(sender_object_way)) > 1:
-        way = self.calculateVieleSender(sender_object_way, receiver_object_way)
-    else:
-        way = self.stromflussVieleReceiver(sender_object_way, receiver_object_way)
-    ausgabeled = way
+    def stromfluss(self, color, speed_percent, sender_object_way, receiver_object_way):
+        # 25 = Minimum, 50 + 25 = Maximum
+        wait_ms = ((1-speed_percent) * 400 + 100) / 1000
+        if len(list(sender_object_way)) > 1:
+            way = self.calculateVieleSender(sender_object_way, receiver_object_way)
+        else:
+            way = self.stromflussVieleReceiver(sender_object_way, receiver_object_way)
+        ausgabeled = way
 
-print(ausgabeled)
+    print(ausgabeled)"""
 
 
