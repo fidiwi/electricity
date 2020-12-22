@@ -121,9 +121,9 @@ class LEDStrip(Adafruit_NeoPixel):
     def stromfluss(self, color, speed_percent, sender_object_way, receiver_object_way):
         # 25 = Minimum, 50 + 25 = Maximum
         wait_ms = ((1-speed_percent) * 400 + 100) / 1000
-        if len(list(sender_object_way)) > 1:
+        if type(sender_object_way[0]) == list:
             way = self.calculateVieleSender(sender_object_way, receiver_object_way)
-        elif len(list(receiver_object_way)) > 1:
+        elif type(receiver_object_way[0]) == list:
             way = self.stromflussVieleReceiver(sender_object_way, receiver_object_way)
         else:
             way = self.calculateSingleWay(sender_object_way, receiver_object_way)
