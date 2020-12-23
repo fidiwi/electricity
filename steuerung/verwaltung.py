@@ -91,12 +91,13 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
         summe = 0
         if vb_sortiert[keys[i]] + vb_sortiert[keys[j]] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
             # em = j
-            while vb_sortiert[keys[i]] > summe:
+            while abs(vb_sortiert[keys[i]]) > summe:
                 if not i > j:
-                    summe -= vb_sortiert[keys[j]]
+                    summe += abs(vb_sortiert[keys[j]])
                     speedSR += vb_sortiert[keys[j]]
                     speedTeiler += 1
                     receiver += [houses[j].way]
+                    print("receiver: ", receiver)
                     j -= 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
             vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
@@ -104,12 +105,13 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
         else:
-            while vb_sortiert[keys[j]] < summe:
+            while abs(vb_sortiert[keys[j]]) > summe:
                 if not i > j:
-                    summe -= vb_sortiert[keys[i]]
+                    summe += abs(vb_sortiert[keys[i]])
                     speedSR += vb_sortiert[keys[i]]
                     speedTeiler += 1
                     sender += [houses[i].way]
+                    print("sender: ", sender)
                     i += 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
             vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Verbrauch von j mit der Erzeugung von i senken
@@ -125,7 +127,6 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     speedTeiler += 1
                     sender += [houses[i].way]
                 i += 1
-            print(sender)
             ledStrip.stromfluss(Color(0, 150, 50), speed(speedSR/speedTeiler), sender, houses[3].way)
         else:
             while not i > j:
