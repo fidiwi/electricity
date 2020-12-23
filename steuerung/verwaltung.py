@@ -96,7 +96,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     summe -= vb_sortiert[keys[j]]
                     speedSR += vb_sortiert[keys[j]]
                     speedTeiler += 1
-                    receiver += houses[j].way
+                    receiver += [houses[j].way]
                     j -= 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
             vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
@@ -109,7 +109,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     summe -= vb_sortiert[keys[i]]
                     speedSR += vb_sortiert[keys[i]]
                     speedTeiler += 1
-                    sender += houses[i].way
+                    sender += [houses[i].way]
                     i += 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
             vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Verbrauch von j mit der Erzeugung von i senken
