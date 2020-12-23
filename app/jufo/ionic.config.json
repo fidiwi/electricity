@@ -1,0 +1,7 @@
+{
+  "name": "jufo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
