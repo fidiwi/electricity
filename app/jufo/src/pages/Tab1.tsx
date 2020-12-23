@@ -1,12 +1,32 @@
 import React, { useRef, useState } from 'react';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics } from 'ionicons/icons'
-import ExploreContainer from '../components/ExploreContainer';
+
 import './Tab1.css';
 
-
+import { Line } from "react-chartjs-2"
 
 const Tab1: React.FC = () => {
+
+  const data = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "First dataset",
+        data: [33, 53, 85, 41, 44, 65],
+        fill: true,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
+      },
+      {
+        label: "Second dataset",
+        data: [33, 25, 35, 51, 54, 76],
+        fill: false,
+        borderColor: "#742774"
+      }
+    ]
+  };
+
   const rangeElement = useRef<HTMLIonRangeElement>(null);
   
   const [moin, setVal] = useState<number>(0);
@@ -29,7 +49,7 @@ const Tab1: React.FC = () => {
           <IonRow>
               <IonCol>
                 <IonCard>
-                  <img src="https://cdn.pixabay.com/photo/2016/11/27/21/42/stock-1863880_960_720.jpg"/>
+                  <Line data={data}/>
                   <IonCardHeader>
                       <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
                       <IonCardTitle>30 Cent</IonCardTitle>
