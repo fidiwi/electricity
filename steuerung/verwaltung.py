@@ -92,13 +92,15 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
         if vb_sortiert[keys[i]] + vb_sortiert[keys[j]] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
             # em = j
             while abs(vb_sortiert[keys[i]]) > summe:
-                if not i > j:
+                if not i > j and vb_sortiert[keys[j]] < 0:
                     summe += abs(vb_sortiert[keys[j]])
                     speedSR += vb_sortiert[keys[j]]
                     speedTeiler += 1
                     receiver += [houses[j].way]
                     print("receiver: ", receiver)
                     j -= 1
+                else:
+                    break
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
             vb_sortiert[keys[i]] -= summe  # Erzeugung von i mit dem Verbrauch von j subtrahieren
             # j -= 1  # Springe zum nächsten verbrauchenden Haus
@@ -106,13 +108,15 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                 calcled(i, j, vb_sortiert, keys)
         else:
             while abs(vb_sortiert[keys[j]]) > summe:
-                if not i > j:
+                if not i > j and vb_sortiert[keys[i]] > 0:
                     summe += abs(vb_sortiert[keys[i]])
                     speedSR += vb_sortiert[keys[i]]
                     speedTeiler += 1
                     sender += [houses[i].way]
                     print("sender: ", sender)
                     i += 1
+                else:
+                    break
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
             vb_sortiert[keys[j]] += summe  # Verbrauch von j mit der Erzeugung von i senken
             # i += 1  # Springe zum nächsten erzeugenden Haus
