@@ -100,7 +100,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     print("receiver: ", receiver)
                     j -= 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), houses[i].way, receiver)
-            vb_sortiert[keys[i]] += vb_sortiert[keys[j]]  # Erzeugung von i mit dem Verbrauch von j subtrahieren
+            vb_sortiert[keys[i]] -= summe  # Erzeugung von i mit dem Verbrauch von j subtrahieren
             # j -= 1  # Springe zum nächsten verbrauchenden Haus
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
@@ -114,7 +114,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     print("sender: ", sender)
                     i += 1
             ledStrip.stromfluss(Color(0, 50, 0), speed(speedSR/speedTeiler), sender, houses[j].way)
-            vb_sortiert[keys[j]] += vb_sortiert[keys[i]]  # Verbrauch von j mit der Erzeugung von i senken
+            vb_sortiert[keys[j]] += summe  # Verbrauch von j mit der Erzeugung von i senken
             # i += 1  # Springe zum nächsten erzeugenden Haus
             if not i > j:
                 calcled(i, j, vb_sortiert, keys)
@@ -230,7 +230,7 @@ if __name__ == "__main__":
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[5]}
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
             keys = list(vb_sortiert.keys())
-            print("sortierte Liste: ", vb_sortiert)
+            
 
             calcled(0, 5, vb_sortiert, keys)
 
