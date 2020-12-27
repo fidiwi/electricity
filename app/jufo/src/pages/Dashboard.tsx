@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics } from 'ionicons/icons'
 
-import './Tab1.css';
+import './Dashboard.css';
 
 import { Line } from "react-chartjs-2"
 
-const Tab1: React.FC = () => {
+const Dashboard: React.FC = () => {
 
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -48,7 +48,7 @@ const Tab1: React.FC = () => {
           <IonGrid>
           <IonRow>
               <IonCol>
-                <IonCard>
+                <IonCard routerLink="/price">
                   <Line data={data}/>
                   <IonCardHeader>
                       <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
@@ -72,7 +72,7 @@ const Tab1: React.FC = () => {
                 <IonGrid>
                   <IonRow>
                     <IonCol>
-                      <IonCard>
+                      <IonCard routerLink="/consum">
                       <img src="https://cdn.pixabay.com/photo/2017/09/12/13/22/photovoltaic-system-2742304_960_720.jpg"/>
                       <IonCardHeader>
                         <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
@@ -83,7 +83,7 @@ const Tab1: React.FC = () => {
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      <IonCard>
+                      <IonCard routerLink="/consum">
                         <img src="https://cdn.pixabay.com/photo/2013/03/26/06/44/electricity-meter-96863_960_720.jpg"/>
                         <IonCardHeader>
                           <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
@@ -121,4 +121,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default Dashboard;
