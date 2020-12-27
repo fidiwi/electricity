@@ -5,7 +5,17 @@ import './Consum.css';
 
 import { Line } from "react-chartjs-2"
 
+
 const Consum: React.FC = () => {
+
+  const [Jahresgraph, setJahr] = useState<object>({});
+
+  const [Wochengraph, setWoche] = useState<object>({});
+
+  const [Monatsgraph, setMonat] = useState<object>({});
+
+  const [Tagesgraph, setTag] = useState<object>({});
+
   const dataJahr = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
     datasets: [
@@ -46,6 +56,26 @@ const Consum: React.FC = () => {
     ]
   };
 
+  const dataWoche = {
+    labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        label: "Stromverbrauch in kW",
+        data: [33, 53, 85, 41, 44, 65, 33],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(204,0,0,1)"
+      },
+      {
+        label: "Stromproduktion in kW",
+        data: [33, 25, 35, 51, 54, 76, 33],
+        fill: true,
+        backgroundColor: "rgba(0,204,0,0.2)",
+        borderColor: "rgba(0,204,0,1)"
+      }
+    ]
+  };
+
   const dataTag = {
     labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
@@ -65,14 +95,9 @@ const Consum: React.FC = () => {
       }
     ]
   };
-
-  const rangeElement = useRef<HTMLIonRangeElement>(null);
   
-  const [moin, setVal] = useState<number>(0);
-
-  const setRange = () => {
-    setVal(+rangeElement.current!.value);
-  };
+  
+  
   return (
     <IonPage>
       <IonHeader>
@@ -91,7 +116,14 @@ const Consum: React.FC = () => {
               <Line data={dataTag}/>
               <IonCardHeader>
                   <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-                  <IonCardTitle>30kW</IonCardTitle>
+                  <IonCardTitle>12kW</IonCardTitle>
+              </IonCardHeader>
+            </IonCard>
+            <IonCard>
+              <Line data={dataWoche}/>
+              <IonCardHeader>
+                  <IonCardSubtitle>Wochenüberblick</IonCardSubtitle>
+                  <IonCardTitle>75kW</IonCardTitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
