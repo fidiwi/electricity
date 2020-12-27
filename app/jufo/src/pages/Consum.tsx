@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Consum.css';
 
@@ -18,7 +18,7 @@ const Consum: React.FC = () => {
       },
       {
         label: "Stromproduktion in kW",
-        data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65],
+        data: [330, 25, 35, 510, 54, 76, 33, 3, 85, 41, 44, 65],
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
@@ -77,7 +77,10 @@ const Consum: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Stromverbrauch und Stromerzeugung</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/dashboard" />
+          </IonButtons>
+          <IonTitle>Stromverbrauch/erzeugung</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
