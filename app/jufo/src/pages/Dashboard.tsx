@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { analytics } from 'ionicons/icons'
+import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { analytics, settingsOutline } from 'ionicons/icons'
 
 import './Dashboard.css';
 
@@ -41,8 +41,17 @@ const Dashboard: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
-            <IonIcon icon="settings"/>
+            <IonButton onClick={
+            (e: any) => {
+            e.persist();
+            setShowPopover({ showPopover: true, event: e })
+            }}>
+              <IonIcon slot="icon-only" icon={settingsOutline}/>
+            </IonButton>
           </IonButtons>
+          <IonTitle>
+            So ein geiles Haus
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -52,7 +61,11 @@ const Dashboard: React.FC = () => {
           onDidDismiss={() => setShowPopover({ showPopover: false, event: undefined })}
         >
           <IonList>
-            <IonItem routerLink="/settings">
+            <IonItem routerLink="/settings" onClick={
+              (e: any) => {
+                e.persist();
+                setShowPopover({showPopover:false, event: e})
+              }}>
               <IonLabel>Einstellungen</IonLabel>
             </IonItem>
           </IonList>
