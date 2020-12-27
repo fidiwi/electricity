@@ -57,18 +57,18 @@ const Consum: React.FC = () => {
   };
 
   const dataWoche = {
-    labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
+    labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
     datasets: [
       {
         label: "Stromverbrauch in kW",
-        data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76, 12],
+        data: [33, 53, 85, 41, 44, 65, 33],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(204,0,0,1)"
       },
       {
         label: "Stromproduktion in kW",
-        data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23],
+        data: [33, 25, 35, 51, 54, 76, 33],
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
