@@ -1,6 +1,5 @@
 .bar {
     margin-top: 100px;
     margin-left: -50px;
-    height: 50%;
     transform: rotate(270deg);
 }

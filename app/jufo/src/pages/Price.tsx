@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Price.css';
 
@@ -72,41 +72,42 @@ const Price: React.FC = () => {
   };
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/dashboard" />
+          </IonButtons>
+          <IonTitle>Preisverlauf</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent fullscreen>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Stromverbrauch und Stromerzeugung</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonCard>
-                <Line data={dataJahr}/>
-                <IonCardHeader>
-                    <IonCardSubtitle>Jahresüberblick</IonCardSubtitle>
-                    <IonCardTitle>3400kW</IonCardTitle>
-                </IonCardHeader>
-              </IonCard>
-              <IonCard>
-                <Line data={dataMonat}/>
-                <IonCardHeader>
-                    <IonCardSubtitle>Monatsüberblick</IonCardSubtitle>
-                    <IonCardTitle>300kW</IonCardTitle>
-                </IonCardHeader>
-              </IonCard>
-              <IonCard>
-                <Line data={dataTag}/>
-                <IonCardHeader>
-                    <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-                    <IonCardTitle>10kW</IonCardTitle>
-                </IonCardHeader>
-              </IonCard>
-            </IonCol>
-          </IonRow>
-          </IonGrid>
-        </IonContent>
+        <IonGrid>
+        <IonRow>
+          <IonCol>
+            <IonCard>
+              <Line data={dataJahr}/>
+              <IonCardHeader>
+                  <IonCardSubtitle>Jahresüberblick</IonCardSubtitle>
+                  <IonCardTitle>3400kW</IonCardTitle>
+              </IonCardHeader>
+            </IonCard>
+            <IonCard>
+              <Line data={dataMonat}/>
+              <IonCardHeader>
+                  <IonCardSubtitle>Monatsüberblick</IonCardSubtitle>
+                  <IonCardTitle>300kW</IonCardTitle>
+              </IonCardHeader>
+            </IonCard>
+            <IonCard>
+              <Line data={dataTag}/>
+              <IonCardHeader>
+                  <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
+                  <IonCardTitle>10kW</IonCardTitle>
+              </IonCardHeader>
+            </IonCard>
+          </IonCol>
+        </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );
