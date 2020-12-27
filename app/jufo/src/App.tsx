@@ -14,6 +14,7 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Dashboard from './pages/Dashboard';
 import Price from './pages/Price';
 import Consum from './pages/Consum';
+import Settings from './pages/Settings';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,6 +42,7 @@ const App: React.FC = () => (
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/price" component={Price} />
         <Route path="/consum" component={Consum} />
+        <Route path="/settings" component={Settings} />
         <Redirect exact from="/" to="/dashboard" />
       </IonRouterOutlet>
     </IonReactRouter>

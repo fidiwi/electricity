@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics } from 'ionicons/icons'
 
 import './Dashboard.css';
@@ -31,6 +31,8 @@ const Dashboard: React.FC = () => {
   
   const [moin, setVal] = useState<number>(0);
 
+  const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
+
   const setRange = () => {
     setVal(+rangeElement.current!.value);
   };
@@ -38,12 +40,23 @@ const Dashboard: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>
-            So ein geiles Haus
-          </IonTitle>
+          <IonButtons slot="end">
+            <IonIcon icon="settings"/>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <IonPopover
+          event={popoverState.event}
+          isOpen={popoverState.showPopover}
+          onDidDismiss={() => setShowPopover({ showPopover: false, event: undefined })}
+        >
+          <IonList>
+            <IonItem routerLink="/settings">
+              <IonLabel>Einstellungen</IonLabel>
+            </IonItem>
+          </IonList>
+        </IonPopover>
         <IonGrid>
         <IonRow>
             <IonCol>
