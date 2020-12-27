@@ -60,6 +60,7 @@ const Dashboard: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonCard>
+                <img src="https://pixabay.com/get/52e1d1474854ac14f6d1867dda3536781536deed51557041_1920.jpg"/>
                 <div>
                 <div className="bar">
                   <IonProgressBar color="secondary" value={moin/100} >
