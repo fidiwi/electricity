@@ -115,6 +115,7 @@ const Dashboard: React.FC = () => {
                 </IonRange>
               </IonRow>
             </IonGrid>
+            <h1>moin</h1>
         </IonContent>
       </IonContent>
     </IonPage>
