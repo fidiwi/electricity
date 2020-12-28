@@ -74,6 +74,9 @@ const Dashboard: React.FC = () => {
             <IonItem routerLink="/manipulateModel">
               <IonLabel>Modellwerte verändern</IonLabel>
             </IonItem>
+            <IonItem>
+              <IonLabel>Schließen</IonLabel>
+            </IonItem>
           </IonList>
         </IonPopover>
         <IonGrid>
