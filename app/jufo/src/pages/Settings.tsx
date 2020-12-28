@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonCardSubtitle, IonBackButton, IonButtons, IonTextarea } from '@ionic/react';
-import { cloud, sunny, home } from 'ionicons/icons';
-import { RangeValue } from '@ionic/core';
+import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonItemDivider, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
 
-export const Settings: React.FC = () => {
+const Settings: React.FC = () => {
 
-  const [value, setValue] = useState(0);
-  const [rangeValue, setRangeValue] = useState<{
-    lower: number;
-    upper: number;
-  }>({ lower: 0, upper: 0 });
+  const [hausmodell, sethausmodell] = useState<string>("Reihenhaus");
 
   return (
     <IonPage>
-      <IonHeader>
+        <IonHeader>
         <IonToolbar>
-        <IonButtons slot="start">
+          <IonButtons slot="start">
             <IonBackButton defaultHref="/dashboard" />
           </IonButtons>
           <IonTitle>Einstellungen</IonTitle>
@@ -23,41 +17,22 @@ export const Settings: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonList>
-          <IonItemDivider>Häuserverbauch</IonItemDivider>
+          <IonListHeader>
+            <IonLabel>
+              Haustyp auswählen
+            </IonLabel>
+          </IonListHeader>
           <IonItem>
-            <IonRange min={0} max={100} step={1}>
-              <IonIcon size="small" slot="start" icon={home} />
-              <IonIcon slot="end" icon={home} />
-            </IonRange>
+            <IonLabel>Haustyp</IonLabel>
+            <IonSelect value={hausmodell} okText="Okay" cancelText="Dismiss" onIonChange={e => sethausmodell(e.detail.value)}>
+              <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Einfamilienhaus">Einfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Apartment">Apartment</IonSelectOption>
+            </IonSelect>
           </IonItem>
-          <IonItemDivider>Sonne</IonItemDivider>
-          <IonItem>
-            <IonRange min={0} max={100} step={1}>
-              <IonIcon size="small" slot="start" icon={sunny} />
-              <IonIcon slot="end" icon={sunny} />
-            </IonRange>
-          </IonItem>
-          <IonItemDivider>Firmaverbrauch</IonItemDivider>
-          <IonItem>
-            <IonRange min={0} max={100} step={1}>
-              <IonIcon size="small" slot="start" icon={sunny} />
-              <IonIcon slot="end" icon={sunny} />
-            </IonRange>
-          </IonItem>
-          <IonItemDivider>Wind</IonItemDivider>
-          <IonItem>
-            <IonRange min={0} max={100} step={1}>
-              <IonIcon size="small" slot="start" icon={cloud} />
-              <IonIcon slot="end" icon={cloud} />
-            </IonRange>
-          </IonItem>
-          <IonItemDivider>Vorhersage</IonItemDivider>
-          <IonItem>
-            <IonRange min={0} max={100} step={1}>
-              <IonIcon size="small" slot="start" icon={sunny} />
-              <IonIcon slot="end" icon={sunny} />
-            </IonRange>
-          </IonItem>
+          <IonItemDivider>Aktuelle Auswahl</IonItemDivider>
+          <IonItem>Aktueller Haustyp: {hausmodell}</IonItem>
         </IonList>
       </IonContent>
     </IonPage>
