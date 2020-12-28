@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonTextarea } from '@ionic/react';
-import { cellular, cloud, colorFill, construct, sunny } from 'ionicons/icons';
-import { home } from 'ionicons/icons';
+import { analytics, cloud, colorFill, sunny, business, home } from 'ionicons/icons';
 import { RangeValue } from '@ionic/core';
 import './ModelManipulation.css';
 
@@ -42,8 +41,8 @@ const ModelManipulation: React.FC = () => {
           <IonItemDivider>Firmaverbrauch</IonItemDivider>
           <IonItem>
             <IonRange min={0} max={100} step={1} >
-              <IonIcon size="small" slot="start" icon={construct} />
-              <IonIcon slot="end" icon={construct} />
+              <IonIcon size="small" slot="start" icon={business} />
+              <IonIcon slot="end" icon={business} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Wind</IonItemDivider>
@@ -56,8 +55,8 @@ const ModelManipulation: React.FC = () => {
           <IonItemDivider>Vorhersage</IonItemDivider>
           <IonItem>
             <IonRange min={0} max={100} step={1} >
-              <IonIcon size="small" slot="start" icon={cellular} />
-              <IonIcon slot="end" icon={cellular} />
+              <IonIcon size="small" slot="start" icon={analytics} />
+              <IonIcon slot="end" icon={analytics} />
             </IonRange>
           </IonItem>
           
