@@ -143,29 +143,37 @@ const Consum: React.FC = () => {
             <IonCard>
               <Line data={dataTag}/>
               <IonCardHeader>
-                  <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-                  <IonCardTitle>12kW</IonCardTitle>
+                  <IonCardTitle>Tagesüberblick</IonCardTitle>
+                  <IonCardSubtitle>Stromberbrauch: 12kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromproduktion: 12kW</IonCardSubtitle>
+                  <IonCardSubtitle>Differenz: 12kW</IonCardSubtitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <Line data={dataWoche}/>
               <IonCardHeader>
-                  <IonCardSubtitle>Wochenüberblick</IonCardSubtitle>
-                  <IonCardTitle>75kW</IonCardTitle>
+                  <IonCardTitle>Wochenüberblick</IonCardTitle>
+                  <IonCardSubtitle>Stromberbrauch: 75kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromproduktion: 75kW</IonCardSubtitle>
+                  <IonCardSubtitle>Differenz: 75kW</IonCardSubtitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <Line data={dataMonat}/>
               <IonCardHeader>
-                  <IonCardSubtitle>Monatsüberblick</IonCardSubtitle>
-                  <IonCardTitle>300kW</IonCardTitle>
+                  <IonCardTitle>Monatsüberblick</IonCardTitle>
+                  <IonCardSubtitle>Stromberbrauch: 300kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromproduktion: 300kW</IonCardSubtitle>
+                  <IonCardSubtitle>Differenz: 300kW</IonCardSubtitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <Line data={dataJahr}/>
               <IonCardHeader>
-                  <IonCardSubtitle>Jahresüberblick</IonCardSubtitle>
-                  <IonCardTitle>3400kW</IonCardTitle>
+                  <IonCardTitle>Jahresüberblick</IonCardTitle>
+                  <IonCardSubtitle>Stromberbrauch: 3400kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromproduktion: 3400kW</IonCardSubtitle>
+                  <IonCardSubtitle>Differenz: 3400kW</IonCardSubtitle>
               </IonCardHeader>
             </IonCard>
           </IonCol>
