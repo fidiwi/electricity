@@ -34,28 +34,28 @@ const ModelManipulation: React.FC = () => {
           </IonItem>
           <IonItemDivider>Sonne</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} color="warning">
+            <IonRange min={0} max={100} step={1} >
               <IonIcon size="small" slot="start" icon={sunny} />
               <IonIcon slot="end" icon={sunny} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Firmaverbrauch</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} color="danger">
+            <IonRange min={0} max={100} step={1} >
               <IonIcon size="small" slot="start" icon={construct} />
               <IonIcon slot="end" icon={construct} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Wind</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} color="secondary">
+            <IonRange min={0} max={100} step={1} >
               <IonIcon size="small" slot="start" icon={cloud} />
               <IonIcon slot="end" icon={cloud} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Vorhersage</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} color="success">
+            <IonRange min={0} max={100} step={1} >
               <IonIcon size="small" slot="start" icon={cellular} />
               <IonIcon slot="end" icon={cellular} />
             </IonRange>
