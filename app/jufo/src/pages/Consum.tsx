@@ -32,6 +32,13 @@ const Consum: React.FC = () => {
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
+      },
+      {
+        label: "Differenz",
+        data: [-33, 53, 5, -41, 24, 5, 51, 54, 76, -33, 53, 85, -41],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
       }
     ]
   };
@@ -52,6 +59,13 @@ const Consum: React.FC = () => {
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
+      },
+      {
+        label: "Differenz",
+        data: [-33, 53, 5, -41, 24, 5, 51, 54, 76, -33, 53, 85, -41],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
       }
     ]
   };
@@ -72,6 +86,13 @@ const Consum: React.FC = () => {
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
+      },
+      {
+        label: "Differenz",
+        data: [-33, 53, 5, -41, 24, 5, 51, 54, 76, -33, 53, 85, -41],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
       }
     ]
   };
@@ -92,6 +113,13 @@ const Consum: React.FC = () => {
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
+      },
+      {
+        label: "Differenz",
+        data: [-33, 53, 5, -41, 24, 5, 51, 54, 76, -33, 53, 85, -41],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
       }
     ]
   };
