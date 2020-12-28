@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline } from 'ionicons/icons'
 
 import './Dashboard.css';
@@ -80,10 +80,26 @@ const Dashboard: React.FC = () => {
         <IonRow>
             <IonCol>
               <IonCard routerLink="/price">
+                <IonCardHeader>
+                    <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
+                    <IonCardTitle text-center>{250*(moin/100)} kWh | {moin}%</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <div  className="bar">
+                    <IonProgressBar color="success" value={moin/100}/>
+                  </div>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+
+          <IonRow>
+            <IonCol>
+              <IonCard routerLink="/price">
                 <Line data={data}/>
                 <IonCardHeader>
-                    <IonCardSubtitle>Der aktuelle Preis</IonCardSubtitle>
-                    <IonCardTitle>30 Cent</IonCardTitle>
+                  <IonCardSubtitle>Mein Energiekarma</IonCardSubtitle>
+                  <IonCardTitle>Sehr gut</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
@@ -91,65 +107,25 @@ const Dashboard: React.FC = () => {
 
           <IonRow>
             <IonCol>
-              <IonCard>
-                <img src="https://pixabay.com/get/52e1d1474854ac14f6d1867dda3536781536deed51557041_1920.jpg"/>
-                <div>
-                <div className="bar">
-                  <IonProgressBar color="secondary" value={moin/100} >
-                    <IonLabel slot="start">Moin</IonLabel>
-                  </IonProgressBar>
-                </div>
-                </div>
+              <IonCard routerLink="/consum">
+                <img src="https://cdn.pixabay.com/photo/2017/09/12/13/22/photovoltaic-system-2742304_960_720.jpg"/>
                 <IonCardHeader>
-                    <IonCardSubtitle>Der Akku</IonCardSubtitle>
-                    <IonCardTitle>30%</IonCardTitle>
+                  <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
+                  <IonCardTitle>5kW</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
             <IonCol>
-              <IonGrid>
-                <IonRow>
-                  <IonCol>
-                    <IonCard routerLink="/consum">
-                    <img src="https://cdn.pixabay.com/photo/2017/09/12/13/22/photovoltaic-system-2742304_960_720.jpg"/>
-                    <IonCardHeader>
-                      <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
-                      <IonCardTitle>5kW</IonCardTitle>
-                    </IonCardHeader>
-                    </IonCard>
-                  </IonCol>
-                </IonRow>
-                
-                <IonRow>
-                  <IonCol>
-                    <IonCard routerLink="/consum">
-                      <img src="https://cdn.pixabay.com/photo/2013/03/26/06/44/electricity-meter-96863_960_720.jpg"/>
-                      <IonCardHeader>
-                        <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
-                        <IonCardTitle>3kW</IonCardTitle>
-                      </IonCardHeader>
-                    </IonCard>
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
+              <IonCard routerLink="/consum">
+                <img src="https://cdn.pixabay.com/photo/2013/03/26/06/44/electricity-meter-96863_960_720.jpg"/>
+                <IonCardHeader>
+                  <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
+                  <IonCardTitle>3kW</IonCardTitle>
+                </IonCardHeader>
+              </IonCard>
             </IonCol>
           </IonRow>
-
-          <IonRow>
-            <IonCol>
-              <progress className="bar" max={100} value={moin}/>
-            </IonCol>
-            <IonCol>
-              <h2>djflajldf <IonIcon name="accesability"></IonIcon> </h2>
-            </IonCol>
-            <IonCol>
-              <div className="bar">
-                <IonProgressBar color="secondary" value={moin/100}>
-                  <IonLabel slot="start">Moin</IonLabel>
-                </IonProgressBar>
-              </div>
-            </IonCol>
-          </IonRow>
+          
           <IonRow>
             <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
             </IonRange>
