@@ -144,7 +144,7 @@ const Consum: React.FC = () => {
               <Line data={dataTag}/>
               <IonCardHeader>
                   <IonCardTitle>Tagesüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromberbrauch: 12kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromverbrauch: 12kW</IonCardSubtitle>
                   <IonCardSubtitle>Stromproduktion: 12kW</IonCardSubtitle>
                   <IonCardSubtitle>Differenz: 12kW</IonCardSubtitle>
               </IonCardHeader>
@@ -153,7 +153,7 @@ const Consum: React.FC = () => {
               <Line data={dataWoche}/>
               <IonCardHeader>
                   <IonCardTitle>Wochenüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromberbrauch: 75kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromverbrauch: 75kW</IonCardSubtitle>
                   <IonCardSubtitle>Stromproduktion: 75kW</IonCardSubtitle>
                   <IonCardSubtitle>Differenz: 75kW</IonCardSubtitle>
               </IonCardHeader>
@@ -162,7 +162,7 @@ const Consum: React.FC = () => {
               <Line data={dataMonat}/>
               <IonCardHeader>
                   <IonCardTitle>Monatsüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromberbrauch: 300kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromverbrauch: 300kW</IonCardSubtitle>
                   <IonCardSubtitle>Stromproduktion: 300kW</IonCardSubtitle>
                   <IonCardSubtitle>Differenz: 300kW</IonCardSubtitle>
               </IonCardHeader>
@@ -171,7 +171,7 @@ const Consum: React.FC = () => {
               <Line data={dataJahr}/>
               <IonCardHeader>
                   <IonCardTitle>Jahresüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromberbrauch: 3400kW</IonCardSubtitle>
+                  <IonCardSubtitle>Stromverbrauch: 3400kW</IonCardSubtitle>
                   <IonCardSubtitle>Stromproduktion: 3400kW</IonCardSubtitle>
                   <IonCardSubtitle>Differenz: 3400kW</IonCardSubtitle>
               </IonCardHeader>
