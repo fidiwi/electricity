@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { analytics, settingsOutline } from 'ionicons/icons'
+import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline } from 'ionicons/icons'
 
 import './Dashboard.css';
 
@@ -46,7 +46,7 @@ const Dashboard: React.FC = () => {
             e.persist();
             setShowPopover({ showPopover: true, event: e })
             }}>
-              <IonIcon slot="icon-only" icon={settingsOutline}/>
+              <IonIcon slot="icon-only" icon={ellipsisVertical}/>
             </IonButton>
           </IonButtons>
           <IonTitle>
@@ -60,13 +60,19 @@ const Dashboard: React.FC = () => {
           isOpen={popoverState.showPopover}
           onDidDismiss={() => setShowPopover({ showPopover: false, event: undefined })}
         >
-          <IonList>
-            <IonItem routerLink="/settings" onClick={
+          <IonList onClick={
               (e: any) => {
                 e.persist();
                 setShowPopover({showPopover:false, event: e})
               }}>
+            <IonItem routerLink="/settings">
               <IonLabel>Einstellungen</IonLabel>
+            </IonItem>
+            <IonItem routerLink="/company">
+              <IonLabel>Firmenansicht</IonLabel>
+            </IonItem>
+            <IonItem routerLink="/manipulateModel">
+              <IonLabel>Modellwerte verändern</IonLabel>
             </IonItem>
           </IonList>
         </IonPopover>

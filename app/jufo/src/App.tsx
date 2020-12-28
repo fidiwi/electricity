@@ -15,6 +15,8 @@ import Dashboard from './pages/Dashboard';
 import Price from './pages/Price';
 import Consum from './pages/Consum';
 import Settings from './pages/Settings';
+import Company from './pages/Company';
+import ModelManipulation from './pages/ModelManipulation';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,6 +37,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
@@ -43,6 +46,8 @@ const App: React.FC = () => (
         <Route path="/price" component={Price} />
         <Route path="/consum" component={Consum} />
         <Route path="/settings" component={Settings} />
+        <Route path="/company" component={Company} />
+        <Route path="/manipulateModel" component={ModelManipulation} />
         <Redirect exact from="/" to="/dashboard" />
       </IonRouterOutlet>
     </IonReactRouter>
