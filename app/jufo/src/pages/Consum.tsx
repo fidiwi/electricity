@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Consum.css';
 
@@ -141,40 +141,48 @@ const Consum: React.FC = () => {
         <IonRow>
           <IonCol>
             <IonCard>
-              <Line data={dataTag}/>
               <IonCardHeader>
-                  <IonCardTitle>Tagesüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromverbrauch: 12kW</IonCardSubtitle>
-                  <IonCardSubtitle>Stromproduktion: 12kW</IonCardSubtitle>
-                  <IonCardSubtitle>Differenz: 12kW</IonCardSubtitle>
+                <IonCardTitle>Tagesüberblick</IonCardTitle>
+                <Line data={dataTag}/>
               </IonCardHeader>
+              <IonCardContent>
+                <IonCardSubtitle>Stromverbrauch: 12kW</IonCardSubtitle>
+                <IonCardSubtitle>Stromproduktion: 12kW</IonCardSubtitle>
+                <IonCardSubtitle>Differenz: 12kW</IonCardSubtitle>
+              </IonCardContent>
             </IonCard>
             <IonCard>
-              <Line data={dataWoche}/>
-              <IonCardHeader>
-                  <IonCardTitle>Wochenüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromverbrauch: 75kW</IonCardSubtitle>
-                  <IonCardSubtitle>Stromproduktion: 75kW</IonCardSubtitle>
-                  <IonCardSubtitle>Differenz: 75kW</IonCardSubtitle>
+              <IonCardHeader> 
+                <IonCardTitle>Wochenüberblick</IonCardTitle>
+                <Line data={dataWoche}/>
               </IonCardHeader>
+              <IonCardContent>
+                <IonCardSubtitle>Stromverbrauch: 75kW</IonCardSubtitle>
+                <IonCardSubtitle>Stromproduktion: 75kW</IonCardSubtitle>
+                <IonCardSubtitle>Differenz: 75kW</IonCardSubtitle>
+              </IonCardContent>
             </IonCard>
             <IonCard>
-              <Line data={dataMonat}/>
               <IonCardHeader>
-                  <IonCardTitle>Monatsüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromverbrauch: 300kW</IonCardSubtitle>
-                  <IonCardSubtitle>Stromproduktion: 300kW</IonCardSubtitle>
-                  <IonCardSubtitle>Differenz: 300kW</IonCardSubtitle>
+                <IonCardTitle>Monatsüberblick</IonCardTitle>
+                <Line data={dataMonat}/>
               </IonCardHeader>
+              <IonCardContent>
+                <IonCardSubtitle>Stromverbrauch: 300kW</IonCardSubtitle>
+                <IonCardSubtitle>Stromproduktion: 300kW</IonCardSubtitle>
+                <IonCardSubtitle>Differenz: 300kW</IonCardSubtitle>
+              </IonCardContent>
             </IonCard>
             <IonCard>
-              <Line data={dataJahr}/>
               <IonCardHeader>
-                  <IonCardTitle>Jahresüberblick</IonCardTitle>
-                  <IonCardSubtitle>Stromverbrauch: 3400kW</IonCardSubtitle>
-                  <IonCardSubtitle>Stromproduktion: 3400kW</IonCardSubtitle>
-                  <IonCardSubtitle>Differenz: 3400kW</IonCardSubtitle>
+                <IonCardTitle>Jahresüberblick</IonCardTitle>
+                <Line data={dataJahr}/>
               </IonCardHeader>
+              <IonCardContent>
+                <IonCardSubtitle>Stromverbrauch: 3400kW</IonCardSubtitle>
+                <IonCardSubtitle>Stromproduktion: 3400kW</IonCardSubtitle>
+                <IonCardSubtitle>Differenz: 3400kW</IonCardSubtitle>
+              </IonCardContent>
             </IonCard>
           </IonCol>
         </IonRow>
