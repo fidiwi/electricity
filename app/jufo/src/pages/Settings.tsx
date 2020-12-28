@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider } from '@ionic/react';
-import { cloud, sunny } from 'ionicons/icons';
-import { home } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonCardSubtitle, IonBackButton, IonButtons, IonTextarea } from '@ionic/react';
+import { cloud, sunny, home } from 'ionicons/icons';
 import { RangeValue } from '@ionic/core';
 
 export const Settings: React.FC = () => {
@@ -16,7 +15,10 @@ export const Settings: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Schieberegler</IonTitle>
+        <IonButtons slot="start">
+            <IonBackButton defaultHref="/dashboard" />
+          </IonButtons>
+          <IonTitle>Einstellungen</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -56,7 +58,6 @@ export const Settings: React.FC = () => {
               <IonIcon slot="end" icon={sunny} />
             </IonRange>
           </IonItem>
-          
         </IonList>
       </IonContent>
     </IonPage>
