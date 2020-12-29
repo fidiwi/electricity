@@ -56,25 +56,23 @@ const Company: React.FC = () => {
       </IonToolbar>
     </IonHeader>
     <IonContent fullscreen>
-      <IonGrid>
-        <IonRow>
-          <IonCol>
-            <IonCard>
-              <IonCardContent>
-                <IonCardTitle>Produktivität</IonCardTitle>
-                <Line data={Produktivität}/>
-                <IonCardSubtitle>Produktivität: 90%</IonCardSubtitle>
-                <IonCardTitle>Wochenüberblick</IonCardTitle>
-                <Line data={Firma}/>
-                <IonCardSubtitle>Stromproduktion Solar: 12kW</IonCardSubtitle>
-                <IonCardSubtitle>Stromproduktion Wind: 12kW</IonCardSubtitle>
-                <IonCardSubtitle>Stromverbrauch: 20kW</IonCardSubtitle>
-              </IonCardContent>
-            </IonCard>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-      <IonItemDivider>Produktivität manuell setzen</IonItemDivider>
+        <IonCard>
+          <IonCardContent>
+            <IonCardTitle>Produktivität</IonCardTitle>
+            <Line data={Produktivität}/>
+            <IonCardSubtitle>Produktivität: 90%</IonCardSubtitle>
+          </IonCardContent>
+        </IonCard>
+        <IonCard>
+          <IonCardContent>
+            <IonCardTitle>Wochenüberblick</IonCardTitle>
+            <Line data={Firma}/>
+            <IonCardSubtitle>Stromproduktion Solar: 12kW</IonCardSubtitle>
+            <IonCardSubtitle>Stromproduktion Wind: 12kW</IonCardSubtitle>
+            <IonCardSubtitle>Stromverbrauch: 20kW</IonCardSubtitle>
+          </IonCardContent>
+        </IonCard>
+        <IonItemDivider>Produktivität manuell setzen</IonItemDivider>
           <IonItem>
             <IonRange min={0} max={100} step={1}>
               <IonIcon size="small" slot="start" icon={construct} />
