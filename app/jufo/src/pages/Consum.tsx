@@ -3,7 +3,7 @@ import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonC
 import ExploreContainer from '../components/ExploreContainer';
 import './Consum.css';
 
-import { Bar, Line } from "react-chartjs-2"
+import { Line } from "react-chartjs-2"
 
 
 const Consum: React.FC = () => {

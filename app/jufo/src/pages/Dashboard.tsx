@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
               <IonCard routerLink="/battery">
                 <IonCardHeader>
                     <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
-                    <IonCardTitle text-center>{250*(moin/100)} kWh | {moin}%</IonCardTitle>
+                    <IonCardTitle text-center>{350*(moin/100)} kWh | {moin}%</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
                   <div  className="bar">
@@ -133,9 +133,7 @@ const Dashboard: React.FC = () => {
             <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
             </IonRange>
           </IonRow>
-
           </IonGrid>
-          <h1>moin</h1>
       </IonContent>
     </IonPage>
   );
