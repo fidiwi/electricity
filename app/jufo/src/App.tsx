@@ -17,6 +17,7 @@ import Consum from './pages/Consum';
 import Settings from './pages/Settings';
 import Company from './pages/Company';
 import ModelManipulation from './pages/ModelManipulation';
+import Battery from './pages/Battery';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -48,6 +49,7 @@ const App: React.FC = () => (
         <Route path="/settings" component={Settings} />
         <Route path="/company" component={Company} />
         <Route path="/manipulateModel" component={ModelManipulation} />
+        <Route path="/battery" component={Battery} />
         <Redirect exact from="/" to="/dashboard" />
       </IonRouterOutlet>
     </IonReactRouter>

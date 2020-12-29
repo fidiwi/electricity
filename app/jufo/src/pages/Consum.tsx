@@ -3,7 +3,7 @@ import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonC
 import ExploreContainer from '../components/ExploreContainer';
 import './Consum.css';
 
-import { Line } from "react-chartjs-2"
+import { Bar, Line } from "react-chartjs-2"
 
 
 const Consum: React.FC = () => {
@@ -101,14 +101,14 @@ const Consum: React.FC = () => {
     labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
       {
-        label: "Stromverbrauch in kW",
+        label: "SVB",
         data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76, 12],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(204,0,0,1)"
       },
       {
-        label: "Stromproduktion in kW",
+        label: "Produktion",
         data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23],
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
@@ -123,8 +123,15 @@ const Consum: React.FC = () => {
       }
     ]
   };
-  
-  
+
+  const legend = {
+    display: true,
+    labels: {
+      fontColor: "#323130",
+      fontSize: 10
+    }
+  }
+
   
   return (
     <IonPage>
@@ -136,20 +143,18 @@ const Consum: React.FC = () => {
           <IonTitle>Stromverbrauch/erzeugung</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <IonGrid>
         <IonRow>
           <IonCol>
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle>Tagesüberblick</IonCardTitle>
-                <Line data={dataTag}/>
-              </IonCardHeader>
-              <IonCardContent>
+                <Line data={dataTag} legend={legend}/>
                 <IonCardSubtitle>Stromverbrauch: 12kW</IonCardSubtitle>
                 <IonCardSubtitle>Stromproduktion: 12kW</IonCardSubtitle>
                 <IonCardSubtitle>Differenz: 12kW</IonCardSubtitle>
-              </IonCardContent>
+              </IonCardHeader>
             </IonCard>
             <IonCard>
               <IonCardHeader> 

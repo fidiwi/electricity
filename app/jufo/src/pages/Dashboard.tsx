@@ -82,7 +82,7 @@ const Dashboard: React.FC = () => {
         <IonGrid>
         <IonRow>
             <IonCol>
-              <IonCard routerLink="/price">
+              <IonCard routerLink="/battery">
                 <IonCardHeader>
                     <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
                     <IonCardTitle text-center>{250*(moin/100)} kWh | {moin}%</IonCardTitle>
