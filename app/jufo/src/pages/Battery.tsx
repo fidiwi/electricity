@@ -1,5 +1,5 @@
-import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonPage, IonProgressBar, IonRange, IonTitle, IonToolbar } from '@ionic/react';
-import { options } from 'ionicons/icons';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonPage, IonProgressBar, IonRange, IonTitle, IonToolbar } from '@ionic/react';
+import { options, batteryDead, batteryFull } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 
 import { Line } from "react-chartjs-2"
@@ -71,7 +71,9 @@ const Battery: React.FC = () => {
                 </IonCardHeader>
                 </IonCard>
                 <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
-            </IonRange>
+                    <IonIcon slot="start" icon={batteryDead} />
+                    <IonIcon slot="end" icon={batteryFull} />
+                </IonRange>
             </IonContent>
         </IonPage>
     );

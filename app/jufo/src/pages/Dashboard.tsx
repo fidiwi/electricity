@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline } from 'ionicons/icons'
+import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
 
 import './Dashboard.css';
 
@@ -131,6 +131,8 @@ const Dashboard: React.FC = () => {
           
           <IonRow>
             <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
+              <IonIcon slot="start" icon={batteryDead} />
+              <IonIcon slot="end" icon={batteryFull} />
             </IonRange>
           </IonRow>
           </IonGrid>
