@@ -4,6 +4,9 @@ import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batte
 
 import './Dashboard.css';
 
+import erzeugungpic from '../bilder/erzeugung.jpg';
+import verbrauchpic from '../bilder/verbrauch.jpg'
+
 import { Line } from "react-chartjs-2"
 
 const Dashboard: React.FC = () => {
@@ -111,7 +114,7 @@ const Dashboard: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonCard routerLink="/consum">
-                <img src="https://cdn.pixabay.com/photo/2017/09/12/13/22/photovoltaic-system-2742304_960_720.jpg"/>
+                <img src={erzeugungpic}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
                   <IonCardTitle>5kW</IonCardTitle>
@@ -120,7 +123,7 @@ const Dashboard: React.FC = () => {
             </IonCol>
             <IonCol>
               <IonCard routerLink="/consum">
-                <img src="https://cdn.pixabay.com/photo/2013/03/26/06/44/electricity-meter-96863_960_720.jpg"/>
+                <img src={verbrauchpic}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
                   <IonCardTitle>3kW</IonCardTitle>
