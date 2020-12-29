@@ -1,4 +1,5 @@
-import {  IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonPage, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { construct } from 'ionicons/icons';
 import React from 'react';
 
 import { Line } from "react-chartjs-2"
@@ -63,9 +64,6 @@ const Company: React.FC = () => {
                 <IonCardTitle>Produktivität</IonCardTitle>
                 <Line data={Produktivität}/>
                 <IonCardSubtitle>Produktivität: 90%</IonCardSubtitle>
-
-              </IonCardContent>
-              <IonCardContent>
                 <IonCardTitle>Wochenüberblick</IonCardTitle>
                 <Line data={Firma}/>
                 <IonCardSubtitle>Stromproduktion Solar: 12kW</IonCardSubtitle>
@@ -76,6 +74,13 @@ const Company: React.FC = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
+      <IonItemDivider>Produktivität manuell setzen</IonItemDivider>
+          <IonItem>
+            <IonRange min={0} max={100} step={1}>
+              <IonIcon size="small" slot="start" icon={construct} />
+              <IonIcon slot="end" icon={construct} />
+            </IonRange>
+          </IonItem>
     </IonContent>
   </IonPage>
   );

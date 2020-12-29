@@ -1,49 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Price.css';
 
 import { Line } from "react-chartjs-2"
 
 const Price: React.FC = () => {
-  const dataJahr = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76],
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65],
-        fill: false,
-        borderColor: "#742774"
-      }
-    ]
-  };
-
-  const dataMonat = {
-    labels: ["01", "03", "06", "09", "12", "15", "18", "21", "24", "27", "30", "31"],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76],
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65],
-        fill: false,
-        borderColor: "#742774"
-      }
-    ]
-  };
-
   const dataTag = {
     labels: ["02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
@@ -63,13 +25,11 @@ const Price: React.FC = () => {
     ]
   };
 
-  const rangeElement = useRef<HTMLIonRangeElement>(null);
-  
-  const [moin, setVal] = useState<number>(0);
 
-  const setRange = () => {
-    setVal(+rangeElement.current!.value);
-  };
+  
+  const [aufladpunkt, setaufladpunkt] = useState<string>("20");
+  const [fertig, setfertig] = useState<string>("06");
+
   return (
     <IonPage>
       <IonHeader>
@@ -80,34 +40,42 @@ const Price: React.FC = () => {
           <IonTitle>Preisverlauf</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonGrid>
-        <IonRow>
-          <IonCol>
-            <IonCard>
-              <Line data={dataJahr}/>
-              <IonCardHeader>
-                  <IonCardSubtitle>Jahresüberblick</IonCardSubtitle>
-                  <IonCardTitle>3400kW</IonCardTitle>
-              </IonCardHeader>
-            </IonCard>
-            <IonCard>
-              <Line data={dataMonat}/>
-              <IonCardHeader>
-                  <IonCardSubtitle>Monatsüberblick</IonCardSubtitle>
-                  <IonCardTitle>300kW</IonCardTitle>
-              </IonCardHeader>
-            </IonCard>
-            <IonCard>
-              <Line data={dataTag}/>
-              <IonCardHeader>
-                  <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-                  <IonCardTitle>10kW</IonCardTitle>
-              </IonCardHeader>
-            </IonCard>
-          </IonCol>
-        </IonRow>
-        </IonGrid>
+      <IonContent>
+        <IonCard>
+          <Line data={dataTag}/>
+          <IonCardHeader>
+              <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
+              <IonCardTitle>10kW</IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
+        <IonItem>
+          <IonLabel>Auto soll angschlossen sein: </IonLabel>
+          <IonSelect value={aufladpunkt} okText="Okay" cancelText="Cancel" onIonChange={e => setaufladpunkt(e.detail.value)}>
+            <IonSelectOption value="16">16 Uhr</IonSelectOption>
+            <IonSelectOption value="17">17 Uhr</IonSelectOption>
+            <IonSelectOption value="18">18 Uhr</IonSelectOption>
+            <IonSelectOption value="19">19 Uhr</IonSelectOption>
+            <IonSelectOption value="20">20 Uhr</IonSelectOption>
+            <IonSelectOption value="21">21 Uhr</IonSelectOption>
+            <IonSelectOption value="22">22 Uhr</IonSelectOption>
+            <IonSelectOption value="23">23 Uhr</IonSelectOption>
+            <IonSelectOption value="24">24 Uhr</IonSelectOption>
+          </IonSelect>
+        </IonItem>
+        <IonItem>
+          <IonLabel>Auto soll aufgeladen sein: </IonLabel>
+          <IonSelect value={fertig} okText="Okay" cancelText="Cancel" onIonChange={e => setfertig(e.detail.value)}>
+            <IonSelectOption value="05">05 Uhr</IonSelectOption>
+            <IonSelectOption value="06">06 Uhr</IonSelectOption>
+            <IonSelectOption value="07">07 Uhr</IonSelectOption>
+            <IonSelectOption value="08">08 Uhr</IonSelectOption>
+            <IonSelectOption value="09">09 Uhr</IonSelectOption>
+            <IonSelectOption value="10">10 Uhr</IonSelectOption>
+            <IonSelectOption value="11">11 Uhr</IonSelectOption>
+            <IonSelectOption value="12">12 Uhr</IonSelectOption>
+            <IonSelectOption value="13">13 Uhr</IonSelectOption>
+          </IonSelect>
+        </IonItem>
       </IonContent>
     </IonPage>
   );
