@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
               <IonCard routerLink="/battery">
                 <IonCardHeader>
                     <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
-                    <IonCardTitle text-center>{350*(moin/100)} kWh | {moin}%</IonCardTitle>
+                    <IonCardTitle text-center>{Math.round(350*(moin/100))} kWh | {moin}%</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
                   <div  className="bar">
