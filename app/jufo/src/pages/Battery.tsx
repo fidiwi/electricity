@@ -1,4 +1,5 @@
 import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonPage, IonProgressBar, IonRange, IonTitle, IonToolbar } from '@ionic/react';
+import { options } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 
 import { Line } from "react-chartjs-2"
@@ -12,6 +13,7 @@ const Battery: React.FC = () => {
     const setRange = () => {
         setProzent(+rangeElement.current!.value);
     };
+
     const Akkustand = {
         labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
         datasets: [
@@ -23,6 +25,20 @@ const Battery: React.FC = () => {
             borderColor: "rgba(0,204,0,1)"
           }
         ],
+    };
+
+    const options = {
+        scales: {
+            yAxes: [
+            {
+                ticks: {
+                suggestedMin: 0,
+                suggestedMax: 100
+                }
+            }
+            ]
+        }
+        
     }
     
     return (
@@ -50,8 +66,8 @@ const Battery: React.FC = () => {
                 <IonCard>
                 <IonCardHeader>
                     <IonCardTitle>Akkustand</IonCardTitle>
-                    <Line data={Akkustand}/>
-                    <IonCardSubtitle>Aktueller Stand: 175kW | 50%</IonCardSubtitle>
+                    <Line data={Akkustand} options={options}/>
+                    <IonCardSubtitle>Aktueller Stand: {Math.round(3.5*Prozent)} kWh | {Prozent}%</IonCardSubtitle>
                 </IonCardHeader>
                 </IonCard>
                 <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
