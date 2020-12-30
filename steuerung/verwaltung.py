@@ -207,7 +207,7 @@ if __name__ == "__main__":
             dif = {}
             total_dif = 0  # Verbrauch der Siedlung
             for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption * verbrauch_haus + charge_cars * 0.04
+                house_verbrauch = houses[house_key].max_consumption * verbrauch_haus
                 house_erzeugung = houses[house_key].solar_space * erzeugung_solar
                 difference = house_erzeugung - house_verbrauch
                 dif[house_key] = difference
@@ -222,9 +222,9 @@ if __name__ == "__main__":
             + windpark.windenergy * erzeugung_wind
             - firma.max_consumption * verbrauch_firma
             print("Firma ", verbrauchfirma)
-            total_dif = total_dif + verbrauchfirma
+            total_dif += verbrauchfirma
             print("Endverbrauch ", total_dif)
-            # ledStrip.stromfluss(Color(50, 0, 0), 0.5, houses[1].way, houses[4].way)
+            total_dif += charge_cars * 
 
             # led rechnen
             housevb = []
@@ -233,8 +233,7 @@ if __name__ == "__main__":
 
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[5]}
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
-            keys = list(vb_sortiert.keys())
-            
+            keys = list(vb_sortiert.keys())     
 
             calcled(0, 5, vb_sortiert, keys)
 
