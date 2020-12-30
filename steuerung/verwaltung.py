@@ -87,7 +87,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
     speedSR = 0
     speedTeiler = 1
 
-    if vb_sortiert[keys[i]] > 0 and vb_sortiert[keys[j]] < 0:  # Wenn i erzeugt und j verbraucht
+    if vb_sortiert[keys[i]] > 0 and vb_sortiert[keys[j]] < -1:  # Wenn i erzeugt und j verbraucht
         summe = 0
         if vb_sortiert[keys[i]] + vb_sortiert[keys[j]] > 0:  # Wenn i den Verbrauch von j mehr als decken kann
             # em = j
