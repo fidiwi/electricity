@@ -63,7 +63,7 @@ class Storage():
 
 class Firma(House):
     def __init__(self, slot):
-        super().__init__(20, 20, slot)  # Zahlen für den
+        super().__init__(20, 20.1, slot)  # Zahlen für den
         # Verbrauch einsetzen
 
 
