@@ -169,6 +169,11 @@ def updatePotiValues():
     verbrauch_firma = hardware.getAnalogPercent(2)
     erzeugung_wind = hardware.getAnalogPercent(3)
     preis_vorhersage = hardware.getAnalogPercent(4)
+    print("Verbrauch Haus ", verbrauch_haus)
+    print("Solar ", erzeugung_solar)
+    print("Verbrauch Firma ", verbrauch_firma)
+    print("Wind ", erzeugung_wind)
+    print("Preisvorhersage ", preis_vorhersage)
 
 
 if __name__ == "__main__":
@@ -224,7 +229,7 @@ if __name__ == "__main__":
             print("Firma ", verbrauchfirma)
             total_dif += verbrauchfirma
             print("Endverbrauch ", total_dif)
-            total_dif += charge_cars * 
+            total_dif += charge_cars * 0.04
 
             # led rechnen
             housevb = []
