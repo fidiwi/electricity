@@ -22,7 +22,7 @@ class House:
         self.way = hardware.ways[slot]  # Wähle den Weg des zugehörigen Slots
         self.slot = slot
         self.carsCurrentlyCharging = carsCurrentlyCharging
-    
+
     def setCarsCharging(self, carsCharging):
         self.carsCurrentlyCharging = carsCharging
 
@@ -49,13 +49,13 @@ class Mehrfamilienhaus(House):
 
 class Firma(House):
     def __init__(self, slot):
-        super().__init__(20, 20, slot, 0)  # Zahlen für den
+        super().__init__(16, 20, slot, 0)  # Zahlen für den
         # Verbrauch einsetzen
 
 
 class Windpark():
     def __init__(self, slot):
-        self.windenergy = 10  # maximale Produktion
+        self.windenergy = 25  # maximale Produktion
         self.way = hardware.ways[slot]
         self.slot = slot
 
@@ -191,11 +191,11 @@ if __name__ == "__main__":
 
     verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
     erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
-    #verbrauch_firma = hardware.getAnalogPercent(2)  # 1
+    # verbrauch_firma = hardware.getAnalogPercent(2)  # 1
     erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
     preis_vorhersage = hardware.getAnalogPercent(4)  # 0
     hours = 0
-    ladeleistung = 11  # in kW 
+    ladeleistung = 11  # in kW
 
     # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!
     houses[0] = Einfamilienhaus(0)
@@ -244,13 +244,14 @@ if __name__ == "__main__":
             # Windpark
             housevb.append(windpark.windenergy * erzeugung_wind)
 
+            # Firma Produktivität festlegen
             dif = houses[5].solar_space * erzeugung_solar
             for vb in housevb:
                 dif += vb
-            
+
             print("dif: ", dif)
             verbrauch_firma = 0.5
-            if dif > 10:
+            if dif > houses[5].max_consumption / 2:
                 verbrauch_firma = dif/houses[5].max_consumption
                 if dif > houses[5].max_consumption:
                     verbrauch_firma = 1
@@ -258,11 +259,10 @@ if __name__ == "__main__":
 
             # Firma
             housevb.append(-(houses[5].max_consumption * verbrauch_firma) + houses[5].solar_space * erzeugung_solar)
-            
 
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[6], windpark: housevb[5]}
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
-            
+
             print(dic)
             # Items mit VB = 0
             keys_with_zero = []
@@ -271,7 +271,7 @@ if __name__ == "__main__":
                     keys_with_zero.append(key)
             for key in keys_with_zero:
                 del vb_sortiert[key]
-            
+
             keys = list(vb_sortiert.keys())
 
             total_dif = 0  # Verbrauch der Siedlung
@@ -284,9 +284,6 @@ if __name__ == "__main__":
             print("storage: ", storage.capacity)
             print("Totale Differenz: ", total_dif)
             print(vb_sortiert)
-         
-
-
             calcled(0, len(vb_sortiert) - 1, vb_sortiert, keys)
 
             # hardware.sonne(erzeugung_solar)
