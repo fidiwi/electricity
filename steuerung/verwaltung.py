@@ -55,7 +55,7 @@ class Firma(House):
 
 class Windpark():
     def __init__(self, slot):
-        self.windenergy = 25  # maximale Produktion
+        self.windenergy = 20  # maximale Produktion
         self.way = hardware.ways[slot]
         self.slot = slot
 
