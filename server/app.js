@@ -3,7 +3,7 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 
-const socketIo = require("socket.io")(server, {
+const io = require("socket.io")(server, {
   cors: {
     origin: '*',
   }
@@ -17,7 +17,7 @@ const index = require("./routes/index");
 
 app.use(index);
 
-const io = socketIo.connect(server); // < Interesting!
+//const io = socketIo.connect(server); // < Interesting!
 
 const getApiAndEmit = "TODO";
 
