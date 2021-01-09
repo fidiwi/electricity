@@ -1,5 +1,6 @@
 const express = require("express");
 const http = require("http");
+const app = express();
 const server = http.createServer(app);
 
 const socketIo = require("socket.io")(server, {
@@ -13,7 +14,7 @@ const config = require("./config.json");
 const port = process.env.PORT || 4001;
 const index = require("./routes/index");
 
-const app = express();
+
 app.use(index);
 
 
