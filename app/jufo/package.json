@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@capacitor/core": "2.4.5",
+    "@ionic/cli": "^6.12.3",
     "@ionic/pwa-elements": "^3.0.2",
     "@ionic/react": "^5.0.7",
     "@ionic/react-hooks": "0.0.8",
@@ -49,7 +50,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.5",
-    "react-scripts": "3.4.0"
+    "react-scripts": "^3.4.4"
   },
   "description": "An Ionic project"
 }
