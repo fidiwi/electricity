@@ -25,7 +25,10 @@ const connection = mysql.createConnection({
 
 io.on("connection", (socket) => {
     console.log("New client connected");
-    socket.emit("FromAPI", "lol");
+    connection.query("SELECT * FROM sliders", (err, rows) => {
+        if (err) throw err;
+        socket.emit("FromAPI", {housevb: rows[0].housevb, companyvb: rows[0].companyvb, sun: rows[0].sun, wind: rows[0].wind, ekarma: rows[0].ekarma});
+    })
     io.on("disconnect", () => {
         console.log("Client disconnected");
     });
