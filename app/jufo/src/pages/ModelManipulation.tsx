@@ -9,12 +9,16 @@ const ENDPOINT = "http://blattgruen.eu:4001";
 
 const ModelManipulation: React.FC = () => {
 
-  const [response, setResponse] = useState<any>({housevb:0, companyvb:0, sun:0, wind:0, ekarma:0});
+  const [response, setResponse] = useState<any>({housevb:0.5, companyvb:0, sun:0, wind:0, ekarma:0});
+
+  const socket = io(ENDPOINT);
 
   useEffect(() => {
-    const socket = io(ENDPOINT);
+    socket.connect();
+    console.log("hi");
     socket.on("FromAPI", (data: any) => {
-      setResponse(data)
+      setResponse(data);
+      console.log("moin");
     });
   }, []);
   const [value, setValue] = useState(0);
@@ -37,35 +41,35 @@ const ModelManipulation: React.FC = () => {
         <IonList>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={5} color="danger" snaps={true} value={response.housevb}>
+            <IonRange min={0} max={100} step={5} color="danger" snaps={true} value={response.housevb * 100}>
               <IonIcon size="small" slot="start" icon={home} />
               <IonIcon slot="end" icon={home} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Sonne</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} value={response.sun} >
+            <IonRange min={0} max={100} step={1} value={response.sun * 100} >
               <IonIcon size="small" slot="start" icon={sunny}/>
               <IonIcon slot="end" icon={sunny} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Firmaverbrauch</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} value={response.companyvb} >
+            <IonRange min={0} max={100} step={1} value={response.companyvb * 100} >
               <IonIcon size="small" slot="start" icon={business}/>
               <IonIcon slot="end" icon={business} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Wind</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} value={response.wind} >
+            <IonRange min={0} max={100} step={1} value={response.wind * 100} >
               <IonIcon size="small" slot="start" icon={cloud} />
               <IonIcon slot="end" icon={cloud} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Vorhersage</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} value={response.ekarma} >
+            <IonRange min={0} max={100} step={1} value={response.ekarma * 100} >
               <IonIcon size="small" slot="start" icon={analytics} />
               <IonIcon slot="end" icon={analytics} />
             </IonRange>
