@@ -1,5 +1,7 @@
 const express = require("express");
 const http = require("http");
+const server = http.createServer(app);
+
 const socketIo = require("socket.io")(server, {
   cors: {
     origin: '*',
@@ -14,7 +16,7 @@ const index = require("./routes/index");
 const app = express();
 app.use(index);
 
-const server = http.createServer(app);
+
 
 const io = socketIo(server); // < Interesting!
 
