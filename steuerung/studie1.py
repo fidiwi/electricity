@@ -19,7 +19,8 @@ for i in erzeugung_wind:
     summe += i
 print(summe/24)
 """
-
+#z = 0
+#p = 0
 produktivität = 0
 i = 0
 
@@ -33,7 +34,8 @@ for j in range(24):
 
     print("dif1: ", dif)
 
-    if i > 5 and i < 23:
+    if i > 5 and i < 22:
+        #p+=1
         verbrauch_firma = 0.5
         if dif > 8:
             verbrauch_firma = dif / 16
@@ -43,6 +45,7 @@ for j in range(24):
         produktivität += verbrauch_firma
     else:
         dif -= 11
+        #z+=1
 
     storage += dif
     if storage < 0:
@@ -64,3 +67,5 @@ for j in range(24):
 print(hauptleitunggeben)
 print(hauptleitungnehmen)
 print(produktivität/16)
+#print(z)
+#print(p)
