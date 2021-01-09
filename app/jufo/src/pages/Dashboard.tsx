@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
 
 import './Dashboard.css';
@@ -52,8 +52,9 @@ const Dashboard: React.FC = () => {
               <IonIcon slot="icon-only" icon={ellipsisVertical}/>
             </IonButton>
           </IonButtons>
-          <IonTitle>
-            So ein geiles Haus
+          <IonTitle color="primary">
+            <IonText color="primary">electri</IonText>
+            <IonText color="dark">CITY</IonText>
           </IonTitle>
         </IonToolbar>
       </IonHeader>
