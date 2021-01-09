@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonTextarea } from '@ionic/react';
 import { analytics, cloud, colorFill, sunny, business, home } from 'ionicons/icons';
-import { RangeValue } from '@ionic/core';
 import { io } from "socket.io-client";
 import './ModelManipulation.css';
 
@@ -9,16 +8,13 @@ const ENDPOINT = "http://blattgruen.eu:4001";
 
 const ModelManipulation: React.FC = () => {
 
-  const [response, setResponse] = useState<any>({housevb:0.5, companyvb:0, sun:0, wind:0, ekarma:0});
+  const [response, setResponse] = useState<any>({housevb:0, companyvb:0, sun:0, wind:0, ekarma:0});
 
   const socket = io(ENDPOINT);
 
   useEffect(() => {
-    socket.connect();
-    console.log("hi");
     socket.on("FromAPI", (data: any) => {
       setResponse(data);
-      console.log("moin");
     });
   }, []);
   const [value, setValue] = useState(0);
