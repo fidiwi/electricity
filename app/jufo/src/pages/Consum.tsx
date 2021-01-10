@@ -1,22 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Consum.css';
 
 import { Line } from "react-chartjs-2"
+import { io } from 'socket.io-client';
+import { urls } from '../vars/vars';
+import { number } from 'yargs';
+import { Interface } from 'readline';
 
 
 const Consum: React.FC = () => {
 
-  const [Jahresgraph, setJahr] = useState<object>({});
-
-  const [Wochengraph, setWoche] = useState<object>({});
-
-  const [Monatsgraph, setMonat] = useState<object>({});
-
-  const [Tagesgraph, setTag] = useState<object>({});
-
-  const dataJahr = {
+  const [dataJahr, setJahr] = useState<{
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        fill: boolean;
+        backgroundColor: string;
+        borderColor: string;
+    }[];
+  }>({
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
     datasets: [
       {
@@ -41,9 +46,18 @@ const Consum: React.FC = () => {
         borderColor: "rgba(75,192,192,1)"
       }
     ]
-  };
+  });
 
-  const dataMonat = {
+  const [dataMonat, setMonat] = useState<{
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        fill: boolean;
+        backgroundColor: string;
+        borderColor: string;
+    }[];
+  }>({
     labels: ["01", "03", "06", "09", "12", "15", "18", "21", "24", "27", "30", "31"],
     datasets: [
       {
@@ -68,9 +82,18 @@ const Consum: React.FC = () => {
         borderColor: "rgba(75,192,192,1)"
       }
     ]
-  };
+  });
 
-  const dataWoche = {
+  const [dataWoche, setWoche] = useState<{
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        fill: boolean;
+        backgroundColor: string;
+        borderColor: string;
+    }[];
+  }>({
     labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
     datasets: [
       {
@@ -95,9 +118,18 @@ const Consum: React.FC = () => {
         borderColor: "rgba(75,192,192,1)"
       }
     ]
-  };
+  });
 
-  const dataTag = {
+  const [dataTag, setTag] = useState<{
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        fill: boolean;
+        backgroundColor: string;
+        borderColor: string;
+    }[];
+  }>({
     labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
       {
@@ -122,7 +154,7 @@ const Consum: React.FC = () => {
         borderColor: "rgba(75,192,192,1)"
       }
     ]
-  };
+  });
 
   const legend = {
     display: true,
@@ -131,6 +163,32 @@ const Consum: React.FC = () => {
       fontSize: 10
     }
   }
+
+
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+
+    socket.emit("login", "housevb");
+    socket.on("FromAPI", (data: any) => {
+
+      let newDataTag = dataTag;
+      let hourList = [];
+
+      for(let hour = 0; hour <=24; hour++){
+        hourList.push(data.hour);
+      }
+
+      newDataTag.datasets[0].data = hourList;
+      setTag(newDataTag);
+      
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  
 
   
   return (

@@ -3,22 +3,21 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem,
 import { analytics, cloud, colorFill, sunny, business, home } from 'ionicons/icons';
 import { io } from "socket.io-client";
 import './ModelManipulation.css';
-
-const ENDPOINT = "http://blattgruen.eu:4001";
+import { urls } from "../vars/vars";
 
 const ModelManipulation: React.FC = () => {
 
   const [response, setResponse] = useState<any>({housevb:0, companyvb:0, sun:0, wind:0, ekarma:0});
 
   useEffect(() => {
-    const socket = io(ENDPOINT);
+    const socket = io(urls.SOCKET_ENDPOINT);
+    socket.emit("login", "manipulation");
     socket.on("FromAPI", (data: any) => {
       setResponse(data);
     });
 
     return () => {
       socket.disconnect();
-      console.log("disconnected");
     };
   }, []);
 
