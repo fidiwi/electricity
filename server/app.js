@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
         if (err) throw err;
         socket.emit("FromAPI", {housevb: rows[0].housevb, companyvb: rows[0].companyvb, sun: rows[0].sun, wind: rows[0].wind, ekarma: rows[0].ekarma});
     })
-    io.on("disconnect", () => {
+    socket.on("disconnect", () => {
         console.log("Client disconnected");
     });
 });
