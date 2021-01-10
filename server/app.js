@@ -21,7 +21,7 @@ app.use(index);
 
 const getApiAndEmit = "TODO";
 
-const connection = mysql.createConnection({
+const SQLconnection = mysql.createConnection({
   host: 'localhost',
   user: config.user,
   password: config.password,
@@ -30,16 +30,34 @@ const connection = mysql.createConnection({
 
 io.on("connection", (socket) => {
     console.log("New client connected");
-    connection.query("SELECT * FROM sliders", (err, rows) => {
+
+    socket.on("manipulation", () => {
+      SQLconnection.query("SELECT * FROM sliders", (err, rows) => {
         if (err) throw err;
         socket.emit("FromAPI", {housevb: rows[0].housevb, companyvb: rows[0].companyvb, sun: rows[0].sun, wind: rows[0].wind, ekarma: rows[0].ekarma});
-    })
+      });
+    });
+
+    socket.on("housevb", () => {
+      SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
+        if (err) throw err;
+        let entries = {};
+        for(let row of rows){
+          entries[row.hour] = row.vb;
+        }
+
+        // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
+        socket.emit("FromAPI", entries);
+      });
+    });
+
+
     socket.on("disconnect", () => {
         console.log("Client disconnected");
     });
 });
 
-connection.connect((err) => {
+SQLconnection.connect((err) => {
   if (err) throw err;
   console.log('Connected!');
 });
