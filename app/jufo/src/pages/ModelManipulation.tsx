@@ -10,13 +10,18 @@ const ModelManipulation: React.FC = () => {
 
   const [response, setResponse] = useState<any>({housevb:0, companyvb:0, sun:0, wind:0, ekarma:0});
 
-  const socket = io(ENDPOINT);
-
   useEffect(() => {
+    const socket = io(ENDPOINT);
     socket.on("FromAPI", (data: any) => {
       setResponse(data);
     });
+
+    return () => {
+      socket.disconnect();
+      console.log("disconnected");
+    };
   }, []);
+
   const [value, setValue] = useState(0);
   const [rangeValue, setRangeValue] = useState<{
     lower: number;
