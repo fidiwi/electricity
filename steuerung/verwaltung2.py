@@ -172,7 +172,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
 
 if __name__ == "__main__":
     houses = {}
-    storage = Storage(200, 0, 350)
+    storage = Storage(0, 0, 350)
 
     verbrauchfirma = 0
 
