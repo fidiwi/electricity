@@ -36,6 +36,12 @@ io.on("connection", (socket) => {
         if (err) throw err;
         socket.emit("FromAPI", {housevb: rows[0].housevb, companyvb: rows[0].companyvb, sun: rows[0].sun, wind: rows[0].wind, ekarma: rows[0].ekarma});
       });
+      socket.on("rangeChange", (data) =>{
+        const param = data.param;
+        const value = data.value;
+
+        SQLconnection.query(`UPDATE slider SET ${param} = ${value} WHERE id=1`, (err) => {if (err) throw err;});
+      });
     });
 
     socket.on("housevb", () => {
