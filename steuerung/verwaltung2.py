@@ -60,7 +60,7 @@ class Firma(House):
 
 class Windpark():
     def __init__(self, slot):
-        self.windenergy = 20  # maximale Produktion
+        self.windenergy = 5  # maximale Produktion
         self.way = hardware.ways[slot]
         self.slot = slot
 
@@ -245,10 +245,10 @@ if __name__ == "__main__":
         for items in vb_sortiert.values():
             total_dif += items
             print(items)
-        
+
         if Stunde < 6 and Stunde > 21:
             total_dif -= 11
-        
+
         storage.startCharging(total_dif)
 
         print("storage: ", storage.capacity)
