@@ -168,19 +168,47 @@ const Consum: React.FC = () => {
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
 
-    socket.emit("login", "housevb");
+    socket.emit("housevb");
     socket.on("FromAPI", (data: any) => {
 
-      let newDataTag = dataTag;
+      console.log("api received:");
+      console.log(data);
       let hourList = [];
 
       for(let hour = 0; hour <=24; hour++){
-        hourList.push(data.hour);
+        hourList.push(data[hour]);
       }
+      console.log(hourList);
 
-      newDataTag.datasets[0].data = hourList;
+      let newDataTag = {
+        labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
+        datasets: [
+          {
+            label: "SVB",
+            data: hourList,
+            fill: false,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(204,0,0,1)"
+          },
+          {
+            label: "Produktion",
+            data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23],
+            fill: true,
+            backgroundColor: "rgba(0,204,0,0.2)",
+            borderColor: "rgba(0,204,0,1)"
+          },
+          {
+            label: "Differenz",
+            data: [-33, 53, 5, -41, 24, 5, 51, 54, 76, -33, 53, 85, -41],
+            fill: false,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(75,192,192,1)"
+          }
+        ]
+      }
+      console.log(newDataTag);
       setTag(newDataTag);
-      
+      console.log(dataTag);
     });
 
     return () => {
