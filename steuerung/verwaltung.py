@@ -28,7 +28,17 @@ def connect():
 
 @sio.on("FromAPI")
 def message(data):
-    print("I received a message! ")
+    global verbrauch_haus
+    global erzeugung_solar
+    global verbrauch_firma
+    global erzeugung_wind
+    global preis_vorhersage
+
+    verbrauch_haus = data['housevb']
+    erzeugung_solar = data['sun']
+    verbrauch_firma = data['companyvb']
+    erzeugung_wind = data['wind']
+    preis_vorhersage = data['ekarma']
     print(data)
 
 
@@ -182,17 +192,44 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
             ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
 
 
-def updatePotiValues():
+def checkPotiValues():
     global verbrauch_haus
     global erzeugung_solar
     global verbrauch_firma
     global erzeugung_wind
     global preis_vorhersage
-    verbrauch_haus = hardware.getAnalogPercent(0)
-    erzeugung_solar = hardware.getAnalogPercent(1)
-    verbrauch_firma = hardware.getAnalogPercent(2)
-    erzeugung_wind = hardware.getAnalogPercent(3)
-    preis_vorhersage = hardware.getAnalogPercent(4)
+
+    global hausA
+    global sunA
+    global firmaA
+    global windA
+    global preisA
+
+    mVerbrauch_haus = hardware.getAnalogPercent(0)
+    mErzeugung_solar = hardware.getAnalogPercent(1)
+    mVerbrauch_firma = hardware.getAnalogPercent(2)
+    mErzeugung_wind = hardware.getAnalogPercent(3)
+    mPreis_vorhersage = hardware.getAnalogPercent(4)
+
+    new = [mVerbrauch_haus, mErzeugung_solar, mVerbrauch_firma, mErzeugung_wind, mPreis_vorhersage]
+    old = [hausA, sunA, firmaA, windA, preisA]
+    tags = ["housevb", "sun", "companyvb", "wind", "ekarma"]
+
+    for i in range(5):
+        if abs(new[i] - old[i]) > 10:
+            sio.emit("rangeChange", {'param':tags[i], 'value': new[i]})
+            if i == 0:
+                verbrauch_haus = new[i]
+            elif i == 1:
+                erzeugung_solar = new[i]
+            elif i == 2:
+                verbrauch_firma = new[i]
+            elif i == 3:
+                erzeugung_wind = new[i]
+            elif i == 4:
+                preis_vorhersage = new[i]
+        old[i] = new[i]
+
     print("Verbrauch Haus ", verbrauch_haus)
     print("Solar ", erzeugung_solar)
     print("Verbrauch Firma ", verbrauch_firma)
@@ -202,19 +239,27 @@ def updatePotiValues():
 
 if __name__ == "__main__":
 
+    verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
+    erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
+    verbrauch_firma = hardware.getAnalogPercent(2)  # 1
+    erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
+    preis_vorhersage = hardware.getAnalogPercent(4)  # 0
+
+
     # SocketIO Connection herstellen und als Raspberry anmelden
-    sio.connect(SOCKETIO_ENDPOINT)
+    sio.connect(SOCKETIO_ENDPOINT).wait()
 
     houses = {}
     storage = Storage(200, 0, 350)
 
     verbrauchfirma = 0
 
-    verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
-    erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
-    # verbrauch_firma = hardware.getAnalogPercent(2)  # 1
-    erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
-    preis_vorhersage = hardware.getAnalogPercent(4)  # 0
+    hausA = verbrauch_haus
+    sunA = erzeugung_solar
+    firmaA = verbrauch_firma
+    windA = erzeugung_wind
+    preisA = preis_vorhersage
+    
     hours = 0
     ladeleistung = 11  # in kW
 
@@ -235,7 +280,13 @@ if __name__ == "__main__":
     try:
 
         while True:
-            updatePotiValues()
+            global verbrauch_haus
+            global erzeugung_solar
+            global verbrauch_firma
+            global erzeugung_wind
+            global preis_vorhersage
+
+            checkPotiValues()
             """dif = {}
             total_dif = 0  # Verbrauch der Siedlung
             for house_key in houses:
