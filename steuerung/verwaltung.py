@@ -34,18 +34,7 @@ def connect():
 
 @sio.on("FromAPI")
 def message(data):
-    global verbrauch_haus
-    global erzeugung_solar
-    global verbrauch_firma
-    global erzeugung_wind
-    global preis_vorhersage
-
-    verbrauch_haus = data['housevb']
-    erzeugung_solar = data['sun']
-    verbrauch_firma = data['companyvb']
-    erzeugung_wind = data['wind']
-    preis_vorhersage = data['ekarma']
-    print(data)
+    updateDBPotiValues()
 
 
 class House:
@@ -241,6 +230,21 @@ def checkPotiValues():
     print("Verbrauch Firma ", verbrauch_firma)
     print("Wind ", erzeugung_wind)
     print("Preisvorhersage ", preis_vorhersage)
+
+
+def updateDBPotiValues(data):
+    global verbrauch_haus
+    global erzeugung_solar
+    global verbrauch_firma
+    global erzeugung_wind
+    global preis_vorhersage
+
+    verbrauch_haus = data['housevb']
+    erzeugung_solar = data['sun']
+    verbrauch_firma = data['companyvb']
+    erzeugung_wind = data['wind']
+    preis_vorhersage = data['ekarma']
+    print(data)
 
 
 if __name__ == "__main__":
