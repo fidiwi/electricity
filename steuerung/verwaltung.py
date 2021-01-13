@@ -28,7 +28,8 @@ def connect():
 
 @sio.on("FromAPI")
 def message(data):
-    print("I received a message!")
+    print("I received a message! ")
+    print(data)
 
 
 class House:
