@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonPage, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import { construct } from 'ionicons/icons';
 import React from 'react';
 
@@ -72,13 +72,12 @@ const Company: React.FC = () => {
             <IonCardSubtitle>Stromverbrauch: 20kW</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
-        <IonItemDivider>Produktivität manuell setzen</IonItemDivider>
-          <IonItem>
-            <IonRange min={0} max={100} step={1}>
-              <IonIcon size="small" slot="start" icon={construct} />
-              <IonIcon slot="end" icon={construct} />
-            </IonRange>
-          </IonItem>
+      <IonList>
+        <IonItem>
+          <IonLabel>Firma an- oder ausschalten</IonLabel>
+          <IonToggle slot="start" name="Firma" color="success" checked></IonToggle>
+        </IonItem>
+      </IonList>
     </IonContent>
   </IonPage>
   );
