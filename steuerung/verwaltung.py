@@ -290,11 +290,6 @@ if __name__ == "__main__":
     try:
 
         while True:
-            global verbrauch_haus
-            global erzeugung_solar
-            global verbrauch_firma
-            global erzeugung_wind
-            global preis_vorhersage
 
             checkPotiValues()
             """dif = {}
