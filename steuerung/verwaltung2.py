@@ -20,6 +20,7 @@ verbrauch_hausliste = [0.2, 0.2, 0.2, 0.2, 0.2, 0.3, 0.5, 0.7, 0.8, 0.6, 0.5, 0.
 erzeugung_solarliste = [0, 0, 0, 0, 0, 0, 0, 0.07, 0.28, 0.49, 0.63, 0.73, 0.3, 0.8, 0.76, 0.68, 0.52, 0.31, 0.24, 0.07, 0.05, 0, 0, 0]
 erzeugung_windliste = [0.61, 0.5, 0.5, 0.39, 0.39, 0.33, 0.39, 0.39, 0.5, 0.61, 0.72, 0.83, 0.83, 0.94, 0.94, 0.94, 1.06, 1.06, 0.94, 0.94, 0.72, 0.61, 0.5, 0.5]
 
+
 class House:
     def __init__(self, max_consumption, solar_space, slot, carsCurrentlyCharging):
         self.max_consumption = max_consumption  # Maximaler Verbrauch in kW(h)
@@ -199,7 +200,7 @@ if __name__ == "__main__":
         erzeugung_solar = erzeugung_solarliste[Stunde]
         erzeugung_wind = erzeugung_windliste[Stunde]
 
-        houses[1].setCarsCharging(0)
+        houses[1].setCarsCharging(1)
         # led rechnen
         housevb = []
         for i in range(5):
@@ -209,7 +210,7 @@ if __name__ == "__main__":
 
         # Firma Produktivität festlegen
         if Stunde > 5 and Stunde < 22:
-            dif = houses[5].solar_space * erzeugung_solar
+            dif = houses[5].solar_space * erzeugung_solar - 11
             for vb in housevb:
                 dif += vb
 
@@ -260,4 +261,5 @@ if __name__ == "__main__":
         Stunde += 1
         if Stunde == 24:
             Stunde = 0
+        print("Stunde: ", Stunde)
         time.sleep(2)
