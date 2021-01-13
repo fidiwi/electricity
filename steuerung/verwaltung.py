@@ -25,6 +25,12 @@ verbrauch_firma = None
 erzeugung_wind = None
 preis_vorhersage = None
 
+hausA = None
+sunA = None
+firmaA = None
+windA = None
+preisA = None
+
 
 @sio.event
 def connect():
@@ -257,6 +263,7 @@ def startScript():
             global erzeugung_wind
             global preis_vorhersage
             global hours
+            global houses
 
             checkPotiValues()
             """dif = {}
@@ -349,18 +356,11 @@ if __name__ == "__main__":
 
 
     # SocketIO Connection herstellen und als Raspberry anmelden
-    sio.connect(SOCKETIO_ENDPOINT)
 
     houses = {}
     storage = Storage(200, 0, 350)
 
     verbrauchfirma = 0
-
-    hausA = verbrauch_haus
-    sunA = erzeugung_solar
-    firmaA = verbrauch_firma
-    windA = erzeugung_wind
-    preisA = preis_vorhersage
     
     hours = 0
     ladeleistung = 11  # in kW
@@ -378,5 +378,7 @@ if __name__ == "__main__":
                                  LED_DMA, LED_INVERT, LED_BRIGHTNESS,
                                  LED_CHANNEL)
     ledStrip.begin()
+
+    sio.connect(SOCKETIO_ENDPOINT)
 
     
