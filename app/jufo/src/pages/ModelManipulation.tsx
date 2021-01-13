@@ -54,7 +54,7 @@ const ModelManipulation: React.FC = () => {
         <IonList>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
-            <IonRange ref={housevbRange} name="housevb" min={0} max={1} step={0.05} color="danger" snaps={true} value={response.housevb} onIonChange={() => {pushRangeChange(housevbRange)}} >
+            <IonRange ref={housevbRange} name="housevb" min={0} max={1} step={0.01} value={response.housevb} onIonChange={() => {pushRangeChange(housevbRange)}} >
               <IonIcon size="small" slot="start" icon={home} />
               <IonIcon slot="end" icon={home} />
             </IonRange>
