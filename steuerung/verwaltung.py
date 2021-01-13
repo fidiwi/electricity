@@ -1,8 +1,13 @@
 import time
 import hardware
+import socketio
 from rpi_ws281x import Color
 
+sio = socketio.Client()
+
 houses = {}
+
+SOCKETIO_ENDPOINT = "http://blattgruen.eu:4001"
 
 # LED strip configuration:
 LED_COUNT      = 180     # Number of LED pixels.
@@ -13,6 +18,10 @@ LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
 LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
+
+@sio.event("FromAPI")
+def message(data):
+    print("I received a message!")
 
 
 class House:
@@ -184,6 +193,11 @@ def updatePotiValues():
 
 
 if __name__ == "__main__":
+
+    # SocketIO Connection herstellen und als Raspberry anmelden
+    sio.connect(SOCKETIO_ENDPOINT)
+    sio.emit("raspberry")
+
     houses = {}
     storage = Storage(200, 0, 350)
 
@@ -291,4 +305,5 @@ if __name__ == "__main__":
             time.sleep(2)
 
     except KeyboardInterrupt:
+        sio.disconnect()
         pass
