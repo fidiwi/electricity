@@ -17,7 +17,6 @@ const index = require("./routes/index");
 
 app.use(index);
 
-//const io = socketIo.connect(server); // < Interesting!
 
 const getApiAndEmit = "TODO";
 
