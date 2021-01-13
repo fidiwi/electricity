@@ -34,7 +34,7 @@ def connect():
 
 @sio.on("FromAPI")
 def message(data):
-    updateDBPotiValues()
+    updateDBPotiValues(data)
 
 
 class House:
