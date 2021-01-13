@@ -19,7 +19,14 @@ LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-@sio.event("FromAPI")
+
+@sio.event
+def connect():
+    print("Connected to Socket!")
+    sio.emit("raspberry")
+
+
+@sio.event()
 def message(data):
     print("I received a message!")
 
@@ -196,7 +203,6 @@ if __name__ == "__main__":
 
     # SocketIO Connection herstellen und als Raspberry anmelden
     sio.connect(SOCKETIO_ENDPOINT)
-    sio.emit("raspberry")
 
     houses = {}
     storage = Storage(200, 0, 350)
