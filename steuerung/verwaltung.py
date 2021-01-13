@@ -349,7 +349,7 @@ if __name__ == "__main__":
 
 
     # SocketIO Connection herstellen und als Raspberry anmelden
-    sio.connect(SOCKETIO_ENDPOINT).wait()
+    sio.connect(SOCKETIO_ENDPOINT)
 
     houses = {}
     storage = Storage(200, 0, 350)
