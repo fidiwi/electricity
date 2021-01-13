@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
         const param = data.param;
         const value = data.value;
 
-        SQLconnection.query(`UPDATE slider SET ${param} = ${value} WHERE id=1`, (err) => {if (err) throw err;});
+        SQLconnection.query(`UPDATE sliders SET ${param} = ${value} WHERE id=1`, (err) => {if (err) throw err;});
       });
     });
 
