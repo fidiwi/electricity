@@ -26,7 +26,7 @@ def connect():
     sio.emit("raspberry")
 
 
-@sio.event()
+@sio.on("FromAPI")
 def message(data):
     print("I received a message!")
 
