@@ -30,6 +30,7 @@ preis_vorhersage = None
 def connect():
     print("Connected to Socket!")
     sio.emit("raspberry")
+    startScript()
 
 
 @sio.on("FromAPI")
@@ -247,49 +248,15 @@ def updateDBPotiValues(data):
     print(data)
 
 
-if __name__ == "__main__":
-
-    verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
-    erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
-    verbrauch_firma = hardware.getAnalogPercent(2)  # 1
-    erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
-    preis_vorhersage = hardware.getAnalogPercent(4)  # 0
-
-
-    # SocketIO Connection herstellen und als Raspberry anmelden
-    sio.connect(SOCKETIO_ENDPOINT).wait()
-
-    houses = {}
-    storage = Storage(200, 0, 350)
-
-    verbrauchfirma = 0
-
-    hausA = verbrauch_haus
-    sunA = erzeugung_solar
-    firmaA = verbrauch_firma
-    windA = erzeugung_wind
-    preisA = preis_vorhersage
-    
-    hours = 0
-    ladeleistung = 11  # in kW
-
-    # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!
-    houses[0] = Einfamilienhaus(0)
-    houses[1] = Reihenhaus(1)
-    houses[2] = Reihenhaus(2)
-    houses[3] = Apartment(3)
-    houses[4] = Mehrfamilienhaus(4)
-    houses[5] = Firma(5)
-    windpark = Windpark(6)
-
-    ledStrip = hardware.LEDStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ,
-                                 LED_DMA, LED_INVERT, LED_BRIGHTNESS,
-                                 LED_CHANNEL)
-    ledStrip.begin()
-
+def startScript():
     try:
-
         while True:
+            global verbrauch_haus
+            global erzeugung_solar
+            global verbrauch_firma
+            global erzeugung_wind
+            global preis_vorhersage
+            global hours
 
             checkPotiValues()
             """dif = {}
@@ -370,3 +337,46 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         sio.disconnect()
         pass
+
+
+if __name__ == "__main__":
+
+    verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
+    erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
+    verbrauch_firma = hardware.getAnalogPercent(2)  # 1
+    erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
+    preis_vorhersage = hardware.getAnalogPercent(4)  # 0
+
+
+    # SocketIO Connection herstellen und als Raspberry anmelden
+    sio.connect(SOCKETIO_ENDPOINT).wait()
+
+    houses = {}
+    storage = Storage(200, 0, 350)
+
+    verbrauchfirma = 0
+
+    hausA = verbrauch_haus
+    sunA = erzeugung_solar
+    firmaA = verbrauch_firma
+    windA = erzeugung_wind
+    preisA = preis_vorhersage
+    
+    hours = 0
+    ladeleistung = 11  # in kW
+
+    # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!
+    houses[0] = Einfamilienhaus(0)
+    houses[1] = Reihenhaus(1)
+    houses[2] = Reihenhaus(2)
+    houses[3] = Apartment(3)
+    houses[4] = Mehrfamilienhaus(4)
+    houses[5] = Firma(5)
+    windpark = Windpark(6)
+
+    ledStrip = hardware.LEDStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ,
+                                 LED_DMA, LED_INVERT, LED_BRIGHTNESS,
+                                 LED_CHANNEL)
+    ledStrip.begin()
+
+    
