@@ -59,10 +59,6 @@ const Settings: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonList>
-        <IonListHeader>Passwort eingeben</IonListHeader>
-          <IonItem>
-            <IonInput placeholder="Passwort" type="password" onIonChange={e => setPasswort(e.detail.value!)}></IonInput>
-          </IonItem>
           <IonListHeader>
             <IonLabel>
               Haustyp auswählen
@@ -76,6 +72,10 @@ const Settings: React.FC = () => {
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
               <IonSelectOption value="0">Apartment</IonSelectOption>
             </IonSelect>
+          </IonItem>
+          <IonListHeader>Passwort eingeben</IonListHeader>
+          <IonItem>
+            <IonInput placeholder="Passwort" type="password" onIonChange={e => setPasswort(e.detail.value!)}></IonInput>
           </IonItem>
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>
