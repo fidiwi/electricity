@@ -52,7 +52,7 @@ const Price: React.FC = () => {
           <Line data={dataTag}/>
           <IonCardHeader>
               <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-              <IonCardTitle>10kW</IonCardTitle>
+              <IonCardTitle>Sehr gut</IonCardTitle>
           </IonCardHeader>
         </IonCard>
         <IonItem>
