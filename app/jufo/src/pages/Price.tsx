@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Price.css';
 
@@ -57,31 +57,11 @@ const Price: React.FC = () => {
         </IonCard>
         <IonItem>
           <IonLabel>Auto soll angschlossen sein: </IonLabel>
-          <IonSelect value={aufladpunkt} okText="Okay" cancelText="Cancel" onIonChange={e => setaufladpunkt(e.detail.value)}>
-            <IonSelectOption value="16">16 Uhr</IonSelectOption>
-            <IonSelectOption value="17">17 Uhr</IonSelectOption>
-            <IonSelectOption value="18">18 Uhr</IonSelectOption>
-            <IonSelectOption value="19">19 Uhr</IonSelectOption>
-            <IonSelectOption value="20">20 Uhr</IonSelectOption>
-            <IonSelectOption value="21">21 Uhr</IonSelectOption>
-            <IonSelectOption value="22">22 Uhr</IonSelectOption>
-            <IonSelectOption value="23">23 Uhr</IonSelectOption>
-            <IonSelectOption value="24">24 Uhr</IonSelectOption>
-          </IonSelect>
+          <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-17 20:00"></IonDatetime>
         </IonItem>
         <IonItem>
           <IonLabel>Auto soll aufgeladen sein: </IonLabel>
-          <IonSelect value={fertig} okText="Okay" cancelText="Cancel" onIonChange={e => setfertig(e.detail.value)}>
-            <IonSelectOption value="05">05 Uhr</IonSelectOption>
-            <IonSelectOption value="06">06 Uhr</IonSelectOption>
-            <IonSelectOption value="07">07 Uhr</IonSelectOption>
-            <IonSelectOption value="08">08 Uhr</IonSelectOption>
-            <IonSelectOption value="09">09 Uhr</IonSelectOption>
-            <IonSelectOption value="10">10 Uhr</IonSelectOption>
-            <IonSelectOption value="11">11 Uhr</IonSelectOption>
-            <IonSelectOption value="12">12 Uhr</IonSelectOption>
-            <IonSelectOption value="13">13 Uhr</IonSelectOption>
-          </IonSelect>
+          <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-18 06:00"></IonDatetime>
         </IonItem>
       </IonContent>
     </IonPage>
