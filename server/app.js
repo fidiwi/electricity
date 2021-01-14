@@ -194,7 +194,7 @@ function sendStorage(socket){
 
 // Sende Grundstücksituation an den jeweiligen Socket
 function sendHouses(socket){
-  SQLconnection.query("SELECT * FROM houses", (err, rows) => {
+  SQLconnection.query("SELECT * FROM house", (err, rows) => {
     if (err) throw err;
     socket.emit("FromAPI", rows);
   });
