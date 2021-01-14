@@ -12,23 +12,30 @@ import { Line } from "react-chartjs-2"
 const Dashboard: React.FC = () => {
 
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: ["02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
       {
         label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
-        fill: true,
+        data: [3, -3, 5, 4, -4, -5, 3, 2, 3, 1, 4, -2],
+        fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
       },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
-        fill: false,
-        borderColor: "#742774"
-      }
-    ]
+    ],
   };
+  const options = {
+    scales: {
+        yAxes: [
+        {
+            ticks: {
+            suggestedMin: -5,
+            suggestedMax: 5
+            }
+        }
+        ]
+    }
+    
+};
 
   const rangeElement = useRef<HTMLIonRangeElement>(null);
   
