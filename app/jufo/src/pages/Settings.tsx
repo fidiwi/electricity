@@ -33,7 +33,53 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItemDivider>Aktuelle Auswahl</IonItemDivider>
           <IonItem>Aktueller Haustyp: {hausmodell}</IonItem>
-        </IonList>
+          <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
+          <IonItem>
+            <IonLabel>Grundstück 1:</IonLabel>
+            <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
+              <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Einfamilienhaus">Einfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Apartment">Apartment</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Grundstück 2:</IonLabel>
+            <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
+              <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Einfamilienhaus">Einfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Apartment">Apartment</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Grundstück 3:</IonLabel>
+            <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
+              <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Einfamilienhaus">Einfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Apartment">Apartment</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Grundstück 4:</IonLabel>
+            <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
+              <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Einfamilienhaus">Einfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Apartment">Apartment</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Grundstück 5:</IonLabel>
+            <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
+              <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Einfamilienhaus">Einfamilienhaus</IonSelectOption>
+              <IonSelectOption value="Apartment">Apartment</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+        </IonList>        
       </IonContent>
     </IonPage>
   );
