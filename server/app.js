@@ -130,7 +130,7 @@ io.on("connection", (socket) => {
     sendHouses(socket);
 
     socket.on("houseChange", (data) => {
-      SQLconnection.query(`UPDATE houses SET houses = ${data.house} WHERE id=${data.id}`, (err) => {if (err) throw err;});
+      SQLconnection.query(`UPDATE houses SET house = ${data.house} WHERE id=${data.id}`, (err) => {if (err) throw err;});
       
       settingsSockets.forEach(function(settingsSocket){
         if(settingsSocket != socket){
@@ -194,7 +194,7 @@ function sendStorage(socket){
 
 // Sende Grundstücksituation an den jeweiligen Socket
 function sendHouses(socket){
-  SQLconnection.query("SELECT * FROM house", (err, rows) => {
+  SQLconnection.query("SELECT * FROM houses", (err, rows) => {
     if (err) throw err;
     socket.emit("FromAPI", rows);
   });
