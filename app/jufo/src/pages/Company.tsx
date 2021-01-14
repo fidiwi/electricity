@@ -46,6 +46,19 @@ const Company: React.FC = () => {
       },
     ]
   };
+  const options = {
+    scales: {
+        yAxes: [
+        {
+            ticks: {
+            suggestedMin: 0,
+            suggestedMax: 100
+            }
+        }
+        ]
+    }
+    
+};
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
 
@@ -62,7 +75,7 @@ const Company: React.FC = () => {
       console.log(hourList);
 
       let newDataProduktivität = {
-        labels: ["06", "08", "10", "12", "14", "16", "18", "20", "22"],
+        labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
         datasets: [
           {
             label: "Produktivität",
@@ -97,7 +110,7 @@ const Company: React.FC = () => {
         <IonCard>
           <IonCardContent>
             <IonCardTitle>Produktivität</IonCardTitle>
-            <Line data={Produktivität}/>
+            <Line data={Produktivität} options={options}/>
             <IonCardSubtitle>Produktivität: 90%</IonCardSubtitle>
           </IonCardContent>
         </IonCard>

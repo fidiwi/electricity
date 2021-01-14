@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonItemDivider, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonItemDivider, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
 import { io } from "socket.io-client";
 import { urls } from '../vars/vars';
 import { Interface } from 'readline';
@@ -57,6 +57,10 @@ const Settings: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonList>
+        <IonListHeader>Passwort eingeben</IonListHeader>
+          <IonItem>
+            <IonInput placeholder="Passwort" type="password" ></IonInput>
+          </IonItem>
           <IonListHeader>
             <IonLabel>
               Haustyp auswählen

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonTextarea } from '@ionic/react';
-import { analytics, cloud, colorFill, sunny, business, home } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonTextarea, IonInput, IonListHeader } from '@ionic/react';
+import { analytics, cloud, colorFill, sunny, business, home, text } from 'ionicons/icons';
 import { io, Socket } from "socket.io-client";
 import './ModelManipulation.css';
 import { urls } from "../vars/vars";
+
 
 const ModelManipulation: React.FC = () => {
 
@@ -52,9 +53,13 @@ const ModelManipulation: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonList>
+        <IonListHeader>Passwort eingeben</IonListHeader>
+          <IonItem>
+            <IonInput placeholder="Passwort" type="password" ></IonInput>
+          </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
-            <IonRange ref={housevbRange} name="housevb" min={0} max={1} step={0.01} value={response.housevb} onIonChange={() => {pushRangeChange(housevbRange)}} >
+            <IonRange ref={housevbRange} name="housevb" min={0} max={1} step={0.01} value={response.housevb} disabled={true} onIonChange={() => {pushRangeChange(housevbRange)}} >
               <IonIcon size="small" slot="start" icon={home} />
               <IonIcon slot="end" icon={home} />
             </IonRange>
