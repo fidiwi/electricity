@@ -29,7 +29,7 @@ const Settings: React.FC = () => {
             </IonLabel>
           </IonListHeader>
           <IonItem>
-            <IonLabel>Aktueller Haustyp:</IonLabel>
+            <IonLabel>Aktuelles Grundstück:</IonLabel>
             <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
               <IonSelectOption value="Reihenhaus">Reihenhaus</IonSelectOption>
               <IonSelectOption value="Mehrfamilienhaus">Mehrfamilienhaus</IonSelectOption>
@@ -37,8 +37,6 @@ const Settings: React.FC = () => {
               <IonSelectOption value="Apartment">Apartment</IonSelectOption>
             </IonSelect>
           </IonItem>
-          <IonItemDivider>Aktuelle Auswahl</IonItemDivider>
-          <IonItem>Aktueller Haustyp: {hausmodell}</IonItem>
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>
             <IonLabel>Grundstück 1:</IonLabel>

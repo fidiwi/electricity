@@ -1,18 +1,25 @@
 import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonPage, IonProgressBar, IonRange, IonTitle, IonToolbar } from '@ionic/react';
 import { options, batteryDead, batteryFull } from 'ionicons/icons';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { io, Socket } from "socket.io-client";
 
 import { Line } from "react-chartjs-2"
+import { urls } from '../vars/vars';
 
 const Battery: React.FC = () => {
-
-    const rangeElement = useRef<HTMLIonRangeElement>(null);
+    useEffect(() => {
+        const socket = io(urls.SOCKET_ENDPOINT);
+        socket.emit("dashboard");
+        socket.on("FromAPI", (data: any) => {
+          setProzent(data.storage_kwh);
+        });
+    
+        return () => {
+          socket.disconnect();
+        };
+      }, []);
 
     const [Prozent, setProzent] = useState<number>(0);
-    
-    const setRange = () => {
-        setProzent(+rangeElement.current!.value);
-    };
 
     const Akkustand = {
         labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
@@ -55,11 +62,11 @@ const Battery: React.FC = () => {
                 <IonCard routerLink="/battery">
                     <IonCardHeader>
                         <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
-                        <IonCardTitle text-center>{Math.round(350*(Prozent/100))} kWh | {Prozent}%</IonCardTitle>
+                        <IonCardTitle text-center>{Prozent} kWh | {Math.round(Prozent/3.5)}%</IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
                     <div  className="bar">
-                        <IonProgressBar color="success" value={Prozent/100}/>
+                        <IonProgressBar color="success" value={Prozent/350}/>
                     </div>
                     </IonCardContent>
                 </IonCard>
@@ -67,13 +74,9 @@ const Battery: React.FC = () => {
                 <IonCardHeader>
                     <IonCardTitle>Akkustand</IonCardTitle>
                     <Line data={Akkustand} options={options}/>
-                    <IonCardSubtitle>Aktueller Stand: {Math.round(3.5*Prozent)} kWh | {Prozent}%</IonCardSubtitle>
+                    <IonCardSubtitle>Aktueller Stand: {Prozent} kWh | {Math.round(Prozent/3.5)}%</IonCardSubtitle>
                 </IonCardHeader>
                 </IonCard>
-                <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
-                    <IonIcon slot="start" icon={batteryDead} />
-                    <IonIcon slot="end" icon={batteryFull} />
-                </IonRange>
             </IonContent>
         </IonPage>
     );
