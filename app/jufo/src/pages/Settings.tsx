@@ -78,7 +78,7 @@ const Settings: React.FC = () => {
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>
             <IonLabel>Grundstück 1:</IonLabel>
-            <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 0)}>
+            <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={true} onIonChange={e => updateHouses(e.detail.value, 0)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
