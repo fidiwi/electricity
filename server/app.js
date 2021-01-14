@@ -29,6 +29,7 @@ const SQLconnection = mysql.createConnection({
 
 var manipulationSockets = [];
 var dashboardSockets = [];
+var settingsSockets = [];
 
 io.on("connection", (socket) => {
     console.log("New client connected");
@@ -120,6 +121,33 @@ io.on("connection", (socket) => {
       });
     });
 
+    /**
+     * Settings Connection
+    */
+
+   socket.on("settings", () => {
+     settingsSockets.push(socket);
+     sendHouses(socket);
+
+     socket.on("houseChange", (data) => {
+       data.forEach(function(slot){
+         SQLconnection.query(`UPDATE houses SET hosue = ${slot.house} WHERE id=${slot.id}`, (err) => {if (err) throw err;});
+       });
+       
+       settingsSockets.forEach(function(settingsSocket){
+         sendHouses(settingsSocket);
+       });
+     });
+
+     socket.on("disconnect", () => {
+      const index = dashboardSockets.indexOf(socket);
+      if (index > -1) {
+        manipulationSockets.splice(index, 1);
+      }
+      console.log("Settings disconnected!");
+     });
+   });
+
 });
 
 SQLconnection.connect((err) => {
@@ -161,6 +189,14 @@ function sendStorage(socket){
     if (err) throw err;
     let storageCap = rows[0].storage_kwh
     socket.emit("FromAPI", {storage_kwh: storageCap});
+  });
+}
+
+// Sende Grundstücksituation an den jeweiligen Socket
+function sendHouses(socket){
+  SQLconnection.query("SELECT * FROM houses", (err, rows) => {
+    if (err) throw err;
+    socket.emit("FromAPI", rows);
   });
 }
 
