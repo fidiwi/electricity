@@ -223,7 +223,7 @@ function sendProductivity(socket){
     if (err) throw err;
     let entries = {};
     for(let row of rows){
-      entries[row.hours] = row.produktiviät;
+      entries[row.hours] = row.produktivität;
     }
     socket.emit("FromAPI", entries);
   });
