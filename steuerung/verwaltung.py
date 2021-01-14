@@ -218,7 +218,7 @@ def checkPotiValues():
     tags = ["housevb", "sun", "companyvb", "wind", "ekarma"]
 
     for i in range(5):
-        if abs(new[i] - old[i]) > 10:
+        if abs(new[i] - old[i]) > .02:
             sio.emit("rangeChange", {'param':tags[i], 'value': new[i]})
             if i == 0:
                 verbrauch_haus = new[i]
@@ -353,6 +353,12 @@ if __name__ == "__main__":
     verbrauch_firma = hardware.getAnalogPercent(2)  # 1
     erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
     preis_vorhersage = hardware.getAnalogPercent(4)  # 0
+
+    hausA = verbrauch_haus
+    sunA = erzeugung_solar
+    firmaA = verbrauch_firma
+    windA = erzeugung_wind
+    preisA = preis_vorhersage
 
 
     # SocketIO Connection herstellen und als Raspberry anmelden
