@@ -28,8 +28,7 @@ const SQLconnection = mysql.createConnection({
 });
 
 var manipulationSockets = [];
-var raspiSockets = [];
-var dashboardSockets [];
+var dashboardSockets = [];
 
 io.on("connection", (socket) => {
     console.log("New client connected");
@@ -60,7 +59,6 @@ io.on("connection", (socket) => {
 
     socket.on("raspberry", () => {
       manipulationSockets.push(socket);
-      raspiSockets.push(socket);
       startManipulationSocket(socket);
 
       socket.on("storageChange", (data) => {
@@ -79,6 +77,7 @@ io.on("connection", (socket) => {
         if (index > -1) {
           manipulationSockets.splice(index, 1);
         }
+
       });
     });
 
