@@ -1,15 +1,34 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
 
 import './Dashboard.css';
 
+import { io, Socket } from "socket.io-client";
+
 import erzeugungpic from '../bilder/erzeugung.jpg';
 import verbrauchpic from '../bilder/verbrauch.jpg'
 
 import { Line } from "react-chartjs-2"
+import { urls } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
+
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+    socket.emit("dashboard");
+    socket.on("FromAPI", (data: any) => {
+      setVal(data.storage_kwh);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const [moin, setVal] = useState<number>(0);
+
+  const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
 
   const data = {
     labels: ["02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
@@ -34,18 +53,8 @@ const Dashboard: React.FC = () => {
         }
         ]
     }
-    
-};
-
-  const rangeElement = useRef<HTMLIonRangeElement>(null);
+  }
   
-  const [moin, setVal] = useState<number>(0);
-
-  const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
-
-  const setRange = () => {
-    setVal(+rangeElement.current!.value);
-  };
   return (
     <IonPage>
       <IonHeader>
@@ -96,11 +105,11 @@ const Dashboard: React.FC = () => {
               <IonCard routerLink="/battery">
                 <IonCardHeader>
                     <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
-                    <IonCardTitle text-center>{Math.round(350*(moin/100))} kWh | {moin}%</IonCardTitle>
+                    <IonCardTitle text-center>{moin} kWh | {Math.round(moin/3.5)}%</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
                   <div  className="bar">
-                    <IonProgressBar color="success" value={moin/100}/>
+                    <IonProgressBar color="success" value={moin/350}/>
                   </div>
                 </IonCardContent>
               </IonCard>
@@ -138,13 +147,6 @@ const Dashboard: React.FC = () => {
                 </IonCardHeader>
               </IonCard>
             </IonCol>
-          </IonRow>
-          
-          <IonRow>
-            <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
-              <IonIcon slot="start" icon={batteryDead} />
-              <IonIcon slot="end" icon={batteryFull} />
-            </IonRange>
           </IonRow>
           </IonGrid>
       </IonContent>

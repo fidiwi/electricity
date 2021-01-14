@@ -1,10 +1,25 @@
 import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import { construct } from 'ionicons/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { io, Socket } from "socket.io-client";
 
 import { Line } from "react-chartjs-2"
+import { urls } from '../vars/vars';
 
 const Company: React.FC = () => {
+  const [Produktivität, setProduktivität] = useState({
+    labels: ["06", "08", "10", "12", "14", "16", "18", "20", "22"],
+    datasets: [
+      {
+        label: "Produktivität",
+        data: [33, 53, 85, 41, 44, 65, 33, 100, 45],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(204,0,0,1)"
+      }
+    ]
+  });
+
   const Firma = {
     labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
     datasets: [
@@ -31,19 +46,42 @@ const Company: React.FC = () => {
       },
     ]
   };
-  
-  const Produktivität = {
-    labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
-    datasets: [
-      {
-        label: "Produktivität",
-        data: [33, 53, 85, 41, 44, 65, 33],
-        fill: false,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(204,0,0,1)"
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+
+    socket.emit("produktivitaet");
+    socket.on("FromAPI", (data: any) => {
+
+      console.log("api received:");
+      console.log(data);
+      let hourList = [];
+
+      for(let hour = 6; hour <=21; hour++){
+        hourList.push(data[hour]*100);
       }
-    ]
-  }
+      console.log(hourList);
+
+      let newDataProduktivität = {
+        labels: ["06", "08", "10", "12", "14", "16", "18", "20", "22"],
+        datasets: [
+          {
+            label: "Produktivität",
+            data: hourList,
+            fill: false,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(204,0,0,1)"
+          }
+        ]
+      }
+      setProduktivität(newDataProduktivität);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  
   
   return (
   <IonPage>
