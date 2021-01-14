@@ -30,6 +30,7 @@ const SQLconnection = mysql.createConnection({
 var manipulationSockets = [];
 var dashboardSockets = [];
 var settingsSockets = [];
+var productivitySockets = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -148,6 +149,22 @@ io.on("connection", (socket) => {
     });
   });
 
+  /**
+   * Productivity Connection
+  */
+
+  socket.on("produktivitaet", () => {
+    productivitySockets.push(socket);
+    sendProductivity(socket);
+
+    socket.on("disconnect", () => {
+      const index = productivitySockets.indexOf(socket);
+      if (index > -1) {
+        productivitySockets.splice(index, 1);
+      }
+      console.log("Productivity disconnected!");
+    });
+  });
 });
 
 SQLconnection.connect((err) => {
@@ -197,6 +214,17 @@ function sendHouses(socket){
   SQLconnection.query("SELECT * FROM houses", (err, rows) => {
     if (err) throw err;
     socket.emit("FromAPI", rows);
+  });
+}
+
+// Sende Firmaproduktionsadaten (daily) an den jeweiligen Socket
+function sendProductivity(socket){
+  SQLconnection.query("SELECT * FROM firma_produktivität", (err, rows) => {
+    if (err) throw err;
+    let entries = {};
+    for(let row of rows){
+      entries[row.hours] = row.produktiviät;
+    }
   });
 }
 
