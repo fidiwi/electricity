@@ -133,7 +133,9 @@ io.on("connection", (socket) => {
       SQLconnection.query(`UPDATE houses SET houses = ${data.house} WHERE id=${data.id}`, (err) => {if (err) throw err;});
       
       settingsSockets.forEach(function(settingsSocket){
-        sendHouses(settingsSocket);
+        if(settingsSocket != socket){
+          sendHouses(settingsSocket);
+        }
       });
     });
 
@@ -166,7 +168,7 @@ function startManipulationSocket(socket){
 
     manipulationSockets.forEach(function(manipulationSocket){
       // Jedem anderen "sliders"-Client aktuelle Werte schicken
-      if(manipulationSocket !== socket){
+      if(manipulationSocket != socket){
         sendSliders(manipulationSocket);
       }
     });
