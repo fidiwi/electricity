@@ -18,6 +18,8 @@ const ModelManipulation: React.FC = () => {
 
   const [currentSocket, setSocket] = useState(io());
 
+  const [Password, setPasswort] = useState<string>('');
+
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
     setSocket(socket);
@@ -55,7 +57,7 @@ const ModelManipulation: React.FC = () => {
         <IonList>
         <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" ></IonInput>
+            <IonInput placeholder="Passwort" type="password" onIonChange={e => setPasswort(e.detail.value!)} ></IonInput>
           </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>

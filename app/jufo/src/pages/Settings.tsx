@@ -6,6 +6,8 @@ import { Interface } from 'readline';
 
 const Settings: React.FC = () => {
 
+  const [Password, setPasswort] = useState<string>('');
+
   const [currentSocket, setSocket] = useState(io());
 
   const slot0 = useRef<HTMLIonSelectElement>(null);
@@ -59,7 +61,7 @@ const Settings: React.FC = () => {
         <IonList>
         <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" ></IonInput>
+            <IonInput placeholder="Passwort" type="password" onIonChange={e => setPasswort(e.detail.value!)}></IonInput>
           </IonItem>
           <IonListHeader>
             <IonLabel>
