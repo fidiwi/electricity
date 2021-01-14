@@ -226,6 +226,7 @@ function sendProductivity(socket){
       entries[row.hours] = row.produktiviät;
     }
   });
+  socket.emit("FromAPI", entries);
 }
 
 server.listen(port, () => console.log(`Listening on Port ${port}`));
