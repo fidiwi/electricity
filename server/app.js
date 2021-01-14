@@ -32,121 +32,119 @@ var dashboardSockets = [];
 var settingsSockets = [];
 
 io.on("connection", (socket) => {
-    console.log("New client connected");
+  console.log("New client connected");
 
-    // Jeweilige Client-Art abfragen und in Kategorien speichern
+  // Jeweilige Client-Art abfragen und in Kategorien speichern
 
-    /**
-     * Manipulation Connection
-     */
+  /**
+   * Manipulation Connection
+   */
 
-    socket.on("manipulation", () => {
-      manipulationSockets.push(socket);
-      startManipulationSocket(socket);
+  socket.on("manipulation", () => {
+    manipulationSockets.push(socket);
+    startManipulationSocket(socket);
 
-      socket.on("disconnect", () => {
-        console.log("Manipulation disconnected");
+    socket.on("disconnect", () => {
+      console.log("Manipulation disconnected");
 
-        const index = manipulationSockets.indexOf(socket);
-        if (index > -1) {
-          manipulationSockets.splice(index, 1);
-        }
+      const index = manipulationSockets.indexOf(socket);
+      if (index > -1) {
+        manipulationSockets.splice(index, 1);
+      }
+    });
+  });
+
+  /**
+   * Raspberry Pi Connection
+   */
+
+  socket.on("raspberry", () => {
+    manipulationSockets.push(socket);
+    startManipulationSocket(socket);
+
+    socket.on("storageChange", (data) => {
+      const value = data.value;
+
+      SQLconnection.query(`UPDATE dashboard SET storage_kwh = ${value} WHERE id=1`, (err) => {if (err) throw err;});
+      dashboardSockets.forEach(function(dashboardSocket){
+        sendStorage(dashboardSocket);
       });
     });
 
-    /**
-     * Raspberry Pi Connection
-     */
+    socket.on("disconnect", () => {
+      console.log("Raspberry Pi disconnected");
 
-    socket.on("raspberry", () => {
-      manipulationSockets.push(socket);
-      startManipulationSocket(socket);
+      const index = manipulationSockets.indexOf(socket);
+      if (index > -1) {
+        manipulationSockets.splice(index, 1);
+      }
 
-      socket.on("storageChange", (data) => {
-        const value = data.value;
+    });
+  });
 
-        SQLconnection.query(`UPDATE dashboard SET storage_kwh = ${value} WHERE id=1`, (err) => {if (err) throw err;});
-        dashboardSockets.forEach(function(dashboardSocket){
-          sendStorage(dashboardSocket);
-        });
-      });
+  /**
+   * HouseVB Connection
+  */
 
-      socket.on("disconnect", () => {
-        console.log("Raspberry Pi disconnected");
+  socket.on("housevb", () => {
+    SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
+      if (err) throw err;
+      let entries = {};
+      for(let row of rows){
+        entries[row.hour] = row.vb;
+      }
 
-        const index = manipulationSockets.indexOf(socket);
-        if (index > -1) {
-          manipulationSockets.splice(index, 1);
-        }
-
-      });
+      // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
+      socket.emit("FromAPI", entries);
     });
 
-    /**
-     * HouseVB Connection
-    */
-
-    socket.on("housevb", () => {
-      SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
-        if (err) throw err;
-        let entries = {};
-        for(let row of rows){
-          entries[row.hour] = row.vb;
-        }
-
-        // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
-        socket.emit("FromAPI", entries);
-      });
-
-      socket.on("disconnect", () => {
-        console.log("HouseVB client disconnected");
-      });
+    socket.on("disconnect", () => {
+      console.log("HouseVB client disconnected");
     });
+  });
 
-    /**
-     * Dashboard Connection
-    */
+  /**
+   * Dashboard Connection
+  */
 
-    socket.on("dashboard", () =>{
-      dashboardSockets.push(socket);
-      sendStorage(socket);
+  socket.on("dashboard", () =>{
+    dashboardSockets.push(socket);
+    sendStorage(socket);
 
-      socket.on("disconnect", () => {
-        const index = dashboardSockets.indexOf(socket);
-        if (index > -1) {
-          manipulationSockets.splice(index, 1);
-        }
-        console.log("Dashboard disconnected");
-
-      });
-    });
-
-    /**
-     * Settings Connection
-    */
-
-   socket.on("settings", () => {
-     settingsSockets.push(socket);
-     sendHouses(socket);
-
-     socket.on("houseChange", (data) => {
-       data.forEach(function(slot){
-         SQLconnection.query(`UPDATE houses SET hosue = ${slot.house} WHERE id=${slot.id}`, (err) => {if (err) throw err;});
-       });
-       
-       settingsSockets.forEach(function(settingsSocket){
-         sendHouses(settingsSocket);
-       });
-     });
-
-     socket.on("disconnect", () => {
+    socket.on("disconnect", () => {
       const index = dashboardSockets.indexOf(socket);
       if (index > -1) {
         manipulationSockets.splice(index, 1);
       }
-      console.log("Settings disconnected!");
-     });
-   });
+      console.log("Dashboard disconnected");
+
+    });
+  });
+
+  /**
+   * Settings Connection
+  */
+
+  socket.on("settings", () => {
+    settingsSockets.push(socket);
+    sendHouses(socket);
+
+    socket.on("houseChange", (data) => {
+      SQLconnection.query(`UPDATE houses SET houses = ${data.house} WHERE id=${data.id}`, (err) => {if (err) throw err;});
+      
+      settingsSockets.forEach(function(settingsSocket){
+        sendHouses(settingsSocket);
+      });
+    });
+
+    socket.on("disconnect", () => {
+    const index = dashboardSockets.indexOf(socket);
+    if (index > -1) {
+      manipulationSockets.splice(index, 1);
+    }
+    console.log("Settings disconnected!");
+    });
+  });
 
 });
 
