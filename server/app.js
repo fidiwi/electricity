@@ -28,11 +28,18 @@ const SQLconnection = mysql.createConnection({
 });
 
 var manipulationSockets = [];
+var raspiSockets = [];
+var dashboardSockets [];
 
 io.on("connection", (socket) => {
     console.log("New client connected");
 
     // Jeweilige Client-Art abfragen und in Kategorien speichern
+
+    /**
+     * Manipulation Connection
+     */
+
     socket.on("manipulation", () => {
       manipulationSockets.push(socket);
       startManipulationSocket(socket);
@@ -47,9 +54,23 @@ io.on("connection", (socket) => {
       });
     });
 
+    /**
+     * Raspberry Pi Connection
+     */
+
     socket.on("raspberry", () => {
       manipulationSockets.push(socket);
+      raspiSockets.push(socket);
       startManipulationSocket(socket);
+
+      socket.on("storageChange", (data) => {
+        const value = data.value;
+
+        SQLconnection.query(`UPDATE dashboard SET storage_kwh = ${value} WHERE id=1`, (err) => {if (err) throw err;});
+        dashboardSockets.forEach(function(dashboardSocket){
+          sendStorage(dashboardSocket);
+        });
+      });
 
       socket.on("disconnect", () => {
         console.log("Raspberry Pi disconnected");
@@ -60,6 +81,10 @@ io.on("connection", (socket) => {
         }
       });
     });
+
+    /**
+     * HouseVB Connection
+    */
 
     socket.on("housevb", () => {
       SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
@@ -75,6 +100,24 @@ io.on("connection", (socket) => {
 
       socket.on("disconnect", () => {
         console.log("HouseVB client disconnected");
+      });
+    });
+
+    /**
+     * Dashboard Connection
+    */
+
+    socket.on("dashboard", () =>{
+      dashboardSockets.push(socket);
+      sendStorage(socket);
+
+      socket.on("disconnect", () => {
+        const index = dashboardSockets.indexOf(socket);
+        if (index > -1) {
+          manipulationSockets.splice(index, 1);
+        }
+        console.log("Dashboard disconnected");
+
       });
     });
 
@@ -101,9 +144,8 @@ function startManipulationSocket(socket){
       if(manipulationSocket !== socket){
         sendSliders(manipulationSocket);
       }
-    })
+    });
   });
-
 }
 
 // Sende Sliderdaten an den jeweiligen Socket
@@ -114,4 +156,13 @@ function sendSliders(socket){
   });
 }
 
-server.listen(port, () => console.log(`Listening on Port ${port}`))
+// Sende Speicherstand an den jeweiligen Socket
+function sendStorage(socket){
+  SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
+    if (err) throw err;
+    let storageCap = rows[0].storage_kwh
+    socket.emit("FromAPI", {storage_kwh: storageCap});
+  });
+}
+
+server.listen(port, () => console.log(`Listening on Port ${port}`));
