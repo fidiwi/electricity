@@ -32,10 +32,11 @@ const Settings: React.FC = () => {
       id: number;
       house: number;
     }>) => {
+      console.log(data);
       data.forEach((slot) => {
         const id = slot.id;
         const value = slot.house;
-        stateList[id](value);
+        stateList[id-1](value);
       });
     });
   }, []);
