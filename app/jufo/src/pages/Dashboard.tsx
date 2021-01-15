@@ -8,7 +8,7 @@ import { io, Socket } from "socket.io-client";
 
 import erzeugungpic from '../bilder/erzeugung.jpg';
 import verbrauchpic from '../bilder/verbrauch.jpg'
-import logo from '../bilder/logo.jpg'
+import logo from '../bilder/logo.svg'
 
 import { Line } from "react-chartjs-2"
 import { urls } from '../vars/vars';
@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
             </IonButton>
           </IonButtons>
           <IonTitle>
-            <IonIcon icon = logo size="large"/>
+            <IonIcon icon={logo} size="large"/>
             <IonText color="primary">  electri</IonText>
             <IonText color="dark">CITY</IonText>
           </IonTitle>
@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
               <IonCard routerLink="/consum">
                 <img src={verbrauchpic}/>
                 <IonCardHeader>
-                  <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
+                  <IonCardSubtitle>Mein Verbrauch</IonCardSubtitle>
                   <IonCardTitle>3kW</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
