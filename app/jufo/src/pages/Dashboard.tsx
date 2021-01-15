@@ -8,6 +8,7 @@ import { io, Socket } from "socket.io-client";
 
 import erzeugungpic from '../bilder/erzeugung.jpg';
 import verbrauchpic from '../bilder/verbrauch.jpg'
+import logo from '../bilder/logo.jpg'
 
 import { Line } from "react-chartjs-2"
 import { urls } from '../vars/vars';
@@ -68,8 +69,9 @@ const Dashboard: React.FC = () => {
               <IonIcon slot="icon-only" icon={ellipsisVertical}/>
             </IonButton>
           </IonButtons>
-          <IonTitle color="primary">
-            <IonText color="primary">electri</IonText>
+          <IonTitle>
+            <IonIcon icon = logo size="large"/>
+            <IonText color="primary">  electri</IonText>
             <IonText color="dark">CITY</IonText>
           </IonTitle>
         </IonToolbar>
