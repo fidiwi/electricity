@@ -21,7 +21,7 @@ const Company: React.FC = () => {
   });
 
   const [Firma, setFirma] = useState({
-    labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
+    labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
     datasets: [
       {
         label: "Solar in kW",
@@ -108,7 +108,7 @@ const Company: React.FC = () => {
         </IonCard>
         <IonCard>
           <IonCardContent>
-            <IonCardTitle>Wochenüberblick</IonCardTitle>
+            <IonCardTitle>Tagesüberblick</IonCardTitle>
             <Line data={Firma}/>
             <IonCardSubtitle>Stromproduktion Solar: 12kW</IonCardSubtitle>
             <IonCardSubtitle>Stromproduktion Wind: 12kW</IonCardSubtitle>

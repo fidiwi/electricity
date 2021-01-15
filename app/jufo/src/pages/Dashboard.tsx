@@ -31,14 +31,14 @@ const Dashboard: React.FC = () => {
   const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
 
   const data = {
-    labels: ["02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
+    labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
       {
-        label: "First dataset",
-        data: [3, -3, 5, 4, -4, -5, 3, 2, 3, 1, 4, -2],
+        label: "Energiestatus",
+        data: [-4, -4, -4, -3, 0, 1, 3, 3, 1, 0, -1, -2, -2],
         fill: false,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
+        backgroundColor: "rgba(0,0,204,0.2)",
+        borderColor: "rgba(56,128,255,1)"
       },
     ],
   };
@@ -119,10 +119,10 @@ const Dashboard: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonCard routerLink="/price">
-                <Line data={data}/>
+                <Line data={data} options={options}/>
                 <IonCardHeader>
-                  <IonCardSubtitle>Mein Energiekarma</IonCardSubtitle>
-                  <IonCardTitle>Sehr gut</IonCardTitle>
+                  <IonCardSubtitle>Energiestatus</IonCardSubtitle>
+                  <IonCardTitle>Sehr gut | 1</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
