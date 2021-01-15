@@ -7,14 +7,14 @@ import { Line } from "react-chartjs-2"
 
 const Price: React.FC = () => {
   const dataTag = {
-    labels: ["02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
+    labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
     datasets: [
       {
-        label: "First dataset",
-        data: [3, -3, 5, 4, -4, -5, 3, 2, 3, 1, 4, -2],
+        label: "Energiestatus",
+        data: [-4, -4, -4, -3, 0, 1, 3, 3, 1, 0, -1, -2, -2],
         fill: false,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
+        backgroundColor: "rgba(56,128,255,0.2)",
+        borderColor: "rgba(56,128,255,1)"
       },
     ],
   };
@@ -44,7 +44,7 @@ const Price: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/dashboard" />
           </IonButtons>
-          <IonTitle>Preisverlauf</IonTitle>
+          <IonTitle>Energiestatus</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -52,7 +52,7 @@ const Price: React.FC = () => {
           <Line data={dataTag}/>
           <IonCardHeader>
               <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-              <IonCardTitle>Sehr gut</IonCardTitle>
+              <IonCardTitle>Sehr gut | 1</IonCardTitle>
           </IonCardHeader>
         </IonCard>
         <IonItem>

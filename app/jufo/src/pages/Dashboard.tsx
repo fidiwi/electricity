@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
         label: "Energiestatus",
         data: [-4, -4, -4, -3, 0, 1, 3, 3, 1, 0, -1, -2, -2],
         fill: false,
-        backgroundColor: "rgba(0,0,204,0.2)",
+        backgroundColor: "rgba(56,128,255,0.2)",
         borderColor: "rgba(56,128,255,1)"
       },
     ],
