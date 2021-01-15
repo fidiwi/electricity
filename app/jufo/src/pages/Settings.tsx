@@ -17,11 +17,11 @@ const Settings: React.FC = () => {
   const slot4 = useRef<HTMLIonSelectElement>(null);
 
   const [hausmodell, sethausmodell] = useState<string>("Reihenhaus");
-  const [grundstück1, sethausmodell1] = useState<number>(0);
-  const [grundstück2, sethausmodell2] = useState<number>(1);
-  const [grundstück3, sethausmodell3] = useState<number>(1);
-  const [grundstück4, sethausmodell4] = useState<number>(3);
-  const [grundstück5, sethausmodell5] = useState<number>(2);
+  const [grundstück1, sethausmodell1] = useState<string>("0");
+  const [grundstück2, sethausmodell2] = useState<string>("1");
+  const [grundstück3, sethausmodell3] = useState<string>("1");
+  const [grundstück4, sethausmodell4] = useState<string>("3");
+  const [grundstück5, sethausmodell5] = useState<string>("2");
 
   const stateList = [sethausmodell1, sethausmodell2, sethausmodell3, sethausmodell4, sethausmodell5];
 
@@ -38,13 +38,15 @@ const Settings: React.FC = () => {
       data.forEach((slot) => {
         const id = slot.id;
         const value = slot.house;
-        stateList[id-1](value);
+        stateList[id-1](String(value));
       });
+      console.log(slot1.current?.value);
     });
   }, []);
 
-  const updateHouses = (value: Number, id: Number) => {
+  const updateHouses = (value: number, id: number) => {
     currentSocket.emit("houseChange", {id: id, house: value});
+    stateList[id-1](String(value));
   };
 
   return (
@@ -80,7 +82,7 @@ const Settings: React.FC = () => {
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>
             <IonLabel>Grundstück 1:</IonLabel>
-            <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={true} onIonChange={e => updateHouses(e.detail.value, 0)}>
+            <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={true} onIonChange={e => updateHouses(e.detail.value, 1)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -89,7 +91,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 2:</IonLabel>
-            <IonSelect ref={slot1} value={grundstück2} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 1)}>
+            <IonSelect ref={slot1} value={grundstück2} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 2)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -98,7 +100,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 3:</IonLabel>
-            <IonSelect ref={slot2} value={grundstück3} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 2)}>
+            <IonSelect ref={slot2} value={grundstück3} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 3)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -107,7 +109,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 4:</IonLabel>
-            <IonSelect ref={slot3} value={grundstück4} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 3)}>
+            <IonSelect ref={slot3} value={grundstück4} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 4)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -116,7 +118,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 5:</IonLabel>
-            <IonSelect ref={slot4} value={grundstück5} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 4)}>
+            <IonSelect ref={slot4} value={grundstück5} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 5)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>

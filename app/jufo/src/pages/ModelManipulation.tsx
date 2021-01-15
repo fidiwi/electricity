@@ -33,12 +33,6 @@ const ModelManipulation: React.FC = () => {
     };
   }, []);
 
-  const [value, setValue] = useState(0);
-  const [rangeValue, setRangeValue] = useState<{
-    lower: number;
-    upper: number;
-  }>({ lower: 0, upper: 0 });
-
   const pushRangeChange = (rangeElement: React.RefObject<HTMLIonRangeElement>) => {
     currentSocket.emit("rangeChange", {param: rangeElement.current!.name, value: rangeElement.current!.value});
   };
