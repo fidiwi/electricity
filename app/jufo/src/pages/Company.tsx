@@ -8,11 +8,11 @@ import { urls } from '../vars/vars';
 
 const Company: React.FC = () => {
   const [Produktivität, setProduktivität] = useState({
-    labels: ["06", "08", "10", "12", "14", "16", "18", "20", "22"],
+    labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
     datasets: [
       {
         label: "Produktivität",
-        data: [33, 53, 85, 41, 44, 65, 33, 100, 45],
+        data: [33, 53, 85, 41, 44, 65, 33, 100, 45, 32, 24, 23, 32, 100, 78, 86],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(204,0,0,1)"
@@ -20,7 +20,7 @@ const Company: React.FC = () => {
     ]
   });
 
-  const Firma = {
+  const [Firma, setFirma] = useState({
     labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
     datasets: [
       {
@@ -37,15 +37,9 @@ const Company: React.FC = () => {
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
       },
-      {
-        label: "Verbrauch",
-        data: [33, 53, 85, 41, 44, 65, 33],
-        fill: false,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(204,0,0,1)"
-      },
     ]
-  };
+  });
+
   const options = {
     scales: {
         yAxes: [
@@ -88,12 +82,10 @@ const Company: React.FC = () => {
       }
       setProduktivität(newDataProduktivität);
     });
-
     return () => {
       socket.disconnect();
     };
   }, []);
-
   
   
   return (
@@ -120,7 +112,6 @@ const Company: React.FC = () => {
             <Line data={Firma}/>
             <IonCardSubtitle>Stromproduktion Solar: 12kW</IonCardSubtitle>
             <IonCardSubtitle>Stromproduktion Wind: 12kW</IonCardSubtitle>
-            <IonCardSubtitle>Stromverbrauch: 20kW</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
       <IonList>
