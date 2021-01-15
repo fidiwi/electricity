@@ -185,9 +185,7 @@ function startManipulationSocket(socket){
 
     manipulationSockets.forEach(function(manipulationSocket){
       // Jedem anderen "sliders"-Client aktuelle Werte schicken
-      if(manipulationSocket != socket){
-        sendSliders(manipulationSocket);
-      }
+      sendSliders(manipulationSocket);
     });
   });
 }
