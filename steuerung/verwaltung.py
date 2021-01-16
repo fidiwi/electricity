@@ -106,6 +106,8 @@ class Storage():
             self.capacity = self.min
             hauptleitung += power
             print("empty")
+        
+        sio.emit("storageChange", {'value': self.capacity})
 
 
 def speed(dif):
