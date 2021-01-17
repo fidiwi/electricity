@@ -149,7 +149,7 @@ const Consum: React.FC = () => {
     var hausvbr = 2;
     // M = 2; R = 0.37; E = 0.51; A = 2.85
 
-    socket.emit("housevb");
+    socket.emit("housestat");
     socket.on("FromAPI", (data: any) => {
 
       console.log("api received:");
