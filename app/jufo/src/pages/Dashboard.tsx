@@ -32,11 +32,11 @@ const Dashboard: React.FC = () => {
   const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
 
   const data = {
-    labels: ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
+    labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
     datasets: [
       {
         label: "Energiestatus",
-        data: [-4, -4, -4, -3, 0, 1, 3, 3, 1, 0, -1, -2, -2],
+        data: [-4, -4, -4, -4, -4, -4, -3, -3, 0, 0, 1, 1, 3, 3, 3, 3, 1, 1, 0, 0, -1, -1, -2, -2 -2, -2],
         fill: false,
         backgroundColor: "rgba(56,128,255,0.2)",
         borderColor: "rgba(56,128,255,1)"
