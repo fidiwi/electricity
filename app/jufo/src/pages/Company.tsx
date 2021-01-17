@@ -7,6 +7,9 @@ import { Line } from "react-chartjs-2"
 import { urls } from '../vars/vars';
 
 const Company: React.FC = () => {
+
+  const [produktschnitt, setproduktschnitt] = useState<number>(0);
+
   const [Produktivität, setProduktivität] = useState({
     labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
     datasets: [
@@ -56,24 +59,70 @@ const Company: React.FC = () => {
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
 
+    socket.emit("");
+    socket.on("", (data: any) => {
+
+      console.log("api received:");
+      console.log(data);
+      let hourSonne = [];
+
+      for(let hour = 0; hour <=23; hour++){
+        hourSonne.push(data[hour]*40);
+      }
+      console.log(hourSonne);
+
+      let hourList: Array<string> = [];
+
+      data.vb.array.forEach((element: string) => {
+        hourList.push(element);
+      });
+
+      let newDataFirma = {
+        labels: hourList,
+        datasets: [
+          {
+            label: "Solar in kWh",
+            data: hourSonne,
+            fill: false,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(0,204,0,1)"
+          }
+        ]
+      }
+      setFirma(newDataFirma);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+
     socket.emit("produktivitaet");
     socket.on("FromAPI", (data: any) => {
 
       console.log("api received:");
       console.log(data);
-      let hourList = [];
+      let hourPrd = [];
+      var temp = 0
 
       for(let hour = 6; hour <=21; hour++){
-        hourList.push(data[hour]*100);
+        hourPrd.push(Math.round(data[hour]*10000)/100);
+        temp = temp + data[hour]*100;
       }
-      console.log(hourList);
+      setproduktschnitt(Math.round(temp / 16));
+      
+      console.log(hourPrd);
+
+      let hourList: Array<string> = Object.keys(data);
 
       let newDataProduktivität = {
-        labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
+        labels: hourList,
         datasets: [
           {
             label: "Produktivität",
-            data: hourList,
+            data: hourPrd,
             fill: false,
             backgroundColor: "rgba(75,192,192,0.2)",
             borderColor: "rgba(204,0,0,1)"
@@ -103,7 +152,7 @@ const Company: React.FC = () => {
           <IonCardContent>
             <IonCardTitle>Produktivität</IonCardTitle>
             <Line data={Produktivität} options={options}/>
-            <IonCardSubtitle>Produktivität: 90%</IonCardSubtitle>
+            <IonCardSubtitle>Produktivität: {produktschnitt}%</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
         <IonCard>
@@ -114,12 +163,6 @@ const Company: React.FC = () => {
             <IonCardSubtitle>Stromproduktion Wind: 12kW</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
-      <IonList>
-        <IonItem>
-          <IonLabel>Firma an- oder ausschalten</IonLabel>
-          <IonToggle slot="start" name="Firma" color="success" checked></IonToggle>
-        </IonItem>
-      </IonList>
     </IonContent>
   </IonPage>
   );
