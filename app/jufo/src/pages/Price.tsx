@@ -11,7 +11,7 @@ const Price: React.FC = () => {
     datasets: [
       {
         label: "Energiestatus",
-        data: [-4, -4, -4, -4, -4, -4, -3, -3, 0, 0, 1, 1, 3, 3, 3, 3, 1, 1, 0, 0, -1, -1, -2, -2 -2, -2],
+        data: [-4, -4, -4, -4, -4, -4, -3, -3, 0, 0, 1, 1, 3, 3, 3, 3, 1, 1, 0, 0, -1, -1, -2, -2],
         fill: false,
         backgroundColor: "rgba(56,128,255,0.2)",
         borderColor: "rgba(56,128,255,1)"
