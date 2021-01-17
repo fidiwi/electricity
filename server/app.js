@@ -31,6 +31,7 @@ var manipulationSockets = [];
 var dashboardSockets = [];
 var settingsSockets = [];
 var productivitySockets = [];
+var houseStatSockets = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -84,23 +85,20 @@ io.on("connection", (socket) => {
   });
 
   /**
-   * HouseVB Connection
+   * HouseSTAT Connection
   */
 
-  socket.on("housevb", () => {
-    SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
-      if (err) throw err;
-      let entries = {};
-      for(let row of rows){
-        entries[row.hour] = row.vb;
-      }
-
-      // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
-      socket.emit("FromAPI", entries);
-    });
+  socket.on("housestat", () => {
+    houseStatSockets.push(socket);
+    sendHouseStat(socket);
 
     socket.on("disconnect", () => {
-      console.log("HouseVB client disconnected");
+      console.log("HouseStat client disconnected");
+
+      const index = houseStatSockets.indexOf(socket);
+      if (index > -1) {
+        houseStatSockets.splice(index, 1);
+      }
     });
   });
 
@@ -224,6 +222,43 @@ function sendProductivity(socket){
       entries[row.hours] = row.produktivität;
     }
     socket.emit("FromAPI", entries);
+  });
+}
+
+// Sende Kombination aus Sonne und Verbrauch
+function sendHouseStat(socket){
+  vbHour = getVB();
+  sunProd = getSun();
+
+  // Mit Format {sun : {}, vb:{}} ausgeben
+  socket.emit("FromAPI", {sun: sunProd, vb: vbHour});
+}
+
+// Sende Verbrauch in Prozent an den jeweiligen Socket
+function getVB(){
+  SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
+    if (err) throw err;
+    let entries = {};
+    for(let row of rows){
+      entries[row.hour] = row.vb;
+    }
+
+    // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
+    return(entries);
+  });
+}
+
+// Sende Sonne in Prozent an den jeweiligen Socket
+function getSun(){
+  SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
+    if (err) throw err;
+    let entries = {};
+    for(let row of rows){
+      entries[row.hour] = row.vb;
+    }
+
+    // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
+    return entries;
   });
 }
 
