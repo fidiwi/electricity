@@ -9,6 +9,7 @@ const io = require("socket.io")(server, {
   }
 });
 const mysql = require('mysql');
+const { send } = require("process");
 const config = require("./config.json");
 
 const port = process.env.PORT || 4001;
@@ -109,6 +110,8 @@ io.on("connection", (socket) => {
   socket.on("dashboard", () =>{
     dashboardSockets.push(socket);
     sendStorage(socket);
+    sendSun(socket);
+    sendVB(socket);
 
     socket.on("disconnect", () => {
       const index = dashboardSockets.indexOf(socket);
@@ -202,12 +205,44 @@ function sendSliders(socket){
   });
 }
 
-// Sende Speicherstand an den jeweiligen Socket
+// Sende Speicherlist an den jeweiligen Socket
 function sendStorage(socket){
-  SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
+  SQLconnection.query("SELECT * FROM battery", (err, rows) => {
     if (err) throw err;
-    let storageCap = rows[0].storage_kwh
-    socket.emit("FromAPI", {storage_kwh: storageCap});
+    let battery = {};
+    for(let row of rows){
+      battery[row.hours] = row.capacity;
+    }
+
+    socket.emit("battery", sun);
+  });
+}
+
+// Sende private Stromproduktion (Sonne) an den jeweiligen Socket
+function sendSun(socket){
+  SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
+    if (err) throw err;
+    let sun = {};
+    for(let row of rows){
+      sun[row.hours] = row.produktion;
+    }
+
+    socket.emit("sun", sun);
+  });
+}
+
+// Sende privaten Verbrauch an den jeweiligen Socket
+function sendVB(socket){
+  SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
+    if (err) throw err;
+    
+    // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
+    let vb = {};
+    for(let row of rows){
+      vb[row.hour] = row.vb;
+    }
+
+    socket.emit("vb", vb);
   });
 }
 
@@ -225,7 +260,7 @@ function sendProductivity(socket){
     if (err) throw err;
     let entries = {};
     for(let row of rows){
-      entries[row.hours] = row.produktivität;
+      entries[row.hours] = row.produktion;
     }
     socket.emit("FromAPI", entries);
   });
