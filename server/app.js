@@ -34,6 +34,7 @@ var settingsSockets = [];
 var productivitySockets = [];
 var houseStatSockets = [];
 var batterySockets = [];
+var estatusSockets = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -138,6 +139,24 @@ io.on("connection", (socket) => {
         batterySockets.splice(index, 1);
       }
       console.log("Battery disconnected");
+
+    });
+  });
+
+  /**
+   * E-Status Connection
+  */
+
+ socket.on("estatus", () =>{
+  estatusSockets.push(socket);
+  sendEStatus(socket);
+
+    socket.on("disconnect", () => {
+      const index = estatusSockets.indexOf(socket);
+      if (index > -1) {
+        estatusSockets.splice(index, 1);
+      }
+      console.log("E-Status disconnected");
 
     });
   });
@@ -282,6 +301,21 @@ function sendProductivity(socket){
       entries[row.hours] = row.produktion;
     }
     socket.emit("FromAPI", entries);
+  });
+}
+
+// Sende Energiestatus an den jeweiligen Socket
+function sendEStatus(socket){
+  SQLconnection.query("SELECT * FROM estatus_hour", (err, rows) => {
+    if (err) throw err;
+    
+    // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
+    let estatus = {};
+    for(let row of rows){
+      estatus[row.hour] = row.value;
+    }
+
+    socket.emit("estatus", estatus);
   });
 }
 
