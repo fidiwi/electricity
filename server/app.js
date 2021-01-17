@@ -33,6 +33,7 @@ var dashboardSockets = [];
 var settingsSockets = [];
 var productivitySockets = [];
 var houseStatSockets = [];
+var batterySockets = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -94,7 +95,7 @@ io.on("connection", (socket) => {
     sendHouseStat(socket);
 
     socket.on("disconnect", () => {
-      console.log("HouseStat client disconnected");
+      console.log("HouseStat disconnected");
 
       const index = houseStatSockets.indexOf(socket);
       if (index > -1) {
@@ -116,9 +117,27 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
       const index = dashboardSockets.indexOf(socket);
       if (index > -1) {
-        manipulationSockets.splice(index, 1);
+        dashboardSockets.splice(index, 1);
       }
       console.log("Dashboard disconnected");
+
+    });
+  });
+
+  /**
+   * Battery Connection
+  */
+
+  socket.on("battery", () =>{
+  batterySockets.push(socket);
+  sendStorage(socket);
+
+    socket.on("disconnect", () => {
+      const index = batterySockets.indexOf(socket);
+      if (index > -1) {
+        batterySockets.splice(index, 1);
+      }
+      console.log("Battery disconnected");
 
     });
   });
