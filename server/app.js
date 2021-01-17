@@ -170,6 +170,12 @@ SQLconnection.connect((err) => {
   console.log('Connected!');
 });
 
+/**
+ * 
+ * FUNCTIONS
+ * 
+ */
+
 function startManipulationSocket(socket){
   // Am Anfang die Werte senden
   sendSliders(socket);
@@ -225,40 +231,27 @@ function sendProductivity(socket){
   });
 }
 
-// Sende Kombination aus Sonne und Verbrauch
+// Sende Kombination aus Sonne und Verbrauch (Ansicht App)
 function sendHouseStat(socket){
-  vbHour = getVB();
-  sunProd = getSun();
-
-  // Mit Format {sun : {}, vb:{}} ausgeben
-  socket.emit("FromAPI", {sun: sunProd, vb: vbHour});
-}
-
-// Sende Verbrauch in Prozent an den jeweiligen Socket
-function getVB(){
   SQLconnection.query("SELECT * FROM vb_hour", (err, rows) => {
     if (err) throw err;
-    let entries = {};
+    
+    // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
+    let vb = {};
     for(let row of rows){
-      entries[row.hour] = row.vb;
+      vb[row.hour] = row.vb;
     }
 
-    // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
-    return(entries);
-  });
-}
+    SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
+      if (err) throw err;
+      let sun = {};
+      for(let row of rows){
+        sun[row.hours] = row.produktivität;
+      }
 
-// Sende Sonne in Prozent an den jeweiligen Socket
-function getSun(){
-  SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
-    if (err) throw err;
-    let entries = {};
-    for(let row of rows){
-      entries[row.hours] = row.produktivität;
-    }
+      socket.emit("FromAPI", {sun: sun, vb: vb});
+    });
 
-    // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
-    return entries;
   });
 }
 
