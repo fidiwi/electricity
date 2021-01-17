@@ -254,7 +254,7 @@ function getSun(){
     if (err) throw err;
     let entries = {};
     for(let row of rows){
-      entries[row.hour] = row.vb;
+      entries[row.hours] = row.produktivität;
     }
 
     // Object ausgeben nach Format {0: 0.3, ..., 23: 0.5}
