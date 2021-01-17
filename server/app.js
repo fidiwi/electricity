@@ -214,7 +214,7 @@ function sendStorage(socket){
       battery[row.hours] = row.capacity;
     }
 
-    socket.emit("battery", sun);
+    socket.emit("battery", battery);
   });
 }
 
