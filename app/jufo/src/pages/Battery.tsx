@@ -9,17 +9,36 @@ import { urls } from '../vars/vars';
 const Battery: React.FC = () => {
     useEffect(() => {
         const socket = io(urls.SOCKET_ENDPOINT);
-        socket.emit("dashboard");
-        socket.on("FromAPI", (data: any) => {
-          setProzent(data.storage_kwh);
-        });
+        socket.emit("battery");
+        socket.on("battery", (data: any) => {
+            let batterylist = [];
+            for(let hour = 0; hour <=23; hour++){
+                batterylist.push(Math.round(data[hour]*100)/350);
+              }
+              console.log(batterylist);
+          setProzent(data[23]);
+          let hourList: Array<string> = Object.keys(data);
+          
+          let batterylistfinal = {
+            labels: hourList,
+            datasets: [
+            {
+                label: "Akkustand",
+                data: batterylist,
+                fill: false,
+                backgroundColor: "rgba(75,192,192,0.2)",
+                borderColor: "rgba(0,204,0,1)"
+            }
+            ],
+        }
+        setAkkusstand(batterylistfinal);
 
-        // let hourList: Array<string> = Object.keys(data);
+        });
     
         return () => {
           socket.disconnect();
         };
-      }, []);
+        }, []);
 
     const [Prozent, setProzent] = useState<number>(0);
 

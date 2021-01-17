@@ -15,11 +15,33 @@ import { urls } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
 
+  var prd = 12.6
+  // R = 3.75; E = 18.75; M = 8.75; A = 12.5  ÜBERALL
+  var hausvbr = 2.85;
+  // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
+
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("dashboard");
-    socket.on("FromAPI", (data: any) => {
-      setVal(data.storage_kwh);
+    socket.on("battery", (data: any) => {
+      setVal(data[23]);
+    });
+
+    socket.on("vb", (data: any) => {
+      var temp = 0;
+      for(let hour = 0; hour <=23; hour++){;
+        temp = temp + data[hour]*hausvbr;
+      };
+      setVerbrauch(Math.round(temp));
+    });
+    
+
+    socket.on("sun", (data: any) => {
+      var temp = 0;
+      for(let hour = 0; hour <=23; hour++){;
+        temp = temp + data[hour]*prd;
+      };
+      setErzeugung(Math.round(temp));
     });
 
     return () => {
@@ -27,9 +49,14 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
+
   const [moin, setVal] = useState<number>(0);
 
   const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
+
+  const [Verbrauch, setVerbrauch] = useState<number>(0);
+
+  const [Erzeugung, setErzeugung] = useState<number>(0);
 
   const data = {
     labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
@@ -136,7 +163,7 @@ const Dashboard: React.FC = () => {
                 <img src={erzeugungpic}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
-                  <IonCardTitle>5kW</IonCardTitle>
+                  <IonCardTitle>{Erzeugung}kW</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
@@ -145,7 +172,7 @@ const Dashboard: React.FC = () => {
                 <img src={verbrauchpic}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Mein Verbrauch</IonCardSubtitle>
-                  <IonCardTitle>3kW</IonCardTitle>
+                  <IonCardTitle>{Verbrauch}kW</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
