@@ -13,7 +13,7 @@ const Battery: React.FC = () => {
         socket.on("battery", (data: any) => {
             let batterylist = [];
             for(let hour = 0; hour <=23; hour++){
-                batterylist.push(Math.round(data[hour]*100)/350);
+                batterylist.push(Math.round(data[hour]/3.5*100)/100);
               }
               console.log(batterylist);
           setProzent(data[23]);
@@ -87,7 +87,7 @@ const Battery: React.FC = () => {
                     </IonCardHeader>
                     <IonCardContent>
                     <div  className="bar">
-                        <IonProgressBar color="success" value={Prozent/350}/>
+                        <IonProgressBar color="success" value={Math.round(Prozent/3.5)/100}/>
                     </div>
                     </IonCardContent>
                 </IonCard>
