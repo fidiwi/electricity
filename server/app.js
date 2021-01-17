@@ -281,7 +281,7 @@ function sendHouseStat(socket){
       if (err) throw err;
       let sun = {};
       for(let row of rows){
-        sun[row.hours] = row.produktivität;
+        sun[row.hours] = row.produktion;
       }
 
       socket.emit("FromAPI", {sun: sun, vb: vb});
