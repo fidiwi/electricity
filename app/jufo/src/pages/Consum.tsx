@@ -13,9 +13,14 @@ import { Interface } from 'readline';
 const Consum: React.FC = () => {
 
   var vbr = 0.346
-  // R = 0.064; E = 0.09; M = 0.346; A = 0.5
+  // R = 0.064; E = 0.09; M = 0.346; A = 0.5  ÜBERALL AUßER TAGESVERBRAUCH
   var prd = 8.75
-  // R = 3.75; E = 18.75; M = 8.75; A = 12.5
+  // R = 3.75; E = 18.75; M = 8.75; A = 12.5  ÜBERALL
+  var hausvbr = 2;
+  // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
+
+  const [tagesvbr, settagesvbr] = useState<number>(0);
+  const [tagesprd, settagesprd] = useState<number>(0);
 
   const [dataJahr, setJahr] = useState<{
     labels: string[];
@@ -119,14 +124,14 @@ const Consum: React.FC = () => {
     labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
     datasets: [
       {
-        label: "SVB",
+        label: "Stromverbrauch in kWh",
         data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76, 12, 33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76, 12],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(204,0,0,1)"
       },
       {
-        label: "Produktion",
+        label: "Stromproduktion in kWh",
         data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23, 33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23],
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
@@ -146,34 +151,49 @@ const Consum: React.FC = () => {
 
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
-    var hausvbr = 2;
-    // M = 2; R = 0.37; E = 0.51; A = 2.85
 
     socket.emit("housestat");
     socket.on("FromAPI", (data: any) => {
 
       console.log("api received:");
       console.log(data);
-      let hourList = [];
 
-      for(let hour = 0; hour <=24; hour++){
-        hourList.push(Math.round(data[hour]*100)/100);
+      let hourVerbrauch = [];
+      var temp = 0;
+
+      for(let hour = 0; hour <=23; hour++){
+        hourVerbrauch.push(Math.round(data.vb[hour]*100*hausvbr)/100);
+        temp = temp + Math.round(data.vb[hour]*100*hausvbr)/100;
       } 
-      console.log(hourList);
+      console.log(hourVerbrauch);
+      settagesvbr(temp);
+
+      let hourSonne = [];
+      temp = 0;
+
+      for(let hour = 0; hour <=23; hour++){
+        hourSonne.push(Math.round(data.sun[hour]*100*prd)/100);
+        temp = temp + Math.round(data.sun[hour]*100*prd)/100
+      } 
+      console.log(hourSonne);
+      settagesprd(temp);
+
+      let hourList: Array<string> = Object.keys(data.sun);
+
 
       let newDataTag = {
-        labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
+        labels: hourList,
         datasets: [
           {
             label: "Stromverbrauch in kWh",
-            data: hourList,
+            data: hourVerbrauch,
             fill: false,
-            backgroundColor: "rgba(75,192,192,0.2)",
+            backgroundColor: "rgba(204,0,0,0.2)",
             borderColor: "rgba(204,0,0,1)"
           },
           {
             label: "Stromproduktion in kWh",
-            data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23, 33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23],
+            data: hourSonne,
             fill: true,
             backgroundColor: "rgba(0,204,0,0.2)",
             borderColor: "rgba(0,204,0,1)"
@@ -211,10 +231,12 @@ const Consum: React.FC = () => {
               <IonCardHeader>
                 <IonCardTitle>Tagesüberblick</IonCardTitle>
                 <Line data={dataTag} legend={legend}/>
-                <IonCardSubtitle>Stromverbrauch: {Math.round(vbr*137)}kWh</IonCardSubtitle>
-                <IonCardSubtitle>Stromproduktion: {Math.round(prd*6)}kWh</IonCardSubtitle>
-                <IonCardSubtitle>Differenz: 12kWh</IonCardSubtitle>
               </IonCardHeader>
+              <IonCardContent>
+                <IonCardSubtitle>Stromverbrauch: {Math.round(tagesvbr)}kWh</IonCardSubtitle>
+                <IonCardSubtitle>Stromproduktion: {Math.round(tagesprd)}kWh</IonCardSubtitle>
+                <IonCardSubtitle>Differenz: {Math.round(tagesprd - tagesvbr)}kWh</IonCardSubtitle>
+              </IonCardContent>
             </IonCard>
             <IonCard>
               <IonCardHeader> 

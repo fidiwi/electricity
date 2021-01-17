@@ -112,7 +112,6 @@ const Company: React.FC = () => {
         temp = temp + data[hour]*100;
       }
       setproduktschnitt(Math.round(temp / 16));
-      
       console.log(hourPrd);
 
       let hourList: Array<string> = Object.keys(data);

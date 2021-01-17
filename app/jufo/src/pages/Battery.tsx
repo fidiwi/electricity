@@ -13,6 +13,8 @@ const Battery: React.FC = () => {
         socket.on("FromAPI", (data: any) => {
           setProzent(data.storage_kwh);
         });
+
+        // let hourList: Array<string> = Object.keys(data);
     
         return () => {
           socket.disconnect();
@@ -21,8 +23,8 @@ const Battery: React.FC = () => {
 
     const [Prozent, setProzent] = useState<number>(0);
 
-    const Akkustand = {
-        labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
+    const [Akkustand, setAkkusstand] = useState({
+        labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"], // hourList
         datasets: [
           {
             label: "Akkustand",
@@ -32,7 +34,7 @@ const Battery: React.FC = () => {
             borderColor: "rgba(0,204,0,1)"
           }
         ],
-    };
+    });
 
     const options = {
         scales: {
