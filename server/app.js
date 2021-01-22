@@ -35,6 +35,7 @@ var productivitySockets = [];
 var houseStatSockets = [];
 var batterySockets = [];
 var estatusSockets = [];
+var companySockets = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -189,6 +190,23 @@ io.on("connection", (socket) => {
   });
 
   /**
+   * Company Connection
+  */
+
+ socket.on("company", () => {
+  companySockets.push(socket);
+  sendWindSun(socket);
+
+  socket.on("disconnect", () => {
+    const index = companySockets.indexOf(socket);
+    if (index > -1) {
+      companySockets.splice(index, 1);
+    }
+    console.log("Company disconnected!");
+  });
+});
+
+  /**
    * Productivity Connection
   */
 
@@ -300,7 +318,7 @@ function sendProductivity(socket){
     for(let row of rows){
       entries[row.hours] = row.produktion;
     }
-    socket.emit("FromAPI", entries);
+    socket.emit("produktivitaet", entries);
   });
 }
 
@@ -338,6 +356,30 @@ function sendHouseStat(socket){
       }
 
       socket.emit("FromAPI", {sun: sun, vb: vb});
+    });
+
+  });
+}
+
+// Sende Kombination aus Sonne und Verbrauch (Ansicht App)
+function sendWindSun(socket){
+  SQLconnection.query("SELECT * FROM wind_produktion", (err, rows) => {
+    if (err) throw err;
+    
+    // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
+    let wind = {};
+    for(let row of rows){
+      wind[row.hour] = row.produktion;
+    }
+
+    SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
+      if (err) throw err;
+      let sun = {};
+      for(let row of rows){
+        sun[row.hours] = row.produktion;
+      }
+
+      socket.emit("windsun", {sun: sun, wind: wind});
     });
 
   });
