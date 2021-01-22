@@ -3,6 +3,7 @@ import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSe
 import { io } from "socket.io-client";
 import { urls } from '../vars/vars';
 import { Interface } from 'readline';
+import { passwordExport } from '../vars/password';
 
 const Settings: React.FC = () => {
 
@@ -24,6 +25,14 @@ const Settings: React.FC = () => {
   const [grundstück5, sethausmodell5] = useState<string>("2");
 
   const stateList = [sethausmodell1, sethausmodell2, sethausmodell3, sethausmodell4, sethausmodell5];
+
+  const [blocken, setblocken] = useState<boolean>(true);
+
+  const passwordCheck = (password:string) => {
+    if (password == passwordExport){
+      setblocken(false);
+    }
+  };
 
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
@@ -77,12 +86,12 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" onIonChange={e => setPasswort(e.detail.value!)}></IonInput>
+            <IonInput placeholder="Passwort" type="password" onIonChange={e => passwordCheck(e.detail.value!)}></IonInput>
           </IonItem>
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>
             <IonLabel>Grundstück 1:</IonLabel>
-            <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={true} onIonChange={e => updateHouses(e.detail.value, 1)}>
+            <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 1)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -91,7 +100,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 2:</IonLabel>
-            <IonSelect ref={slot1} value={grundstück2} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 2)}>
+            <IonSelect ref={slot1} value={grundstück2} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 2)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -100,7 +109,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 3:</IonLabel>
-            <IonSelect ref={slot2} value={grundstück3} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 3)}>
+            <IonSelect ref={slot2} value={grundstück3} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 3)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -109,7 +118,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 4:</IonLabel>
-            <IonSelect ref={slot3} value={grundstück4} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 4)}>
+            <IonSelect ref={slot3} value={grundstück4} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 4)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
@@ -118,7 +127,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 5:</IonLabel>
-            <IonSelect ref={slot4} value={grundstück5} okText="Okay" cancelText="Cancel" onIonChange={e => updateHouses(e.detail.value, 5)}>
+            <IonSelect ref={slot4} value={grundstück5} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 5)}>
               <IonSelectOption value="1">Reihenhaus</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
