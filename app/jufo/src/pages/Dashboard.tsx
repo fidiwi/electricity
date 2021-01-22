@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
 
 import './Dashboard.css';
@@ -12,7 +12,7 @@ import logo from '../bilder/logo.svg'
 
 import { Line } from "react-chartjs-2"
 import { urls } from '../vars/urls';
-import { changeHaustyp } from '../vars/vars';
+import { changeHaustyp, getHaustyp, hausStrings } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
 
@@ -162,6 +162,7 @@ const Dashboard: React.FC = () => {
             </IonItem>
           </IonList>
         </IonPopover>
+        <IonItemDivider text-center>{hausStrings[getHaustyp()]}</IonItemDivider>
         <IonGrid>
         <IonRow>
             <IonCol>

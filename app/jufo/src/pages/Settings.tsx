@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import { urls } from '../vars/urls';
 import { Interface } from 'readline';
 import { passwordExport } from '../vars/password';
+import { hausStrings } from '../vars/vars';
 
 const Settings: React.FC = () => {
 
@@ -78,7 +79,7 @@ const Settings: React.FC = () => {
           <IonItem>
             <IonLabel>Aktuelles Grundstück:</IonLabel>
             <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
-              <IonSelectOption value="1">Reihenhaus</IonSelectOption>
+              <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
               <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
               <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
               <IonSelectOption value="0">Apartment</IonSelectOption>
