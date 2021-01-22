@@ -44,11 +44,41 @@ const Dashboard: React.FC = () => {
       setErzeugung(Math.round(temp));
     });
 
+    socket.emit("estatus");
+    socket.on("estatus", (data: any) => {
+      console.log("api received:");
+      console.log(data);
+      let karma = [];
+      let hourList = Object.keys(data);
+
+      for(let hour = 0; hour <=23; hour++){
+        karma.push(data[hour]);
+      }
+      setEstatus(data[23]);
+      console.log(karma);
+      let newDataStatus = {
+        labels: hourList,
+        datasets: [
+          {
+            label: "Energiestatus",
+            data: karma,
+            fill: false,
+            backgroundColor: "rgba(56,128,255,0.2)",
+            borderColor: "rgba(56,128,255,1)"
+          },
+        ],
+      }
+      setdata(newDataStatus);
+
+    }
+    );
+
     return () => {
       socket.disconnect();
     };
   }, []);
 
+  var estatusdic = ["Optimal", "Sehr gut", "Gut", "In Ordnung", "Grenzwertig", "Kritisch"];
 
   const [moin, setVal] = useState<number>(0);
 
@@ -58,7 +88,9 @@ const Dashboard: React.FC = () => {
 
   const [Erzeugung, setErzeugung] = useState<number>(0);
 
-  const data = {
+  const [Estatus, setEstatus] = useState<number>(0);
+
+  const [data, setdata] = useState({
     labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
     datasets: [
       {
@@ -69,7 +101,8 @@ const Dashboard: React.FC = () => {
         borderColor: "rgba(56,128,255,1)"
       },
     ],
-  };
+  });
+
   const options = {
     scales: {
         yAxes: [
@@ -151,7 +184,7 @@ const Dashboard: React.FC = () => {
                 <Line data={data} options={options}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Energiestatus</IonCardSubtitle>
-                  <IonCardTitle>Sehr gut | 1</IonCardTitle>
+                  <IonCardTitle>{estatusdic[Math.abs(Estatus)]} | {Estatus}</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>

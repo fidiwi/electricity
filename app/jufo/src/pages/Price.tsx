@@ -33,6 +33,8 @@ const Price: React.FC = () => {
     }
   }
 
+  var estatusdic = ["Optimal", "Sehr gut", "Gut", "In Ordnung", "Grenzwertig", "Kritisch"];
+
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("estatus");
@@ -40,11 +42,11 @@ const Price: React.FC = () => {
 
       let hourStatus = [];
       let hourList = Object.keys(data);
-      let temp = 0;
 
       for(let hour = 0; hour <=23; hour++){
         hourStatus.push(data[hour]);
       } 
+      setEstatus(data[23]); 
       let newDataTag = {
         labels: hourList,
         datasets: [
@@ -67,7 +69,7 @@ const Price: React.FC = () => {
   }, []);
 
 
-  
+  const [Estatus, setEstatus] = useState<number>(0);
   const [aufladpunkt, setaufladpunkt] = useState<string>("20");
   const [fertig, setfertig] = useState<string>("06");
 
@@ -86,7 +88,7 @@ const Price: React.FC = () => {
           <Line data={dataTag} options={options}/>
           <IonCardHeader>
               <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-              <IonCardTitle>Sehr gut | 1</IonCardTitle>
+              <IonCardTitle>{estatusdic[Math.abs(Estatus)]} | {Estatus}</IonCardTitle>
           </IonCardHeader>
         </IonCard>
         <IonItem>

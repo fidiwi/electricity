@@ -104,7 +104,7 @@ const Company: React.FC = () => {
         var temp = 0;
         let windlist = [];
         for(let hour = 0; hour <=23; hour++){;
-          windlist.push(Math.round(data.wind[hour]*100*40)/100)
+          windlist.push(Math.round(data.wind[hour]*100*5)/100)
           temp = temp + data.wind[hour]*40;
         };
         setWind(Math.round(temp));
