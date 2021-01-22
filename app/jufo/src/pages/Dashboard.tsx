@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
 
 import './Dashboard.css';
@@ -12,16 +12,20 @@ import logo from '../bilder/logo.svg'
 
 import { Line } from "react-chartjs-2"
 import { urls } from '../vars/urls';
-import { changeHaustyp, getHaustyp, hausStrings } from '../vars/vars';
+import { prdlist, getHaustyp, tagesVbrlist } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
 
-  var prd = 12.6
+  const [prd, setPrd] = useState<number>(0);
+  //setPrd(prdlist[getHaustyp()]);
   // R = 3.75; E = 18.75; M = 8.75; A = 12.5  ÜBERALL
-  var hausvbr = 2.85;
+  const [hausvbr, setHausvbr] = useState<number>(0);
+  //setHausvbr(tagesVbrlist[getHaustyp()]);
   // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
 
   useEffect(() => {
+    setPrd(prdlist[getHaustyp()]);
+    setHausvbr(tagesVbrlist[getHaustyp()]);
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("dashboard");
     socket.on("battery", (data: any) => {
@@ -162,7 +166,6 @@ const Dashboard: React.FC = () => {
             </IonItem>
           </IonList>
         </IonPopover>
-        <IonItemDivider text-center>{hausStrings[getHaustyp()]}</IonItemDivider>
         <IonGrid>
         <IonRow>
             <IonCol>
@@ -186,7 +189,7 @@ const Dashboard: React.FC = () => {
                 <Line data={data} options={options}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Energiestatus</IonCardSubtitle>
-                  <IonCardTitle>{estatusdic[Math.abs(Estatus)]} | {Estatus}</IonCardTitle>
+                <IonCardTitle>{estatusdic[Math.abs(Estatus)]}  | {Estatus}</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>

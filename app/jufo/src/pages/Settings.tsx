@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import { urls } from '../vars/urls';
 import { Interface } from 'readline';
 import { passwordExport } from '../vars/password';
-import { hausStrings } from '../vars/vars';
+import { changeHaustyp, getHaustyp, hausStrings } from '../vars/vars';
 
 const Settings: React.FC = () => {
 
@@ -16,7 +16,6 @@ const Settings: React.FC = () => {
   const slot3 = useRef<HTMLIonSelectElement>(null);
   const slot4 = useRef<HTMLIonSelectElement>(null);
 
-  const [hausmodell, sethausmodell] = useState<string>("Reihenhaus");
   const [grundstück1, sethausmodell1] = useState<string>("0");
   const [grundstück2, sethausmodell2] = useState<string>("1");
   const [grundstück3, sethausmodell3] = useState<string>("1");
@@ -75,17 +74,17 @@ const Settings: React.FC = () => {
             </IonLabel>
           </IonListHeader>
           <IonItem>
-            <IonLabel>Aktuelles Grundstück:</IonLabel>
-            <IonSelect value={hausmodell} okText="Okay" cancelText="Cancel" onIonChange={e => sethausmodell(e.detail.value)}>
+            <IonLabel>Aktueller Haustyp:</IonLabel>
+            <IonSelect value={getHaustyp()} okText="Okay" cancelText="Cancel" onIonChange={e => changeHaustyp(e.detail.value)}>
               <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
-              <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
-              <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
-              <IonSelectOption value="0">Apartment</IonSelectOption>
+              <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
+              <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>
+              <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
           <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" onIonChange={e => passwordCheck(e.detail.value!)}></IonInput>
+            <IonInput placeholder="Passwort" type="password" debounce={1000} onIonChange={e => passwordCheck(e.detail.value!)}></IonInput>
           </IonItem>
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>

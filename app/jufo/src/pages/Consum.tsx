@@ -8,16 +8,16 @@ import { io } from 'socket.io-client';
 import { urls } from '../vars/urls';
 import { number } from 'yargs';
 import { Interface } from 'readline';
-import { getHaustyp } from '../vars/vars';
+import { getHaustyp, hausVbrlist, prdlist, tagesVbrlist } from '../vars/vars';
 
 
 const Consum: React.FC = () => {
 
-  var vbr = 0.5
+  var vbr = hausVbrlist[getHaustyp()];
   // R = 0.064; E = 0.09; M = 0.346; A = 0.5  ÜBERALL AUßER TAGESVERBRAUCH
-  var prd = 12.6
+  var prd = prdlist[getHaustyp()];
   // R = 3.75; E = 18.75; M = 8.75; A = 12.5  ÜBERALL
-  var hausvbr = 2.85;
+  var hausvbr = tagesVbrlist[getHaustyp()];
   // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
 
   const [tagesvbr, settagesvbr] = useState<number>(0);
