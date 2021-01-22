@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { io, Socket } from "socket.io-client";
 
 import { Line } from "react-chartjs-2"
-import { urls } from '../vars/vars';
+import { urls } from '../vars/urls';
 
 const Company: React.FC = () => {
 

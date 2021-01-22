@@ -4,7 +4,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import './Price.css';
 
 import { Line } from "react-chartjs-2"
-import { urls } from '../vars/vars';
+import { urls } from '../vars/urls';
 import { io } from 'socket.io-client';
 
 const Price: React.FC = () => {

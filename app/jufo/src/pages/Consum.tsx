@@ -5,7 +5,7 @@ import './Consum.css';
 
 import { Line } from "react-chartjs-2"
 import { io } from 'socket.io-client';
-import { urls } from '../vars/vars';
+import { urls } from '../vars/urls';
 import { number } from 'yargs';
 import { Interface } from 'readline';
 

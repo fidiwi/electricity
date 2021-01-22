@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { io, Socket } from "socket.io-client";
 
 import { Line } from "react-chartjs-2"
-import { urls } from '../vars/vars';
+import { urls } from '../vars/urls';
 
 const Battery: React.FC = () => {
     useEffect(() => {
