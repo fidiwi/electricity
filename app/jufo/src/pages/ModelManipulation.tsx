@@ -58,7 +58,7 @@ const ModelManipulation: React.FC = () => {
         <IonList>
         <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
+            <IonInput placeholder="Passwort" type="password" debounce={1000} onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
           </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
@@ -69,7 +69,7 @@ const ModelManipulation: React.FC = () => {
           </IonItem>
           <IonItemDivider>Sonne</IonItemDivider>
           <IonItem>
-            <IonRange ref={sunRange} name="sun" min={0} max={1} step={0.01} value={response.sun} disabled={blocken}onIonChange={() => {pushRangeChange(sunRange);}} >
+            <IonRange ref={sunRange} name="sun" min={0} max={1} step={0.01} value={response.sun} disabled={blocken} onIonChange={() => {pushRangeChange(sunRange);}} >
               <IonIcon size="small" slot="start" icon={sunny}/>
               <IonIcon slot="end" icon={sunny} />
             </IonRange>
