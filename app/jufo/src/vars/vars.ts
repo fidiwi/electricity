@@ -1,9 +1,11 @@
-import { useState } from "react";
-
-const [haustyp, setHaustyp] = useState<number>(0);
+var haustyp = 0;
 
 export const changeHaustyp = (typ: number) => {
-    setHaustyp(typ);
+    haustyp = typ;
 };
 
-export default haustyp;
+export const getHaustyp = () => {
+    return haustyp;
+};
+
+export default null;

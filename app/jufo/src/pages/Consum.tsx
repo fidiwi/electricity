@@ -8,6 +8,7 @@ import { io } from 'socket.io-client';
 import { urls } from '../vars/urls';
 import { number } from 'yargs';
 import { Interface } from 'readline';
+import { getHaustyp } from '../vars/vars';
 
 
 const Consum: React.FC = () => {

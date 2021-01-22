@@ -22,7 +22,6 @@ const Dashboard: React.FC = () => {
   // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
 
   useEffect(() => {
-    changeHaustyp(2);
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("dashboard");
     socket.on("battery", (data: any) => {
