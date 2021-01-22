@@ -8,8 +8,6 @@ import { hausStrings } from '../vars/vars';
 
 const Settings: React.FC = () => {
 
-  const [Password, setPasswort] = useState<string>('');
-
   const [currentSocket, setSocket] = useState(io());
 
   const slot0 = useRef<HTMLIonSelectElement>(null);
