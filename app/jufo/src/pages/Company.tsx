@@ -61,11 +61,10 @@ const Company: React.FC = () => {
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
 
-    socket.emit("Company");
+    socket.emit("company");
+    socket.emit("produktivitaet");
     socket.on("produktivitaet", (data: any) => {
 
-      console.log("api received:");
-      console.log(data);
       let hourPrd = [];
       var temp = 0;
 
@@ -93,16 +92,24 @@ const Company: React.FC = () => {
       setProduktivität(newDataProduktivität);
       });
 
-      socket.on("sun", (data: any) => {
+      socket.on("windsun", (data: any) => {
         var temp = 0;
         let sonnelist = [];
         for(let hour = 0; hour <=23; hour++){;
           sonnelist.push(Math.round(data.sun[hour]*100*40)/100)
-          temp = temp + data[hour]*40;
+          temp = temp + data.sun[hour]*40;
         };
         setSonne(Math.round(temp));
 
-        let hourList: Array<string> = Object.keys(data);
+        var temp = 0;
+        let windlist = [];
+        for(let hour = 0; hour <=23; hour++){;
+          windlist.push(Math.round(data.wind[hour]*100*40)/100)
+          temp = temp + data.wind[hour]*40;
+        };
+        setWind(Math.round(temp));
+
+        let hourList: Array<string> = Object.keys(data.sun);
 
         let newDataFirma = {
           labels: hourList,
@@ -116,7 +123,7 @@ const Company: React.FC = () => {
             },
             {
               label: "Wind in kW",
-              data: [3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5],
+              data: windlist,
               fill: false,
               backgroundColor: "rgba(75,192,192,0.2)",
               borderColor: "rgba(75,192,192,1)"
