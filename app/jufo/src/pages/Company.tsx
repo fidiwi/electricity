@@ -1,5 +1,4 @@
 import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
-import { construct } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { io, Socket } from "socket.io-client";
 
@@ -9,6 +8,8 @@ import { urls } from '../vars/vars';
 const Company: React.FC = () => {
 
   const [produktschnitt, setproduktschnitt] = useState<number>(0);
+  const [sonne, setSonne] = useState<number>(0);
+  const [wind, setWind] = useState<number>(0);
 
   const [Produktivität, setProduktivität] = useState({
     labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
@@ -55,57 +56,18 @@ const Company: React.FC = () => {
         ]
     }
     
-};
-  useEffect(() => {
-    const socket = io(urls.SOCKET_ENDPOINT);
-
-    socket.emit("");
-    socket.on("", (data: any) => {
-
-      console.log("api received:");
-      console.log(data);
-      let hourSonne = [];
-
-      for(let hour = 0; hour <=23; hour++){
-        hourSonne.push(data[hour]*40);
-      }
-      console.log(hourSonne);
-
-      let hourList: Array<string> = [];
-
-      data.vb.array.forEach((element: string) => {
-        hourList.push(element);
-      });
-
-      let newDataFirma = {
-        labels: hourList,
-        datasets: [
-          {
-            label: "Solar in kWh",
-            data: hourSonne,
-            fill: false,
-            backgroundColor: "rgba(75,192,192,0.2)",
-            borderColor: "rgba(0,204,0,1)"
-          }
-        ]
-      }
-      setFirma(newDataFirma);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  };
 
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
 
-    socket.emit("produktivitaet");
-    socket.on("FromAPI", (data: any) => {
+    socket.emit("Company");
+    socket.on("produktivitaet", (data: any) => {
 
       console.log("api received:");
       console.log(data);
       let hourPrd = [];
-      var temp = 0
+      var temp = 0;
 
       for(let hour = 6; hour <=21; hour++){
         hourPrd.push(Math.round(data[hour]*10000)/100);
@@ -129,7 +91,41 @@ const Company: React.FC = () => {
         ]
       }
       setProduktivität(newDataProduktivität);
-    });
+      });
+
+      socket.on("sun", (data: any) => {
+        var temp = 0;
+        let sonnelist = [];
+        for(let hour = 0; hour <=23; hour++){;
+          sonnelist.push(Math.round(data.sun[hour]*100*40)/100)
+          temp = temp + data[hour]*40;
+        };
+        setSonne(Math.round(temp));
+
+        let hourList: Array<string> = Object.keys(data);
+
+        let newDataFirma = {
+          labels: hourList,
+          datasets: [
+            {
+              label: "Sonne in kW",
+              data: sonnelist,
+              fill: false,
+              backgroundColor: "rgba(75,192,192,0.2)",
+              borderColor: "rgba(0,204,0,1)"
+            },
+            {
+              label: "Wind in kW",
+              data: [3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5],
+              fill: false,
+              backgroundColor: "rgba(75,192,192,0.2)",
+              borderColor: "rgba(75,192,192,1)"
+            },
+          ]
+        }
+        setFirma(newDataFirma);
+      });
+
     return () => {
       socket.disconnect();
     };
@@ -158,8 +154,8 @@ const Company: React.FC = () => {
           <IonCardContent>
             <IonCardTitle>Tagesüberblick</IonCardTitle>
             <Line data={Firma}/>
-            <IonCardSubtitle>Stromproduktion Solar: 12kW</IonCardSubtitle>
-            <IonCardSubtitle>Stromproduktion Wind: 12kW</IonCardSubtitle>
+            <IonCardSubtitle>Stromproduktion Solar: {sonne}kW</IonCardSubtitle>
+            <IonCardSubtitle>Stromproduktion Wind: {wind}kW</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
     </IonContent>
