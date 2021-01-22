@@ -11,7 +11,8 @@ import verbrauchpic from '../bilder/verbrauch.jpg'
 import logo from '../bilder/logo.svg'
 
 import { Line } from "react-chartjs-2"
-import { urls } from '../vars/vars';
+import { urls } from '../vars/urls';
+import { changeHaustyp } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
 
@@ -21,6 +22,7 @@ const Dashboard: React.FC = () => {
   // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
 
   useEffect(() => {
+    changeHaustyp(2);
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("dashboard");
     socket.on("battery", (data: any) => {

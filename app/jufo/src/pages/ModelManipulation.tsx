@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem,
 import { analytics, cloud, colorFill, sunny, business, home, text } from 'ionicons/icons';
 import { io, Socket } from "socket.io-client";
 import './ModelManipulation.css';
-import { urls } from "../vars/vars";
+import { urls } from "../vars/urls";
 import { passwordExport } from '../vars/password';
 
 
