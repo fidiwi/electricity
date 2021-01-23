@@ -17,10 +17,8 @@ const port = process.env.PORT || 4001;
 const index = require("./routes/index");
 
 log4js.configure({
-  appenders: [
-    { type: 'console' },
-    { type: 'file' , filename: `logs/${Date.now()}.log`, category: 'error_log'}
-  ]
+  appenders: { error_log: { type: 'file', filename: `logs/${Date.now()}.log`}},
+  categories: { default: { appenders: ['error_log'], level: 'errror'}}
 });
 
 var logger = log4js.getLogger('error_log');
