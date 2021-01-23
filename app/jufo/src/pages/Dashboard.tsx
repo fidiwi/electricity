@@ -162,7 +162,7 @@ const Dashboard: React.FC = () => {
             <IonItem>
               <IonLabel>Schließen</IonLabel>
             </IonItem>
-          </IonList>1
+          </IonList>
         </IonPopover>
         <IonList>
           <IonItem>
