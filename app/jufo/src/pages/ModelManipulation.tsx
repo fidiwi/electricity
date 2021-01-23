@@ -34,13 +34,15 @@ const ModelManipulation: React.FC = () => {
     };
   }, []);
 
-  const passwordCheck = (password:string) => {
-    if (password == passwordExport){
-      setblocken(false);
-    }
-    else{
-      setblocken(true);
-    }
+  const passwordCheck = (input:string) => {
+    passwordExport((password:string) => {
+      if (input == password){
+        setblocken(false);
+      }
+      else{
+        setblocken(true);
+      }
+    }) 
   };
 
   const pushRangeChange = (rangeElement: React.RefObject<HTMLIonRangeElement>) => {

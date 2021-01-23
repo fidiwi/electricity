@@ -25,13 +25,15 @@ const Settings: React.FC = () => {
 
   const [blocken, setblocken] = useState<boolean>(true);
 
-  const passwordCheck = (password:string) => {
-    if (password == passwordExport){
-      setblocken(false);
-    }
-    else{
-      setblocken(true);
-    }
+  const passwordCheck = (input:string) => {
+    passwordExport((password:string) => {
+      if (input == password){
+        setblocken(false);
+      }
+      else{
+        setblocken(true);
+      }
+    }) 
   };
 
   useEffect(() => {
