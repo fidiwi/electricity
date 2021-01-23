@@ -284,11 +284,12 @@ try{
 
         let battery = [];
         for (let i = time+1; i < 24; i++){
-          battery.push({hour: i, value: battery[i]});
+          battery.push({hour: i, value: batteryDict[i]});
         }
         for(let i = 0; i <= time; i++){
-          battery.push({hour: i, value: battery[i]});
+          battery.push({hour: i, value: batteryDict[i]});
         }
+        console.log(battery);
         socket.emit("battery", battery);
       });
     });
