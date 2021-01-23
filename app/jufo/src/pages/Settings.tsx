@@ -30,6 +30,9 @@ const Settings: React.FC = () => {
     if (password == passwordExport){
       setblocken(false);
     }
+    else{
+      setblocken(true);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +78,7 @@ const Settings: React.FC = () => {
           </IonListHeader>
           <IonItem>
             <IonLabel>Aktueller Haustyp:</IonLabel>
-            <IonSelect value={getHaustyp()} okText="Okay" cancelText="Cancel" onIonChange={e => changeHaustyp(e.detail.value)}>
+            <IonSelect value={""+getHaustyp()} okText="Okay" cancelText="Cancel" onIonChange={e => changeHaustyp(e.detail.value)}>
               <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
               <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
               <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>

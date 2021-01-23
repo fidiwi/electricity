@@ -12,20 +12,18 @@ import logo from '../bilder/logo.svg'
 
 import { Line } from "react-chartjs-2"
 import { urls } from '../vars/urls';
-import { prdlist, getHaustyp, tagesVbrlist } from '../vars/vars';
+import { prdlist, getHaustyp, tagesVbrlist, hausStrings } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
 
-  const [prd, setPrd] = useState<number>(0);
-  //setPrd(prdlist[getHaustyp()]);
+  var prd = prdlist[getHaustyp()];
   // R = 3.75; E = 18.75; M = 8.75; A = 12.5  ÜBERALL
-  const [hausvbr, setHausvbr] = useState<number>(0);
-  //setHausvbr(tagesVbrlist[getHaustyp()]);
+  var hausvbr = tagesVbrlist[getHaustyp()];
   // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
 
   useEffect(() => {
-    setPrd(prdlist[getHaustyp()]);
-    setHausvbr(tagesVbrlist[getHaustyp()]);
+    //setPrd(prdlist[getHaustyp()]);
+    //setHausvbr(tagesVbrlist[getHaustyp()]);
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("dashboard");
     socket.on("battery", (data: any) => {
@@ -166,6 +164,11 @@ const Dashboard: React.FC = () => {
             </IonItem>
           </IonList>
         </IonPopover>
+        <IonList>
+          <IonItem>
+            {hausStrings[getHaustyp()]}
+          </IonItem>
+        </IonList>
         <IonGrid>
         <IonRow>
             <IonCol>
