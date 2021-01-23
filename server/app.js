@@ -43,6 +43,8 @@ var houseStatSockets = [];
 var batterySockets = [];
 var estatusSockets = [];
 var companySockets = [];
+var senderSockets = [];
+var HLSockets = [];
 
 try{
   io.on("connection", (socket) => {
@@ -140,12 +142,18 @@ try{
   
     socket.on("battery", () =>{
     batterySockets.push(socket);
+    senderSockets.push(socket);
     sendStorage(socket);
+    sendSenders(socket);
   
       socket.on("disconnect", () => {
         const index = batterySockets.indexOf(socket);
         if (index > -1) {
           batterySockets.splice(index, 1);
+        }
+        const index = senderSockets.indexOf(socket);
+        if (index > -1) {
+          senderSockets.splice(index, 1);
         }
         console.log("Battery disconnected");
   
@@ -158,12 +166,18 @@ try{
   
    socket.on("estatus", () =>{
     estatusSockets.push(socket);
+    HLSockets.push(socket);
     sendEStatus(socket);
+    sendHLStats(socket);
   
       socket.on("disconnect", () => {
         const index = estatusSockets.indexOf(socket);
         if (index > -1) {
           estatusSockets.splice(index, 1);
+        }
+        const index = HLSockets.indexOf(socket);
+        if (index > -1) {
+          HLSockets.splice(index, 1);
         }
         console.log("E-Status disconnected");
   
@@ -409,6 +423,28 @@ try{
         });
       });
   
+    });
+  }
+
+  // Sende Sender für den Energiespeicher
+  function sendSenders(socket){
+    SQLconnection.query("SELECT * FROM senders", (err, rows) => {
+      if (err) throw err;
+
+      let sendersDict = {};
+      for (let row of rows){
+        sendersDict[row.slot] = {abgabe: row.abgabe, annahme: row.annahme};
+      }
+
+      socket.emit("sender", sendersDict);
+    });
+  }
+
+  // Sende Statistike der Hauptleitung
+  function sendSenders(socket){
+    SQLconnection.query("SELECT * FROM hauptleitung WHERE id=1", (err, rows) => {
+      if (err) throw err;
+      socket.emit("hl", {abgabe: rows[0].abgabe, annahme: rows[0].annahme});
     });
   }
 
