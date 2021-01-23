@@ -138,15 +138,6 @@ const Consum: React.FC = () => {
     ]
   });
 
-  const legend = {
-    display: true,
-    labels: {
-      fontColor: "#323130",
-      fontSize: 10
-    }
-  }
-
-
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
 
@@ -228,7 +219,7 @@ const Consum: React.FC = () => {
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle>Tagesüberblick</IonCardTitle>
-                <Line data={dataTag} legend={legend}/>
+                <Line data={dataTag}/>
               </IonCardHeader>
               <IonCardContent>
                 <IonCardSubtitle>Stromverbrauch: {Math.round(tagesvbr)}kWh</IonCardSubtitle>
