@@ -151,7 +151,7 @@ try{
         if (index > -1) {
           batterySockets.splice(index, 1);
         }
-        const index = senderSockets.indexOf(socket);
+        index = senderSockets.indexOf(socket);
         if (index > -1) {
           senderSockets.splice(index, 1);
         }
