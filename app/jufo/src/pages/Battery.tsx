@@ -137,14 +137,6 @@ const Battery: React.FC = () => {
 
     })
 
-    const legend = {
-        display: true,
-        labels: {
-          fontColor: "#323130",
-          fontSize: 10
-        }
-      }
-
     const [receiver, setReserver] = useState({
         type: 'pie',
         datasets: [{
@@ -214,13 +206,13 @@ const Battery: React.FC = () => {
                 <IonCard>
                 <IonCardHeader>
                     <IonCardTitle>Abgabe an den Stromspeicher</IonCardTitle>
-                    <Pie data={sender} legend={legend}/>
+                    <Pie data={sender}/>
                 </IonCardHeader>
                 </IonCard>
                 <IonCard>
                 <IonCardHeader>
                     <IonCardTitle>Annahme an den Stromspeicher</IonCardTitle>
-                    <Pie data={receiver} legend={legend}/>
+                    <Pie data={receiver}/>
                 </IonCardHeader>
                 </IonCard>
             </IonContent>
