@@ -18,7 +18,7 @@ const index = require("./routes/index");
 
 log4js.configure({
   appenders: { error_log: { type: 'file', filename: `logs/${Date.now()}.log`}},
-  categories: { default: { appenders: ['error_log'], level: 'errror'}}
+  categories: { default: { appenders: ['error_log'], level: 'error'}}
 });
 
 var logger = log4js.getLogger('error_log');
