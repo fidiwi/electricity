@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
     return () => {
       socket.disconnect();
     };
-  });
+  }, [getHaustyp()]);
 
   var estatusdic = ["Optimal", "Sehr gut", "Gut", "In Ordnung", "Grenzwertig", "Kritisch"];
 
@@ -162,11 +162,13 @@ const Dashboard: React.FC = () => {
             <IonItem>
               <IonLabel>Schließen</IonLabel>
             </IonItem>
-          </IonList>
+          </IonList>1
         </IonPopover>
         <IonList>
           <IonItem>
-            {hausStrings[getHaustyp()]}
+            <IonText>
+              {hausStrings[getHaustyp()]}
+            </IonText>
           </IonItem>
         </IonList>
         <IonGrid>
