@@ -147,7 +147,7 @@ try{
     sendSenders(socket);
   
       socket.on("disconnect", () => {
-        const index = batterySockets.indexOf(socket);
+        let index = batterySockets.indexOf(socket);
         if (index > -1) {
           batterySockets.splice(index, 1);
         }
@@ -171,7 +171,7 @@ try{
     sendHLStats(socket);
   
       socket.on("disconnect", () => {
-        const index = estatusSockets.indexOf(socket);
+        let index = estatusSockets.indexOf(socket);
         if (index > -1) {
           estatusSockets.splice(index, 1);
         }
