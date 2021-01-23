@@ -271,28 +271,18 @@ try{
   
   // Sende Speicherlist an den jeweiligen Socket
   function sendStorage(socket){
-    SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
+    SQLconnection.query("SELECT * FROM battery", (err, rows) => {
       if (err) throw err;
-      let time = rows[0].time;
+      let batteryDict = {};
+      for(let row of rows){
+        batteryDict[row.hour] = row.capacity;
+      }
 
-      SQLconnection.query("SELECT * FROM battery", (err, rows) => {
-        if (err) throw err;
-        let batteryDict = {};
-        for(let row of rows){
-          batteryDict[row.hour] = row.capacity;
-        }
-
-        let battery = [];
-        for (let i = time+1; i < 24; i++){
-          battery.push({hour: i, value: batteryDict[i]});
-        }
-        for(let i = 0; i <= time; i++){
-          battery.push({hour: i, value: batteryDict[i]});
-        }
-        console.log(battery);
-        socket.emit("battery", battery);
+      sortValues(batteryDict, (sortedList) => {
+        socket.emit("battery", sortedList);
       });
     });
+
     
   }
   
@@ -300,12 +290,14 @@ try{
   function sendSun(socket){
     SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
       if (err) throw err;
-      let sun = {};
+      let sunDict = {};
       for(let row of rows){
-        sun[row.hours] = row.produktion;
+        sunDict[row.hour] = row.produktion;
       }
-  
-      socket.emit("sun", sun);
+
+      sortValues(sunDict, (sortedList) => {
+        socket.emit("sun", sortedList);
+      });
     });
   }
   
@@ -315,12 +307,14 @@ try{
       if (err) throw err;
       
       // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
-      let vb = {};
+      let vbDict = {};
       for(let row of rows){
-        vb[row.hour] = row.vb;
+        vbDict[row.hour] = row.vb;
       }
-  
-      socket.emit("vb", vb);
+
+      sortValues(vbDict, (sortedList) => {
+        socket.emit("vb", sortedList);
+      });
     });
   }
   
@@ -336,11 +330,14 @@ try{
   function sendProductivity(socket){
     SQLconnection.query("SELECT * FROM firma_produktivität", (err, rows) => {
       if (err) throw err;
-      let entries = {};
+      let entriesDict = {};
       for(let row of rows){
-        entries[row.hours] = row.produktivität;
+        entriesDict[row.hour] = row.produktivität;
       }
-      socket.emit("produktivitaet", entries);
+      
+      sortValues(entriesDict, (sortedList) => {
+        socket.emit("produktivitaet", sortedList);
+      });
     });
   }
   
@@ -350,12 +347,14 @@ try{
       if (err) throw err;
       
       // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
-      let estatus = {};
+      let entriesDict = {};
       for(let row of rows){
-        estatus[row.hour] = row.value;
+        entriesDict[row.hour] = row.value;
       }
-  
-      socket.emit("estatus", estatus);
+
+      sortValues(entriesDict, (sortedList) => {
+        socket.emit("estatus", sortedList);
+      });
     });
   }
   
@@ -365,19 +364,23 @@ try{
       if (err) throw err;
       
       // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
-      let vb = {};
+      let vbDict = {};
       for(let row of rows){
-        vb[row.hour] = row.vb;
+        vbDict[row.hour] = row.vb;
       }
-  
-      SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
-        if (err) throw err;
-        let sun = {};
-        for(let row of rows){
-          sun[row.hours] = row.produktion;
-        }
-  
-        socket.emit("FromAPI", {sun: sun, vb: vb});
+
+      sortValues(vbDict, (vb) => {
+        SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
+          if (err) throw err;
+          let sunDict = {};
+          for(let row of rows){
+            sun[row.hour] = row.produktion;
+          }
+
+          sortValues(sunDict, (sun) => {
+            socket.emit("FromAPI", {sun: sun, vb: vb});
+          });  
+        });
       });
   
     });
@@ -389,21 +392,39 @@ try{
       if (err) throw err;
       
       // Object erstellen nach Format {0: 0.3, ..., 23: 0.5}
-      let wind = {};
+      let windDict = {};
       for(let row of rows){
-        wind[row.hour] = row.produktion;
+        windDict[row.hour] = row.produktion;
       }
-  
-      SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
-        if (err) throw err;
-        let sun = {};
-        for(let row of rows){
-          sun[row.hours] = row.produktion;
-        }
-  
-        socket.emit("windsun", {sun: sun, wind: wind});
+      sortValues(windDict, (wind) => {      
+        SQLconnection.query("SELECT * FROM sonne_produktion", (err, rows) => {
+          if (err) throw err;
+          let sunDict = {};
+          for(let row of rows){
+            sunDict[row.hour] = row.produktion;
+          }
+          sortValues(sunDict, (sun) => {
+            socket.emit("windsun", {sun: sun, wind: wind});
+          });
+        });
       });
   
+    });
+  }
+
+  function sortValues(data, callback){
+    SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
+      if (err) throw err;
+      let time = rows[0].time;
+
+      let output = [];
+      for (let i = time+1; i < 24; i++){
+        output.push({hour: i, value: data[i]});
+      }
+      for(let i = 0; i <= time; i++){
+        output.push({hour: i, value: data[i]});
+      }
+      callback(output);
     });
   }
   
