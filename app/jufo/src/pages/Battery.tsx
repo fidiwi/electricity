@@ -3,7 +3,7 @@ import { options, batteryDead, batteryFull } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { io, Socket } from "socket.io-client";
 
-import { Line } from "react-chartjs-2"
+import { Line, Pie } from "react-chartjs-2"
 import { urls } from '../vars/urls';
 
 const Battery: React.FC = () => {
@@ -12,12 +12,13 @@ const Battery: React.FC = () => {
         socket.emit("battery");
         socket.on("battery", (data: any) => {
             let batterylist = [];
-            for(let hour = 0; hour <=23; hour++){
-                batterylist.push(Math.round(data[hour]/3.5*100)/100);
+            let hourList = [];
+            for(let i = 0; i <=23; i++){
+                batterylist.push(Math.round(data[i].value/3.5*100)/100);
+                hourList.push(data[i].hour);
               }
               console.log(batterylist);
-          setProzent(data[23]);
-          let hourList: Array<string> = Object.keys(data);
+          setProzent(data[23].value);
           
           let batterylistfinal = {
             labels: hourList,
@@ -54,6 +55,48 @@ const Battery: React.FC = () => {
           }
         ],
     });
+
+    const [sender, setSender] = useState({
+        type: 'pie',
+        datasets: [{
+            data: [10, 20, 30],
+            backgroundColor: ['rgba(255, 99, 132)',
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 206, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                            'rgba(255, 159, 64)'],
+            borderColor: "rgba(255,255,255)"
+        }],
+    
+        labels: [
+            'Red',
+            'Blue',
+            'Yellow'
+        ]
+
+    })
+
+    const [receiver, setreserver] = useState({
+        type: 'pie',
+        datasets: [{
+            data: [14, 22, 37],
+            backgroundColor: ['rgba(255, 99, 132)',
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 206, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                            'rgba(255, 159, 64)'],
+            borderColor: "rgba(255,255,255)"
+        }],
+    
+        labels: [
+            'Red',
+            'Blue',
+            'Yellow'
+        ]
+
+    })
 
     const options = {
         scales: {
@@ -96,6 +139,18 @@ const Battery: React.FC = () => {
                     <IonCardTitle>Akkustand</IonCardTitle>
                     <Line data={Akkustand} options={options}/>
                     <IonCardSubtitle>Aktueller Stand: {Prozent} kWh | {Math.round(Prozent/3.5)}%</IonCardSubtitle>
+                </IonCardHeader>
+                </IonCard>
+                <IonCard>
+                <IonCardHeader>
+                    <IonCardTitle>Abgabe an den Stromspeicher</IonCardTitle>
+                    <Pie data={sender}/>
+                </IonCardHeader>
+                </IonCard>
+                <IonCard>
+                <IonCardHeader>
+                    <IonCardTitle>Annahme an den Stromspeicher</IonCardTitle>
+                    <Pie data={receiver}/>
                 </IonCardHeader>
                 </IonCard>
             </IonContent>

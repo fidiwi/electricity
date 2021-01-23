@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Price.css';
 
@@ -70,6 +70,8 @@ const Price: React.FC = () => {
 
 
   const [Estatus, setEstatus] = useState<number>(0);
+  const [hlabgabe, setHlabgabe] = useState<number>(0);
+  const [hlannahme, setHlannahme] = useState<number>(0);
   const [aufladpunkt, setaufladpunkt] = useState<string>("20");
   const [fertig, setfertig] = useState<string>("06");
 
@@ -91,14 +93,22 @@ const Price: React.FC = () => {
               <IonCardTitle>{estatusdic[Math.abs(Estatus)]} | {Estatus}</IonCardTitle>
           </IonCardHeader>
         </IonCard>
-        <IonItem>
-          <IonLabel>Auto soll angschlossen sein: </IonLabel>
-          <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-17 20:00"></IonDatetime>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Auto soll aufgeladen sein: </IonLabel>
-          <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-18 06:00"></IonDatetime>
-        </IonItem>
+        <IonList>
+          <IonItem>
+            <IonLabel>{hlabgabe} kWh wurden an die HL abgegeben</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>{hlannahme} kWh wurden von der HL bezogen</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Auto soll angschlossen sein: </IonLabel>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-17 20:00"></IonDatetime>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Auto soll aufgeladen sein: </IonLabel>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-18 06:00"></IonDatetime>
+          </IonItem>
+        </IonList>
       </IonContent>
     </IonPage>
   );

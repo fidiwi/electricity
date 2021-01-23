@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
     const socket = io(urls.SOCKET_ENDPOINT);
     socket.emit("dashboard");
     socket.on("battery", (data: any) => {
-      setVal(data[23]);
+      setVal(data[23].value);
     });
 
     socket.on("vb", (data: any) => {
