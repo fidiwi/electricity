@@ -162,24 +162,24 @@ const Consum: React.FC = () => {
       let hourVerbrauch = [];
       var temp = 0;
 
-      for(let hour = 0; hour <=23; hour++){
-        hourVerbrauch.push(Math.round(data.vb[hour]*100*hausvbr)/100);
-        temp = temp + Math.round(data.vb[hour]*100*hausvbr)/100;
+      for(let i = 0; i <=23; i++){
+        hourVerbrauch.push(Math.round(data.vb[i].value*100*hausvbr)/100);
+        temp = temp + Math.round(data.vb[i].value*100*hausvbr)/100;
       } 
       console.log(hourVerbrauch);
       settagesvbr(temp);
 
       let hourSonne = [];
+      let hourList = [];
       temp = 0;
 
-      for(let hour = 0; hour <=23; hour++){
-        hourSonne.push(Math.round(data.sun[hour]*100*prd)/100);
-        temp = temp + Math.round(data.sun[hour]*100*prd)/100
+      for(let i = 0; i <=23; i++){
+        hourSonne.push(Math.round(data.sun[i].value*100*prd)/100);
+        temp = temp + Math.round(data.sun[i].value*100*prd)/100;
+        hourList.push(data.sun[i].hour);
       } 
       console.log(hourSonne);
       settagesprd(temp);
-
-      let hourList: Array<string> = Object.keys(data.sun);
 
 
       let newDataTag = {

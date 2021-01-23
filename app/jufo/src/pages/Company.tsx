@@ -66,16 +66,16 @@ const Company: React.FC = () => {
     socket.on("produktivitaet", (data: any) => {
 
       let hourPrd = [];
+      let hourList = [];
       var temp = 0;
 
-      for(let hour = 6; hour <=21; hour++){
-        hourPrd.push(Math.round(data[hour]*10000)/100);
-        temp = temp + data[hour]*100;
+      for(let i = 0; i <=23; i++){
+        hourPrd.push(Math.round(data[i].value*10000)/100);
+        temp = temp + data[i].value*100;
+        hourList.push(data[i].hour)
       }
       setproduktschnitt(Math.round(temp / 16));
       console.log(hourPrd);
-
-      let hourList: Array<string> = Object.keys(data);
 
       let newDataProduktivität = {
         labels: hourList,
@@ -95,21 +95,21 @@ const Company: React.FC = () => {
       socket.on("windsun", (data: any) => {
         var temp = 0;
         let sonnelist = [];
-        for(let hour = 0; hour <=23; hour++){;
-          sonnelist.push(Math.round(data.sun[hour]*100*40)/100)
-          temp = temp + data.sun[hour]*40;
+        for(let i = 0; i <=23; i++){;
+          sonnelist.push(Math.round(data.sun[i].value*100*40)/100)
+          temp = temp + data.sun[i].value*40;
         };
         setSonne(Math.round(temp));
 
         var temp = 0;
         let windlist = [];
-        for(let hour = 0; hour <=23; hour++){;
-          windlist.push(Math.round(data.wind[hour]*100*5)/100)
-          temp = temp + data.wind[hour]*40;
+        let hourList = [];
+        for(let i = 0; i <=23; i++){;
+          windlist.push(Math.round(data.wind[i].value*100*5)/100)
+          temp = temp + data.wind[i].value*40;
+          hourList.push(data.wind[i].hour)
         };
         setWind(Math.round(temp));
-
-        let hourList: Array<string> = Object.keys(data.sun);
 
         let newDataFirma = {
           labels: hourList,

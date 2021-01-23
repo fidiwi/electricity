@@ -32,8 +32,8 @@ const Dashboard: React.FC = () => {
 
     socket.on("vb", (data: any) => {
       var temp = 0;
-      for(let hour = 0; hour <=23; hour++){;
-        temp = temp + data[hour]*hausvbr;
+      for(let i = 0; i <=23; i++){;
+        temp = temp + data[i].value*hausvbr;
       };
       setVerbrauch(Math.round(temp));
     });
@@ -41,8 +41,8 @@ const Dashboard: React.FC = () => {
 
     socket.on("sun", (data: any) => {
       var temp = 0;
-      for(let hour = 0; hour <=23; hour++){;
-        temp = temp + data[hour]*prd;
+      for(let i = 0; i <=23; i++){;
+        temp = temp + data[i].value*prd;
       };
       setErzeugung(Math.round(temp));
     });
@@ -52,12 +52,13 @@ const Dashboard: React.FC = () => {
       console.log("api received:");
       console.log(data);
       let karma = [];
-      let hourList = Object.keys(data);
+      let hourList = [];
 
-      for(let hour = 0; hour <=23; hour++){
-        karma.push(data[hour]);
+      for(let i = 0; i <=23; i++){
+        karma.push(data[i].value);
+        hourList.push(data[i].hour);
       }
-      setEstatus(data[23]);
+      setEstatus(data[23].value);
       console.log(karma);
       let newDataStatus = {
         labels: hourList,

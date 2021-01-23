@@ -41,12 +41,13 @@ const Price: React.FC = () => {
     socket.on("estatus", (data: any) => {
 
       let hourStatus = [];
-      let hourList = Object.keys(data);
+      let hourList = [];
 
-      for(let hour = 0; hour <=23; hour++){
-        hourStatus.push(data[hour]);
+      for(let i = 0; i <=23; i++){
+        hourStatus.push(data[i].value);
+        hourList.push(data[i].hour)
       } 
-      setEstatus(data[23]); 
+      setEstatus(data[23].value); 
       let newDataTag = {
         labels: hourList,
         datasets: [
