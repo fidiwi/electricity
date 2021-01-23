@@ -374,7 +374,7 @@ try{
           if (err) throw err;
           let sunDict = {};
           for(let row of rows){
-            sun[row.hour] = row.produktion;
+            sunDict[row.hour] = row.produktion;
           }
 
           sortValues(sunDict, (sun) => {
