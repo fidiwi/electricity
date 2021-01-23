@@ -441,7 +441,7 @@ try{
   }
 
   // Sende Statistike der Hauptleitung
-  function sendSenders(socket){
+  function sendHLStats(socket){
     SQLconnection.query("SELECT * FROM hauptleitung WHERE id=1", (err, rows) => {
       if (err) throw err;
       socket.emit("hl", {abgabe: rows[0].abgabe, annahme: rows[0].annahme});
