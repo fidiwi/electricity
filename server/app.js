@@ -51,6 +51,13 @@ try{
     console.log("New client connected");
   
     // Jeweilige Client-Art abfragen und in Kategorien speichern
+
+    // Passwort-Abfrage
+    socket.on("password", () => {
+      SQLconnection.query("SELECT * FROM password WHERE id=1", (err, rows) => {
+        socket.emit("password", rows[0].password);
+      });
+    });
   
     /**
      * Manipulation Connection
