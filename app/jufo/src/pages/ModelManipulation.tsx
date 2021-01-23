@@ -38,6 +38,9 @@ const ModelManipulation: React.FC = () => {
     if (password == passwordExport){
       setblocken(false);
     }
+    else{
+      setblocken(true);
+    }
   };
 
   const pushRangeChange = (rangeElement: React.RefObject<HTMLIonRangeElement>) => {
@@ -58,7 +61,7 @@ const ModelManipulation: React.FC = () => {
         <IonList>
         <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" debounce={1000} onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
+            <IonInput placeholder="Passwort" type="password" debounce={1083} onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
           </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>

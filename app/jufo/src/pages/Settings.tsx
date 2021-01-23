@@ -87,7 +87,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" debounce={1000} onIonChange={e => passwordCheck(e.detail.value!)}></IonInput>
+            <IonInput placeholder="Passwort" type="password" debounce={1039} onIonChange={e => passwordCheck(e.detail.value!)}></IonInput>
           </IonItem>
           <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
           <IonItem>
