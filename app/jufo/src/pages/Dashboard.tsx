@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonText, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react';
-import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
+import React, { useEffect, useState } from 'react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { ellipsisVertical} from 'ionicons/icons'
 
 import './Dashboard.css';
 
-import { io, Socket } from "socket.io-client";
-
+import { io } from "socket.io-client";
 import erzeugungpic from '../bilder/erzeugung.jpg';
 import verbrauchpic from '../bilder/verbrauch.jpg'
 import logo from '../bilder/logo.svg'
@@ -73,7 +72,6 @@ const Dashboard: React.FC = () => {
         ],
       }
       setdata(newDataStatus);
-
     }
     );
 

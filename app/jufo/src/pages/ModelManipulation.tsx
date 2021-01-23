@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonTextarea, IonInput, IonListHeader } from '@ionic/react';
-import { analytics, cloud, colorFill, sunny, business, home, text } from 'ionicons/icons';
-import { io, Socket } from "socket.io-client";
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonInput, IonListHeader } from '@ionic/react';
+import { analytics, cloud, sunny, business, home} from 'ionicons/icons';
+import { io } from "socket.io-client";
 import './ModelManipulation.css';
 import { urls } from "../vars/urls";
 import { passwordExport } from '../vars/password';
@@ -97,9 +97,7 @@ const ModelManipulation: React.FC = () => {
               <IonIcon size="small" slot="start" icon={analytics} />
               <IonIcon slot="end" icon={analytics} />
             </IonRange>
-          </IonItem>
-          
-          
+          </IonItem>      
         </IonList>
       </IonContent>
     </IonPage>

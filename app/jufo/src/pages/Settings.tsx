@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonItemDivider, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
+import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
 import { io } from "socket.io-client";
 import { urls } from '../vars/urls';
-import { Interface } from 'readline';
 import { passwordExport } from '../vars/password';
 import { changeHaustyp, getHaustyp, hausStrings } from '../vars/vars';
 

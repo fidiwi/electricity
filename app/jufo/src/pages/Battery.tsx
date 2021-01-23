@@ -1,7 +1,6 @@
-import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonPage, IonProgressBar, IonRange, IonTitle, IonToolbar } from '@ionic/react';
-import { options, batteryDead, batteryFull } from 'ionicons/icons';
-import React, { useEffect, useRef, useState } from 'react';
-import { io, Socket } from "socket.io-client";
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonPage, IonProgressBar, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { io } from "socket.io-client";
 
 import { Line, Pie } from "react-chartjs-2"
 import { urls } from '../vars/urls';

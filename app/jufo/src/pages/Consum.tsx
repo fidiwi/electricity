@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import './Consum.css';
 
 import { Line } from "react-chartjs-2"
 import { io } from 'socket.io-client';
 import { urls } from '../vars/urls';
-import { number } from 'yargs';
-import { Interface } from 'readline';
 import { getHaustyp, hausVbrlist, prdlist, tagesVbrlist } from '../vars/vars';
 
 
