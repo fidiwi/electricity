@@ -60,9 +60,13 @@ const Price: React.FC = () => {
           },
         ],
       }
-
       setDataTag(newDataTag);
     });
+
+      socket.on("hl", (data: any) => {
+        setHlabgabe(data.abgabe);
+        setHlannahme(data.annahme);
+        });
 
     return () => {
       socket.disconnect();

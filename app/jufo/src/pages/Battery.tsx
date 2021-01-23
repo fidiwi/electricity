@@ -18,7 +18,7 @@ const Battery: React.FC = () => {
                 hourList.push(data[i].hour);
               }
               console.log(batterylist);
-          setProzent(data[23].value);
+        setProzent(data[23].value);
           
           let batterylistfinal = {
             labels: hourList,
@@ -34,6 +34,64 @@ const Battery: React.FC = () => {
         }
         setAkkusstand(batterylistfinal);
 
+        });
+        socket.on("sender", (data: any) => {
+            let abgebendata = [];
+            let annehmendata = [];
+            for(let i = 1; i <=7; i++){
+                abgebendata.push(Math.round(data[i].abgabe*100)/100);
+                annehmendata.push(Math.round(data[i].annahme*100)/100);
+              }
+            let abgebenfinal = {
+              type: 'pie',
+              datasets: [{
+                  data: abgebendata,
+                  backgroundColor: ['rgba(255, 99, 132)',
+                                  'rgba(54, 162, 235)',
+                                  'rgba(255, 206, 86)',
+                                  'rgba(75, 192, 192)',
+                                  'rgba(153, 102, 255)',
+                                  'rgba(255, 159, 64)',
+                                  'rgba(21, 160, 14)'],
+                  borderColor: "rgba(255,255,255)"
+              }],
+            
+              labels: [
+                  '1',
+                  '2',
+                  '3',
+                  '4',
+                  '5',
+                  '6',
+                  '7'
+              ]
+            }
+            let annehmenfinal = {
+                type: 'pie',
+                datasets: [{
+                    data: annehmendata,
+                    backgroundColor: ['rgba(255, 99, 132)',
+                                    'rgba(54, 162, 235)',
+                                    'rgba(255, 206, 86)',
+                                    'rgba(75, 192, 192)',
+                                    'rgba(153, 102, 255)',
+                                    'rgba(255, 159, 64)',
+                                    'rgba(21, 160, 14)'],
+                    borderColor: "rgba(255,255,255)"
+                }],
+              
+                labels: [
+                    '1',
+                    '2',
+                    '3',
+                    '5',
+                    '5',
+                    '6',
+                    '7'
+                ]
+              }
+              setSender(abgebenfinal);
+              setReserver(annehmenfinal);
         });
     
         return () => {
@@ -59,7 +117,7 @@ const Battery: React.FC = () => {
     const [sender, setSender] = useState({
         type: 'pie',
         datasets: [{
-            data: [10, 20, 30, 21, 12],
+            data: [10, 20, 30, 21, 12, 23],
             backgroundColor: ['rgba(255, 99, 132)',
                             'rgba(54, 162, 235)',
                             'rgba(255, 206, 86)',
@@ -74,7 +132,8 @@ const Battery: React.FC = () => {
             'Blue',
             'Yellow',
             'lol',
-            'wow'
+            'wow',
+            '343'
         ]
 
     })
@@ -87,7 +146,7 @@ const Battery: React.FC = () => {
         }
       }
 
-    const [receiver, setreserver] = useState({
+    const [receiver, setReserver] = useState({
         type: 'pie',
         datasets: [{
             data: [14, 22, 37, 234, 32],
