@@ -271,15 +271,28 @@ try{
   
   // Sende Speicherlist an den jeweiligen Socket
   function sendStorage(socket){
-    SQLconnection.query("SELECT * FROM battery", (err, rows) => {
+    SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
       if (err) throw err;
-      let battery = {};
-      for(let row of rows){
-        battery[row.hours] = row.capacity;
-      }
-  
-      socket.emit("battery", battery);
+      let time = rows[0].time;
+
+      SQLconnection.query("SELECT * FROM battery", (err, rows) => {
+        if (err) throw err;
+        let batteryDict = {};
+        for(let row of rows){
+          batteryDict[row.hour] = row.capacity;
+        }
+
+        let battery = [];
+        for (let i = time+1; i < 24; i++){
+          battery.push({hour: i, value: battery[i]});
+        }
+        for(let i = 0; i <= time; i++){
+          battery.push({hour: i, value: battery[i]});
+        }
+        socket.emit("battery", battery);
+      });
     });
+    
   }
   
   // Sende private Stromproduktion (Sonne) an den jeweiligen Socket
