@@ -396,7 +396,7 @@ try{
   server.listen(port, () => console.log(`Listening on Port ${port}`));
 
 } catch(error){
-  logger.warn(error);
+  logger.error(error);
 }
 
 
