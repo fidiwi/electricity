@@ -2,3 +2,5 @@
 
 /steuerung/node_modules
 /steuerung/config.json
+
+/server/logs
