@@ -175,7 +175,7 @@ try{
         if (index > -1) {
           estatusSockets.splice(index, 1);
         }
-        const index = HLSockets.indexOf(socket);
+        index = HLSockets.indexOf(socket);
         if (index > -1) {
           HLSockets.splice(index, 1);
         }
