@@ -94,46 +94,46 @@ const Settings: React.FC = () => {
           <IonItem>
             <IonLabel>Grundstück 1:</IonLabel>
             <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 1)}>
-              <IonSelectOption value="1">Reihenhaus</IonSelectOption>
-              <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
-              <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
-              <IonSelectOption value="0">Apartment</IonSelectOption>
+              <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
+              <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
+              <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>
+              <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 2:</IonLabel>
             <IonSelect ref={slot1} value={grundstück2} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 2)}>
-              <IonSelectOption value="1">Reihenhaus</IonSelectOption>
-              <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
-              <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
-              <IonSelectOption value="0">Apartment</IonSelectOption>
+              <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
+              <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
+              <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>
+              <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 3:</IonLabel>
             <IonSelect ref={slot2} value={grundstück3} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 3)}>
-              <IonSelectOption value="1">Reihenhaus</IonSelectOption>
-              <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
-              <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
-              <IonSelectOption value="0">Apartment</IonSelectOption>
+              <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
+              <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
+              <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>
+              <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 4:</IonLabel>
             <IonSelect ref={slot3} value={grundstück4} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 4)}>
-              <IonSelectOption value="1">Reihenhaus</IonSelectOption>
-              <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
-              <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
-              <IonSelectOption value="0">Apartment</IonSelectOption>
+              <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
+              <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
+              <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>
+              <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
           <IonItem>
             <IonLabel>Grundstück 5:</IonLabel>
             <IonSelect ref={slot4} value={grundstück5} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 5)}>
-              <IonSelectOption value="1">Reihenhaus</IonSelectOption>
-              <IonSelectOption value="2">Mehrfamilienhaus</IonSelectOption>
-              <IonSelectOption value="3">Einfamilienhaus</IonSelectOption>
-              <IonSelectOption value="0">Apartment</IonSelectOption>
+              <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
+              <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
+              <IonSelectOption value="3">{hausStrings[3]}</IonSelectOption>
+              <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
           <IonItem><IonLabel>Unsere Siedlung ist aus Apartment, Reihenhaus,</IonLabel></IonItem>
