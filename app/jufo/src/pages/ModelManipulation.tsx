@@ -47,6 +47,9 @@ const ModelManipulation: React.FC = () => {
 
   const pushRangeChange = (rangeElement: React.RefObject<HTMLIonRangeElement>) => {
     currentSocket.emit("rangeChange", {param: rangeElement.current!.name, value: rangeElement.current!.value});
+    let newData = response;
+    newData[rangeElement.current!.name] = rangeElement.current!.value;
+    setResponse(newData);
   };
 
   return (
