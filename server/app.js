@@ -176,19 +176,26 @@ try{
     HLSockets.push(socket);
     sendEStatus(socket);
     sendHLStats(socket);
-  
-      socket.on("disconnect", () => {
-        let index = estatusSockets.indexOf(socket);
-        if (index > -1) {
-          estatusSockets.splice(index, 1);
-        }
-        index = HLSockets.indexOf(socket);
-        if (index > -1) {
-          HLSockets.splice(index, 1);
-        }
-        console.log("E-Status disconnected");
-  
+    sendCar(Math.random(1, 16), socket);
+
+    socket.on("carChange", (data) => {
+      SQLconnection.query(`UPDATE cars SET start=${data.start}, end=${data.end} WHERE id=${data.id}`, (err) => {
+        if (err) throw err;
       });
+    })
+  
+    socket.on("disconnect", () => {
+      let index = estatusSockets.indexOf(socket);
+      if (index > -1) {
+        estatusSockets.splice(index, 1);
+      }
+      index = HLSockets.indexOf(socket);
+      if (index > -1) {
+        HLSockets.splice(index, 1);
+      }
+      console.log("E-Status disconnected");
+
+    });
     });
   
     /**
@@ -338,6 +345,13 @@ try{
       sortValues(vbDict, (sortedList) => {
         socket.emit("vb", sortedList);
       });
+    });
+  }
+
+  function sendCar(id, socket){
+    SQLconnection.query(`SELECT * FROM cars WHERE id=${id}`, (err, rows) => {
+      if (err) throw err;
+      socket.emit("cars", rows[0]);
     });
   }
   
