@@ -178,11 +178,17 @@ try{
     sendHLStats(socket);
     sendCar(Math.random(1, 16), socket);
 
-    socket.on("carChange", (data) => {
-      SQLconnection.query(`UPDATE cars SET start=${data.start}, end=${data.end} WHERE id=${data.id}`, (err) => {
+    socket.on("startChange", (data) => {
+      SQLconnection.query(`UPDATE cars SET start=${data.start} WHERE id=${data.id}`, (err) => {
         if (err) throw err;
       });
-    })
+    });
+
+    socket.on("endChange", (data) => {
+      SQLconnection.query(`UPDATE cars SET end=${data.end} WHERE id=${data.id}`, (err) => {
+        if (err) throw err;
+      });
+    });
   
     socket.on("disconnect", () => {
       let index = estatusSockets.indexOf(socket);
