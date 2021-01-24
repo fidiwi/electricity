@@ -119,8 +119,8 @@ const Company: React.FC = () => {
             {
               label: "Sonne in kW",
               data: sonnelist,
-              fill: false,
-              backgroundColor: "rgba(75,192,192,0.2)",
+              fill: true,
+              backgroundColor: "rgba(0,205,0,0.2)",
               borderColor: "rgba(0,204,0,1)"
             },
             {
