@@ -163,10 +163,12 @@ const Dashboard: React.FC = () => {
             </IonItem>
           </IonList>
         </IonPopover>
-        <div className="ion-text-center">
-          <h4>{hausStrings[getHaustyp()]}</h4>
-        </div>
         <IonGrid>
+        <IonRow>
+          <IonCol>
+            <div className="ion-text-center"><h4>{hausStrings[getHaustyp()]}</h4></div>
+          </IonCol>
+        </IonRow>
         <IonRow>
             <IonCol>
               <IonCard routerLink="/battery">
