@@ -19,7 +19,8 @@ const Company: React.FC = () => {
         data: [33, 53, 85, 41, 44, 65, 33, 100, 45, 32, 24, 23, 32, 100, 78, 86],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(204,0,0,1)"
+        borderColor: "rgba(204,0,0,1)",
+        tension: 0
       }
     ]
   });
@@ -85,7 +86,8 @@ const Company: React.FC = () => {
             data: hourPrd,
             fill: false,
             backgroundColor: "rgba(75,192,192,0.2)",
-            borderColor: "rgba(204,0,0,1)"
+            borderColor: "rgba(204,0,0,1)",
+            tension: 0
           }
         ]
       }

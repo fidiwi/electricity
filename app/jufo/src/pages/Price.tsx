@@ -15,7 +15,8 @@ const Price: React.FC = () => {
         data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 0, 0, 0, 0, 0, -1, -1, -2, -2],
         fill: false,
         backgroundColor: "rgba(56,128,255,0.2)",
-        borderColor: "rgba(56,128,255,1)"
+        borderColor: "rgba(56,128,255,1)",
+        tension: 0
       },
     ],
   });
@@ -55,7 +56,8 @@ const Price: React.FC = () => {
             data: hourStatus,
             fill: false,
             backgroundColor: "rgba(56,128,255,0.2)",
-            borderColor: "rgba(56,128,255,1)"
+            borderColor: "rgba(56,128,255,1)",
+            tension: 0
           },
         ],
       }
