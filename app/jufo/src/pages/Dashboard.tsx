@@ -122,6 +122,9 @@ const Dashboard: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonIcon slot="icon-only" icon={logo} size="large"/>
+          </IonButtons>
           <IonButtons slot="end">
             <IonButton onClick={
             (e: any) => {
@@ -132,7 +135,6 @@ const Dashboard: React.FC = () => {
             </IonButton>
           </IonButtons>
           <IonTitle>
-            <IonIcon icon={logo} size="large"/>
             <IonText color="primary">  electri</IonText>
             <IonText color="dark">CITY</IonText>
           </IonTitle>
