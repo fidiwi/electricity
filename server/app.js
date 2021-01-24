@@ -277,7 +277,9 @@ try{
   
       manipulationSockets.forEach(function(manipulationSocket){
         // Jedem anderen "sliders"-Client aktuelle Werte schicken
-        sendSliders(manipulationSocket);
+        if(manipulationSocket != socket){
+          sendSliders(manipulationSocket);
+        }
       });
     });
   }
