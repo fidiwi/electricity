@@ -83,7 +83,7 @@ const Battery: React.FC = () => {
                     '1',
                     '2',
                     '3',
-                    '5',
+                    '4',
                     '5',
                     '6',
                     '7'
@@ -162,7 +162,7 @@ const Battery: React.FC = () => {
             '6',
             '7'
         ]
-        
+
     })
 
     const options = {
