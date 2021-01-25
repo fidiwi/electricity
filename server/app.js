@@ -176,7 +176,7 @@ try{
     HLSockets.push(socket);
     sendEStatus(socket);
     sendHLStats(socket);
-    sendCar(Math.floor(Math.random(1, 16), socket));
+    sendCar(Math.floor(Math.random() * 15) + 1, socket);
 
     socket.on("startChange", (data) => {
       SQLconnection.query(`UPDATE cars SET start=${data.start} WHERE id=${data.id}`, (err) => {
