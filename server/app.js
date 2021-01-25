@@ -179,13 +179,13 @@ try{
     sendCar(Math.floor(Math.random() * 15) + 1, socket);
 
     socket.on("startChange", (data) => {
-      SQLconnection.query(`UPDATE cars SET start=${data.start} WHERE id=${data.id}`, (err) => {
+      SQLconnection.query(`UPDATE cars SET start="${data.start}" WHERE id=${data.id}`, (err) => {
         if (err) throw err;
       });
     });
 
     socket.on("endChange", (data) => {
-      SQLconnection.query(`UPDATE cars SET end=${data.end} WHERE id=${data.id}`, (err) => {
+      SQLconnection.query(`UPDATE cars SET end="${data.end}" WHERE id=${data.id}`, (err) => {
         if (err) throw err;
       });
     });
@@ -355,7 +355,7 @@ try{
   }
 
   function sendCar(id, socket){
-    SQLconnection.query(`SELECT * FROM cars WHERE id="${id}"`, (err, rows) => {
+    SQLconnection.query(`SELECT * FROM cars WHERE id=${id}`, (err, rows) => {
       if (err) throw err;
       socket.emit("cars", rows[0]);
     });
