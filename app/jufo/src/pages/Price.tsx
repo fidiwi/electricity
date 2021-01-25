@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Price.css';
 
@@ -35,8 +35,11 @@ const Price: React.FC = () => {
 
   var estatusdic = ["Optimal", "Sehr gut", "Gut", "In Ordnung", "Grenzwertig", "Kritisch"];
 
+  const [currentSocket, setSocket] = useState(io());
+
   useEffect(() => {
     const socket = io(urls.SOCKET_ENDPOINT);
+    setSocket(socket);
     socket.emit("estatus");
     socket.on("estatus", (data: any) => {
 
@@ -64,22 +67,35 @@ const Price: React.FC = () => {
       setDataTag(newDataTag);
     });
 
-      socket.on("hl", (data: any) => {
-        setHlabgabe(data.abgabe);
-        setHlannahme(data.annahme);
-        });
+    socket.on("hl", (data: any) => {
+      setHlabgabe(data.abgabe);
+      setHlannahme(data.annahme);
+      });
+    
+    socket.on("cars", (data: any) => {
+      setaufladpunkt(data.start);
+      setfertig(data.end);
+    });
 
     return () => {
       socket.disconnect();
     };
   }, []);
 
-
   const [Estatus, setEstatus] = useState<number>(0);
   const [hlabgabe, setHlabgabe] = useState<number>(0);
   const [hlannahme, setHlannahme] = useState<number>(0);
-  const [aufladpunkt, setaufladpunkt] = useState<string>("20");
-  const [fertig, setfertig] = useState<string>("06");
+  const [aufladpunkt, setaufladpunkt] = useState<string>("20:00");
+  const [fertig, setfertig] = useState<string>("06:00");
+
+  const pushStartChange = (value:string) => {
+    setaufladpunkt(value);
+    currentSocket.emit("startChange", value);
+  };
+  const pushEndChange = (value:string) => {
+    setfertig(value);
+    currentSocket.emit("endChange", value);
+  };
 
   return (
     <IonPage>
@@ -101,18 +117,18 @@ const Price: React.FC = () => {
         </IonCard>
         <IonList>
           <IonItem>
-            <IonLabel>{hlabgabe} kWh wurden an die HL abgegeben</IonLabel>
+            <IonLabel>An die HL wurden {hlabgabe} kWh abgegeben</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>{hlannahme} kWh wurden von der HL bezogen</IonLabel>
+            <IonLabel>Von der HL wurden {hlannahme} kWh bezogen</IonLabel>
           </IonItem>
           <IonItem>
             <IonLabel>Auto soll angschlossen sein: </IonLabel>
-            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-17 20:00"></IonDatetime>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={aufladpunkt} onIonChange={e => {console.log(e.detail.value!); pushStartChange(e.detail.value!);}}></IonDatetime>
           </IonItem>
           <IonItem>
             <IonLabel>Auto soll aufgeladen sein: </IonLabel>
-            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value="2021-02-18 06:00"></IonDatetime>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={fertig} onIonChange={e => {console.log(e.detail.value!); pushEndChange(e.detail.value!);}}></IonDatetime>
           </IonItem>
         </IonList>
       </IonContent>
