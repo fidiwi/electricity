@@ -73,8 +73,10 @@ const Price: React.FC = () => {
       });
     
     socket.on("cars", (data: any) => {
+      console.log(data);
       setaufladpunkt(data.start);
       setfertig(data.end);
+      setId(data.id);
     });
 
     return () => {
@@ -82,19 +84,20 @@ const Price: React.FC = () => {
     };
   }, []);
 
+  const [id, setId] = useState<number>(0);
   const [Estatus, setEstatus] = useState<number>(0);
   const [hlabgabe, setHlabgabe] = useState<number>(0);
   const [hlannahme, setHlannahme] = useState<number>(0);
-  const [aufladpunkt, setaufladpunkt] = useState<string>("20:00");
-  const [fertig, setfertig] = useState<string>("06:00");
+  const [aufladpunkt, setaufladpunkt] = useState<string>("20:20");
+  const [fertig, setfertig] = useState<string>("06:06");
 
   const pushStartChange = (value:string) => {
     setaufladpunkt(value);
-    currentSocket.emit("startChange", value);
+    currentSocket.emit("startChange", {start: value, id: id});
   };
   const pushEndChange = (value:string) => {
     setfertig(value);
-    currentSocket.emit("endChange", value);
+    currentSocket.emit("endChange", {end: value, id: id});
   };
 
   return (

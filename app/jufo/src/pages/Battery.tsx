@@ -116,23 +116,25 @@ const Battery: React.FC = () => {
     const [sender, setSender] = useState({
         type: 'pie',
         datasets: [{
-            data: [10, 20, 30, 21, 12, 23],
+            data: [1, 1, 1, 1, 1, 1, 1],
             backgroundColor: ['rgba(255, 99, 132)',
                             'rgba(54, 162, 235)',
                             'rgba(255, 206, 86)',
                             'rgba(75, 192, 192)',
                             'rgba(153, 102, 255)',
-                            'rgba(255, 159, 64)'],
+                            'rgba(255, 159, 64)',
+                            'rgba(21, 160, 14)'],
             borderColor: "rgba(255,255,255)"
         }],
     
         labels: [
-            'Red',
-            'Blue',
-            'Yellow',
-            'lol',
-            'wow',
-            '343'
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7'
         ]
 
     })
@@ -140,24 +142,27 @@ const Battery: React.FC = () => {
     const [receiver, setReserver] = useState({
         type: 'pie',
         datasets: [{
-            data: [14, 22, 37, 234, 32],
+            data: [1, 1, 1, 1, 1, 1, 1],
             backgroundColor: ['rgba(255, 99, 132)',
                             'rgba(54, 162, 235)',
                             'rgba(255, 206, 86)',
                             'rgba(75, 192, 192)',
                             'rgba(153, 102, 255)',
-                            'rgba(255, 159, 64)'],
+                            'rgba(255, 159, 64)',
+                            'rgba(21, 160, 14)'],
             borderColor: "rgba(255,255,255)"
         }],
     
         labels: [
-            'Red',
-            'Blue',
-            'Yellow',
-            'lol',
-            'wow'
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7'
         ]
-
+        
     })
 
     const options = {
@@ -170,8 +175,7 @@ const Battery: React.FC = () => {
                 }
             }
             ]
-        }
-        
+        }   
     }
     
     return (
