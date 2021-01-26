@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonIcon slot="icon-only" icon={logo} size="large"/>
+            <IonIcon slot="icon-only" icon={logo} size="large" router-direction="/dashboard"/>
           </IonButtons>
           <IonButtons slot="end">
             <IonButton onClick={
