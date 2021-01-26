@@ -209,7 +209,7 @@ const Consum: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/dashboard" />
           </IonButtons>
-          <IonTitle>Stromverbrauch/erzeugung</IonTitle>
+          <IonTitle>Stromverbrauch/ -erzeugung</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

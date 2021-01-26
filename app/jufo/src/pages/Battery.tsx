@@ -209,13 +209,13 @@ const Battery: React.FC = () => {
                 </IonCard>
                 <IonCard>
                 <IonCardHeader>
-                    <IonCardTitle>Abgabe an den Stromspeicher</IonCardTitle>
+                    <IonCardTitle>Zusammensetzung des Speicherstroms</IonCardTitle>
                     <Pie data={sender}/>
                 </IonCardHeader>
                 </IonCard>
                 <IonCard>
                 <IonCardHeader>
-                    <IonCardTitle>Annahme an den Stromspeicher</IonCardTitle>
+                    <IonCardTitle>Abnehmer des Speicherstroms</IonCardTitle>
                     <Pie data={receiver}/>
                 </IonCardHeader>
                 </IonCard>

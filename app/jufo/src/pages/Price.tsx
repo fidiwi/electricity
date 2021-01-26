@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Price.css';
 
 import { Line } from "react-chartjs-2"
@@ -119,18 +119,20 @@ const Price: React.FC = () => {
           </IonCardHeader>
         </IonCard>
         <IonList>
+          <IonItemDivider>Stromaustauch mit der Hauptleitung</IonItemDivider>
           <IonItem>
-            <IonLabel>An die HL wurden {hlabgabe} kWh abgegeben</IonLabel>
+            <IonLabel>An die Hauptleitung abgegebener Strom: {hlabgabe}kWh</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Von der HL wurden {hlannahme} kWh bezogen</IonLabel>
+            <IonLabel>Von der Hauptleitung bezogener Strom: {hlannahme}kWh</IonLabel>
           </IonItem>
+          <IonItemDivider>E-Auto Aufladeplan</IonItemDivider>
           <IonItem>
-            <IonLabel>Auto soll angschlossen sein: </IonLabel>
+            <IonLabel>Auto wird angeschlossen ab: </IonLabel>
             <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={aufladpunkt} onIonChange={e => {console.log(e.detail.value!); pushStartChange(e.detail.value!);}}></IonDatetime>
           </IonItem>
           <IonItem>
-            <IonLabel>Auto soll aufgeladen sein: </IonLabel>
+            <IonLabel>Auto soll aufgeladen sein bis: </IonLabel>
             <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={fertig} onIonChange={e => {console.log(e.detail.value!); pushEndChange(e.detail.value!);}}></IonDatetime>
           </IonItem>
         </IonList>

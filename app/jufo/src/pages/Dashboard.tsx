@@ -160,7 +160,7 @@ const Dashboard: React.FC = () => {
             <IonItem routerLink="/manipulateModel">
               <IonLabel>Modellwerte verändern</IonLabel>
             </IonItem>
-            <IonItem href="https://google.com">
+            <IonItem href="https://github.com/fidiwi/electricity">
               <IonLabel>Quellcode</IonLabel>
             </IonItem>
           </IonList>

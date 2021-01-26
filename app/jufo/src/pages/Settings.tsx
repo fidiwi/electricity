@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
+import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput, IonItemDivider } from '@ionic/react';
 import { io } from "socket.io-client";
 import { urls } from '../vars/urls';
 import { passwordExport } from '../vars/password';
@@ -74,11 +74,11 @@ const Settings: React.FC = () => {
         <IonList>
           <IonListHeader>
             <IonLabel>
-              Haustyp auswählen
+              Angezeigten Haustyp auswählen
             </IonLabel>
           </IonListHeader>
           <IonItem>
-            <IonLabel>Aktueller Haustyp:</IonLabel>
+            <IonLabel>Aktueller angezeigter Haustyp:</IonLabel>
             <IonSelect value={""+getHaustyp()} okText="Okay" cancelText="Cancel" onIonChange={e => changeHaustyp(e.detail.value)}>
               <IonSelectOption value="1">{hausStrings[1]}</IonSelectOption>
               <IonSelectOption value="2">{hausStrings[2]}</IonSelectOption>
@@ -90,7 +90,7 @@ const Settings: React.FC = () => {
           <IonItem>
             <IonInput placeholder="Passwort" type="password" debounce={1039} onIonChange={e => passwordCheck(e.detail.value!)}></IonInput>
           </IonItem>
-          <IonItem><IonLabel>Die Grundstücke manuell auswählen</IonLabel></IonItem>
+          <IonListHeader>Grundstückbelegung manuell auswählen</IonListHeader>
           <IonItem>
             <IonLabel>Grundstück 1:</IonLabel>
             <IonSelect ref={slot0} value={grundstück1} okText="Okay" cancelText="Cancel" disabled={blocken} onIonChange={e => updateHouses(e.detail.value, 1)}>
@@ -136,8 +136,8 @@ const Settings: React.FC = () => {
               <IonSelectOption value="0">{hausStrings[0]}</IonSelectOption>
             </IonSelect>
           </IonItem>
-          <IonItem><IonLabel>Unsere Siedlung ist aus Apartment, Reihenhaus,</IonLabel></IonItem>
-          <IonItem><IonLabel>Reihenhaus, Einfamilienhaus, Mehrfamilienhaus</IonLabel></IonItem>
+          <IonListHeader>Standardbelegung</IonListHeader>
+          <IonItem>Apartment, 2x Reihenhaus, Einfamilienhaus, Mehrfamilienhaus</IonItem>
         </IonList>        
       </IonContent>
     </IonPage>

@@ -70,7 +70,7 @@ const ModelManipulation: React.FC = () => {
           </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
-            <IonRange pin={true} ref={housevbRange} name="housevb" min={0} max={1} step={0.01} value={response.housevb} disabled={blocken} onIonChange={() => {pushRangeChange(housevbRange)}} >
+            <IonRange pin={false} ref={housevbRange} name="housevb" min={0} max={1} step={0.01} value={response.housevb} disabled={blocken} onIonChange={() => {pushRangeChange(housevbRange)}} >
               <IonIcon size="small" slot="start" icon={home} />
               <IonIcon slot="end" icon={home} />
             </IonRange>
@@ -82,7 +82,7 @@ const ModelManipulation: React.FC = () => {
               <IonIcon slot="end" icon={sunny} />
             </IonRange>
           </IonItem>
-          <IonItemDivider>Firmaverbrauch</IonItemDivider>
+          <IonItemDivider>Werksverbrauch</IonItemDivider>
           <IonItem>
             <IonRange ref={companyvbRange} name="companyvb" min={0} max={1} step={0.01} value={response.companyvb} disabled={blocken} onIonChange={() => {pushRangeChange(companyvbRange);}} >
               <IonIcon size="small" slot="start" icon={business}/>
