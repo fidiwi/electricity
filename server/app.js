@@ -1,8 +1,14 @@
 const express = require("express");
-const http = require("http");
+const fs = require("fs");
+const https = require("https");
 const log4js = require("log4js");
 const app = express();
-const server = http.createServer(app);
+
+const options = {
+  key: fs.readFileSync("./file.pem"),
+  cert: fs.readFileSync("./file.crt")
+}
+const server = https.createServer(options, app);
 
 const io = require("socket.io")(server, {
   cors: {
