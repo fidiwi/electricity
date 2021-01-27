@@ -5,8 +5,8 @@ const log4js = require("log4js");
 const app = express();
 
 const options = {
-  key: fs.readFileSync("./file.pem"),
-  cert: fs.readFileSync("./file.crt")
+  key: fs.readFileSync("./privkey.pem"),
+  cert: fs.readFileSync("./cert.pem")
 }
 const server = https.createServer(options, app);
 
