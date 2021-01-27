@@ -1,3 +1,3 @@
 export const urls = {
-    SOCKET_ENDPOINT: "http://blattgruen.eu:4001",
+    SOCKET_ENDPOINT: "https://blattgruen.eu:4001",
 };
