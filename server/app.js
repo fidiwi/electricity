@@ -5,6 +5,7 @@ const log4js = require("log4js");
 const app = express();
 
 const options = {
+  ca: fs.readFileSync("./chain.pem"),
   key: fs.readFileSync("./privkey.pem"),
   cert: fs.readFileSync("./cert.pem")
 }
