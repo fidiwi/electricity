@@ -107,23 +107,6 @@ try{
       socket.on("time", (data) => {
         SQLconnection.query(`UPDATE dashboard SET time = ${data} WHERE id=1`, (err) => {
           if (err) throw err;
-
-          estatusSockets.forEach(function(socket){
-            sendEStatus(socket);
-          });
-          batterySockets.forEach(function(socket){
-            sendStorage(socket);
-          });
-          companySockets.forEach(function(socket){
-            sendWindSun(socket);
-          });
-          companySockets.forEach(function(socket){
-            sendHouseStat(socket);
-          });
-          senderSockets.forEach(function(socket){
-            sendSenders(socket);
-          });
-        });
       });
   
       socket.on("disconnect", () => {
