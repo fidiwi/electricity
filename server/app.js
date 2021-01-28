@@ -97,9 +97,13 @@ try{
         SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
           let hour = rows[0].time;
 
-          SQLconnection.query(`UPDATE battery SET capacity = (${value}) WHERE hour=${hour}`, (err) => {if (err) throw err;});
+          SQLconnection.query(`UPDATE battery SET capacity = (${value}) WHERE hour=${hour}`, (err) => {if (err) throw err;
             dashboardSockets.forEach(function(dashboardSocket){
               sendStorage(dashboardSocket);
+            });
+            batterySockets.forEach(function(batterySocket){
+              sendStorage(batterySocket);
+            });
           });
         });
       });
