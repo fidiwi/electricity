@@ -341,7 +341,7 @@ def startScript():
             # hardware.sonne(erzeugung_solar)
             hours += 1
             sio.emit("time", hours%24)
-            print("Time: ", time)
+            print("Time: ", hours%24)
 
             time.sleep(2)
 
