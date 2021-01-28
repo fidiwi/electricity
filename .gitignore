@@ -1,8 +1,8 @@
 /app/jufo/node_modules
 
-/steuerung/node_modules
-/steuerung/config.json
-
+/server/node_modules
 /server/logs
+
+/steuerung/config.json
 
 /.vscode
