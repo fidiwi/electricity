@@ -7,7 +7,7 @@ sio = socketio.Client()
 
 houses = {}
 
-SOCKETIO_ENDPOINT = "http://blattgruen.eu:4001"
+SOCKETIO_ENDPOINT = "https://blattgruen.eu:4001"
 
 # LED strip configuration:
 LED_COUNT      = 180     # Number of LED pixels.
@@ -30,6 +30,8 @@ sunA = None
 firmaA = None
 windA = None
 preisA = None
+
+hours = 0
 
 
 @sio.event
@@ -342,6 +344,8 @@ def startScript():
 
             # hardware.sonne(erzeugung_solar)
             hours += 1
+            sio.emit("time", hours%24)
+
             time.sleep(2)
 
     except KeyboardInterrupt:
@@ -370,8 +374,7 @@ if __name__ == "__main__":
     storage = Storage(200, 0, 350)
 
     verbrauchfirma = 0
-    
-    hours = 0
+
     ladeleistung = 11  # in kW
 
     # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!

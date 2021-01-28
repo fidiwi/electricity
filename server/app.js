@@ -94,10 +94,35 @@ try{
   
       socket.on("storageChange", (data) => {
         const value = data.value;
-  
-        SQLconnection.query(`UPDATE dashboard SET storage_kwh = ${value} WHERE id=1`, (err) => {if (err) throw err;});
-        dashboardSockets.forEach(function(dashboardSocket){
-          sendStorage(dashboardSocket);
+        SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
+          let hour = rows[0].time;
+
+          SQLconnection.query(`UPDATE dashboard SET capacity = ${value} WHERE hour=${hour}`, (err) => {if (err) throw err;});
+            dashboardSockets.forEach(function(dashboardSocket){
+              sendStorage(dashboardSocket);
+          });
+        });
+      });
+
+      socket.on("time", (data) => {
+        SQLconnection.query(`UPDATE dashboard SET time = ${data} WHERE id=1`, (err) => {
+          if (err) throw err;
+
+          estatusSockets.forEach(function(socket){
+            sendEStatus(socket);
+          });
+          batterySockets.forEach(function(socket){
+            sendStorage(socket);
+          });
+          companySockets.forEach(function(socket){
+            sendWindSun(socket);
+          });
+          companySockets.forEach(function(socket){
+            sendHouseStat(socket);
+          });
+          senderSockets.forEach(function(socket){
+            sendSenders(socket);
+          });
         });
       });
   
