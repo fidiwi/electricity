@@ -104,11 +104,9 @@ class Storage():
         if self.capacity > self.max:
             self.capacity = self.max
             hauptleitungAbgeben += power
-            print("full")
         if self.capacity < self.min:
             self.capacity = self.min
             hauptleitungBeziehen -= power
-            print("empty")
         
         sio.emit("storageChange", {'value': self.capacity})
 
@@ -137,7 +135,6 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     speedSR += vb_sortiert[keys[j]]
                     speedTeiler += 1
                     receiver += [keys[j].way]
-                    print("receiver: ", receiver)
                     j -= 1
                 else:
                     break
@@ -153,7 +150,6 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     speedSR += vb_sortiert[keys[i]]
                     speedTeiler += 1
                     sender += [keys[i].way]
-                    print("sender: ", sender)
                     i += 1
                 else:
                     break
@@ -345,6 +341,7 @@ def startScript():
             # hardware.sonne(erzeugung_solar)
             hours += 1
             sio.emit("time", hours%24)
+            print("Time: ", time)
 
             time.sleep(2)
 
