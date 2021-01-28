@@ -96,19 +96,38 @@ class Storage():
         self.capacity = capacity
         self.min = min
         self.max = max
+        self.hlabgeben = {}
+        self.hlnehmen = {}
+        for i in range(24):
+            self.hlabgeben[i] = 0
+            self.hlnehmen[i] = 0
+
 
     def startCharging(self, power):  # Power ist die abzugebende Leistung (kW)
         self.capacity += power
-        hauptleitungAbgeben = 0
-        hauptleitungBeziehen = 0
+        if self.capacity > self.min and self.capacity < self.max:
+            self.hlabgeben[hours%24] = 0
+            self.hlnehmen[hours%24] = 0
         if self.capacity > self.max:
+            self.hlabgeben[hours%24] = self.capacity-self.max
+            self.hlnehmen[hours%24] = 0
             self.capacity = self.max
-            hauptleitungAbgeben += power
         if self.capacity < self.min:
+            self.hlabgeben[hours%24] = 0
+            self.hlnehmen[hours%24] = abs(self.capacity)
             self.capacity = self.min
-            hauptleitungBeziehen -= power
         
+        abgabe = 0
+        beziehen = 0
+        for key in range(24):
+            abgabe += self.hlabgeben[key]
+            beziehen += self.hlnehmen[key]
         sio.emit("storageChange", {'value': self.capacity})
+        sio.emit("hlChange", {"abgabe": abgabe, "annahme": beziehen})
+
+
+
+
 
 
 def speed(dif):
@@ -135,6 +154,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     speedSR += vb_sortiert[keys[j]]
                     speedTeiler += 1
                     receiver += [keys[j].way]
+                    print("receiver: ", receiver)
                     j -= 1
                 else:
                     break
@@ -150,6 +170,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                     speedSR += vb_sortiert[keys[i]]
                     speedTeiler += 1
                     sender += [keys[i].way]
+                    print("sender: ", sender)
                     i += 1
                 else:
                     break
@@ -194,6 +215,15 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                 i += 1
             ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
 
+def estatus(dif, storage):
+    status = 0
+    if abs(dif) < 2 and storage.capacity > storage.min:
+        status = 0
+    elif abs(dif) < 10 and storage.capacity < storage.max and storage:
+        status = 1
+    elif abs(dif) >= 10 and storage.capacity < storage.max:
+        status = 2
+    
 
 def checkPotiValues():
     global verbrauch_haus
@@ -336,12 +366,16 @@ def startScript():
             print("storage: ", storage.capacity)
             print("Totale Differenz: ", total_dif)
             print(vb_sortiert)
+
+            estatus(total_dif, storage)
             calcled(0, len(vb_sortiert) - 1, vb_sortiert, keys)
 
             # hardware.sonne(erzeugung_solar)
+
+            sio.emit("company", verbrauch_firma)
             hours += 1
             sio.emit("time", hours%24)
-            print("Time: ", hours%24)
+
 
             time.sleep(2)
 
