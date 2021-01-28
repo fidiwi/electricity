@@ -1,48 +1,130 @@
-import React, { useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRange, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { analytics, ellipsisHorizontal, ellipsisVertical, settingsOutline, batteryFull, batteryDead } from 'ionicons/icons'
+import React, { useEffect, useState } from 'react';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonPopover, IonProgressBar, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { ellipsisVertical} from 'ionicons/icons'
 
 import './Dashboard.css';
 
+import { io } from "socket.io-client";
 import erzeugungpic from '../bilder/erzeugung.jpg';
 import verbrauchpic from '../bilder/verbrauch.jpg'
+import logo from '../bilder/logo.svg'
 
 import { Line } from "react-chartjs-2"
+import { urls } from '../vars/urls';
+import { prdlist, getHaustyp, tagesVbrlist, hausStrings } from '../vars/vars';
 
 const Dashboard: React.FC = () => {
 
-  const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
-        fill: false,
-        borderColor: "#742774"
-      }
-    ]
-  };
+  var prd = prdlist[getHaustyp()];
+  // R = 3.75; E = 18.75; M = 8.75; A = 12.5  ÜBERALL
+  var hausvbr = tagesVbrlist[getHaustyp()];
+  // M = 2; R = 0.37; E = 0.51; A = 2.85      NUR BEI TAGESVERBRAUCH
 
-  const rangeElement = useRef<HTMLIonRangeElement>(null);
-  
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+    socket.emit("dashboard");
+    socket.on("battery", (data: any) => {
+      setVal(data[23].value);
+    });
+
+    socket.on("vb", (data: any) => {
+      var temp = 0;
+      for(let i = 0; i <=23; i++){;
+        temp = temp + data[i].value*hausvbr;
+      };
+      setVerbrauch(Math.round(temp));
+    });
+    
+
+    socket.on("sun", (data: any) => {
+      var temp = 0;
+      for(let i = 0; i <=23; i++){;
+        temp = temp + data[i].value*prd;
+      };
+      setErzeugung(Math.round(temp));
+    });
+
+    socket.emit("estatus");
+    socket.on("estatus", (data: any) => {
+      console.log("api received:");
+      console.log(data);
+      let karma = [];
+      let hourList = [];
+
+      for(let i = 0; i <=23; i++){
+        karma.push(data[i].value);
+        hourList.push(data[i].hour);
+      }
+      setEstatus(data[23].value);
+      console.log(karma);
+      let newDataStatus = {
+        labels: hourList,
+        datasets: [
+          {
+            label: "Energiestatus",
+            data: karma,
+            fill: false,
+            backgroundColor: "rgba(56,128,255,0.2)",
+            borderColor: "rgba(56,128,255,1)",
+            tension: 0
+          },
+        ],
+      }
+      setdata(newDataStatus);
+    }
+    );
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [getHaustyp()]);
+
+  var estatusdic = ["Optimal", "Sehr gut", "Gut", "In Ordnung", "Grenzwertig", "Kritisch"];
+
   const [moin, setVal] = useState<number>(0);
 
   const [popoverState, setShowPopover] = useState({ showPopover: false, event: undefined });
 
-  const setRange = () => {
-    setVal(+rangeElement.current!.value);
-  };
+  const [Verbrauch, setVerbrauch] = useState<number>(0);
+
+  const [Erzeugung, setErzeugung] = useState<number>(0);
+
+  const [Estatus, setEstatus] = useState<number>(0);
+
+  const [data, setdata] = useState({
+    labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
+    datasets: [
+      {
+        label: "Energiestatus",
+        data: [-4, -4, -4, -4, -4, -4, -3, -3, 0, 0, 1, 1, 3, 3, 3, 3, 1, 1, 0, 0, -1, -1, -2, -2],
+        fill: false,
+        backgroundColor: "rgba(56,128,255,0.2)",
+        borderColor: "rgba(56,128,255,1)",
+        tension: 0
+      },
+    ],
+  });
+
+  const options = {
+    scales: {
+        yAxes: [
+        {
+            ticks: {
+            suggestedMin: -5,
+            suggestedMax: 5
+            }
+        }
+        ]
+    }
+  }
+  
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonIcon slot="icon-only" icon={logo} size="large" router-direction="/dashboard"/>
+          </IonButtons>
           <IonButtons slot="end">
             <IonButton onClick={
             (e: any) => {
@@ -53,7 +135,8 @@ const Dashboard: React.FC = () => {
             </IonButton>
           </IonButtons>
           <IonTitle>
-            So ein geiles Haus
+            <IonText color="primary">  electri</IonText>
+            <IonText color="dark">CITY</IonText>
           </IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -77,22 +160,27 @@ const Dashboard: React.FC = () => {
             <IonItem routerLink="/manipulateModel">
               <IonLabel>Modellwerte verändern</IonLabel>
             </IonItem>
-            <IonItem>
-              <IonLabel>Schließen</IonLabel>
+            <IonItem href="https://github.com/fidiwi/electricity">
+              <IonLabel>Quellcode</IonLabel>
             </IonItem>
           </IonList>
         </IonPopover>
         <IonGrid>
         <IonRow>
+          <IonCol>
+            <div className="ion-text-center"><h4>{hausStrings[getHaustyp()]}</h4></div>
+          </IonCol>
+        </IonRow>
+        <IonRow>
             <IonCol>
               <IonCard routerLink="/battery">
                 <IonCardHeader>
                     <IonCardSubtitle>Stromspeicher</IonCardSubtitle>
-                    <IonCardTitle text-center>{Math.round(350*(moin/100))} kWh | {moin}%</IonCardTitle>
+                    <IonCardTitle text-center>{moin} kWh | {Math.round(moin/3.5)}%</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
                   <div  className="bar">
-                    <IonProgressBar color="success" value={moin/100}/>
+                    <IonProgressBar color="success" value={moin/350}/>
                   </div>
                 </IonCardContent>
               </IonCard>
@@ -102,10 +190,10 @@ const Dashboard: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonCard routerLink="/price">
-                <Line data={data}/>
+                <Line data={data} options={options}/>
                 <IonCardHeader>
-                  <IonCardSubtitle>Mein Energiekarma</IonCardSubtitle>
-                  <IonCardTitle>Sehr gut</IonCardTitle>
+                  <IonCardSubtitle>Energiestatus</IonCardSubtitle>
+                <IonCardTitle>{estatusdic[Math.abs(Estatus)]}  | {Estatus}</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
@@ -117,7 +205,7 @@ const Dashboard: React.FC = () => {
                 <img src={erzeugungpic}/>
                 <IonCardHeader>
                   <IonCardSubtitle>Meine Erzeugung</IonCardSubtitle>
-                  <IonCardTitle>5kW</IonCardTitle>
+                  <IonCardTitle>{Erzeugung}kW</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
@@ -125,18 +213,11 @@ const Dashboard: React.FC = () => {
               <IonCard routerLink="/consum">
                 <img src={verbrauchpic}/>
                 <IonCardHeader>
-                  <IonCardSubtitle>Meine Verbrauch</IonCardSubtitle>
-                  <IonCardTitle>3kW</IonCardTitle>
+                  <IonCardSubtitle>Mein Verbrauch</IonCardSubtitle>
+                  <IonCardTitle>{Verbrauch}kW</IonCardTitle>
                 </IonCardHeader>
               </IonCard>
             </IonCol>
-          </IonRow>
-          
-          <IonRow>
-            <IonRange ref={rangeElement} min={0} max={100} color="secondary" onIonChange={setRange}>
-              <IonIcon slot="start" icon={batteryDead} />
-              <IonIcon slot="end" icon={batteryFull} />
-            </IonRange>
           </IonRow>
           </IonGrid>
       </IonContent>

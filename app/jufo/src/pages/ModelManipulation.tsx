@@ -1,16 +1,56 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonLabel, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonTextarea } from '@ionic/react';
-import { analytics, cloud, colorFill, sunny, business, home } from 'ionicons/icons';
-import { RangeValue } from '@ionic/core';
+import React, { useState, useEffect, useRef } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonIcon, IonItemDivider, IonBackButton, IonButtons, IonInput, IonListHeader } from '@ionic/react';
+import { analytics, cloud, sunny, business, home} from 'ionicons/icons';
+import { io } from "socket.io-client";
 import './ModelManipulation.css';
+import { urls } from "../vars/urls";
+import { passwordExport } from '../vars/password';
+
 
 const ModelManipulation: React.FC = () => {
 
-  const [value, setValue] = useState(0);
-  const [rangeValue, setRangeValue] = useState<{
-    lower: number;
-    upper: number;
-  }>({ lower: 0, upper: 0 });
+  const housevbRange = useRef<HTMLIonRangeElement>(null);
+  const companyvbRange = useRef<HTMLIonRangeElement>(null);
+  const windRange = useRef<HTMLIonRangeElement>(null);
+  const sunRange = useRef<HTMLIonRangeElement>(null);
+  const ekarmaRange = useRef<HTMLIonRangeElement>(null);
+
+  const [response, setResponse] = useState<any>({housevb:0, companyvb:0, sun:0, wind:0, ekarma:0});
+
+  const [currentSocket, setSocket] = useState(io());
+
+  const [blocken, setblocken] = useState<boolean>(true);
+
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+    setSocket(socket);
+    socket.emit("manipulation");
+    socket.on("FromAPI", (data: any) => {
+      setResponse(data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const passwordCheck = (input:string) => {
+    passwordExport((password:string) => {
+      if (input == password){
+        setblocken(false);
+      }
+      else{
+        setblocken(true);
+      }
+    }) 
+  };
+
+  const pushRangeChange = (rangeElement: React.RefObject<HTMLIonRangeElement>) => {
+    currentSocket.emit("rangeChange", {param: rangeElement.current!.name, value: rangeElement.current!.value});
+    let newData = response;
+    newData[rangeElement.current!.name] = rangeElement.current!.value;
+    setResponse(newData);
+  };
 
   return (
     <IonPage>
@@ -24,43 +64,45 @@ const ModelManipulation: React.FC = () => {
       </IonHeader>
       <IonContent>
         <IonList>
+        <IonListHeader>Passwort eingeben</IonListHeader>
+          <IonItem>
+            <IonInput placeholder="Passwort" type="password" debounce={1083} onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
+          </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={5} color="danger" snaps={true}>
+            <IonRange pin={false} ref={housevbRange} name="housevb" min={0} max={1} step={0.01} value={response.housevb} disabled={blocken} onIonChange={() => {pushRangeChange(housevbRange)}} >
               <IonIcon size="small" slot="start" icon={home} />
               <IonIcon slot="end" icon={home} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Sonne</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} >
-              <IonIcon size="small" slot="start" icon={sunny} />
+            <IonRange ref={sunRange} name="sun" min={0} max={1} step={0.01} value={response.sun} disabled={blocken} onIonChange={() => {pushRangeChange(sunRange);}} >
+              <IonIcon size="small" slot="start" icon={sunny}/>
               <IonIcon slot="end" icon={sunny} />
             </IonRange>
           </IonItem>
-          <IonItemDivider>Firmaverbrauch</IonItemDivider>
+          <IonItemDivider>Werksverbrauch</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} >
-              <IonIcon size="small" slot="start" icon={business} />
+            <IonRange ref={companyvbRange} name="companyvb" min={0} max={1} step={0.01} value={response.companyvb} disabled={blocken} onIonChange={() => {pushRangeChange(companyvbRange);}} >
+              <IonIcon size="small" slot="start" icon={business}/>
               <IonIcon slot="end" icon={business} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Wind</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} >
+            <IonRange ref={windRange} name="wind" min={0} max={1} step={0.01} value={response.wind} disabled={blocken} onIonChange={() => {pushRangeChange(windRange);}} >
               <IonIcon size="small" slot="start" icon={cloud} />
               <IonIcon slot="end" icon={cloud} />
             </IonRange>
           </IonItem>
           <IonItemDivider>Vorhersage</IonItemDivider>
           <IonItem>
-            <IonRange min={0} max={100} step={1} >
+            <IonRange ref={ekarmaRange} name="ekarma" min={0} max={1} step={0.01} value={response.ekarma} disabled={blocken} onIonChange={() => {pushRangeChange(ekarmaRange);}} >
               <IonIcon size="small" slot="start" icon={analytics} />
               <IonIcon slot="end" icon={analytics} />
             </IonRange>
-          </IonItem>
-          
-          
+          </IonItem>      
         </IonList>
       </IonContent>
     </IonPage>

@@ -1,1 +1,3 @@
-/app/jufo
+/app/jufo/node_modules
+/server/node_modules
+/.vscode

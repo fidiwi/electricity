@@ -1,34 +1,104 @@
-import React, { useRef, useState } from 'react';
-import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import React, { useEffect, useRef, useState } from 'react';
+import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Price.css';
 
 import { Line } from "react-chartjs-2"
+import { urls } from '../vars/urls';
+import { io } from 'socket.io-client';
 
 const Price: React.FC = () => {
-  const dataTag = {
-    labels: ["02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22", "24"],
+  const [dataTag, setDataTag] = useState({
+    labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
     datasets: [
       {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76],
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65],
+        label: "Energiestatus",
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 0, 0, 0, 0, 0, -1, -1, -2, -2],
         fill: false,
-        borderColor: "#742774"
+        backgroundColor: "rgba(56,128,255,0.2)",
+        borderColor: "rgba(56,128,255,1)",
+        tension: 0
+      },
+    ],
+  });
+  const options = {
+    scales: {
+        yAxes: [
+        {
+            ticks: {
+            suggestedMin: -5,
+            suggestedMax: 5
+            }
+        }
+        ]
+    }
+  }
+
+  var estatusdic = ["Optimal", "Sehr gut", "Gut", "In Ordnung", "Grenzwertig", "Kritisch"];
+
+  const [currentSocket, setSocket] = useState(io());
+
+  useEffect(() => {
+    const socket = io(urls.SOCKET_ENDPOINT);
+    setSocket(socket);
+    socket.emit("estatus");
+    socket.on("estatus", (data: any) => {
+
+      let hourStatus = [];
+      let hourList = [];
+
+      for(let i = 0; i <=23; i++){
+        hourStatus.push(data[i].value);
+        hourList.push(data[i].hour)
+      } 
+      setEstatus(data[23].value); 
+      let newDataTag = {
+        labels: hourList,
+        datasets: [
+          {
+            label: "Energiestatus",
+            data: hourStatus,
+            fill: false,
+            backgroundColor: "rgba(56,128,255,0.2)",
+            borderColor: "rgba(56,128,255,1)",
+            tension: 0
+          },
+        ],
       }
-    ]
+      setDataTag(newDataTag);
+    });
+
+    socket.on("hl", (data: any) => {
+      setHlabgabe(data.abgabe);
+      setHlannahme(data.annahme);
+      });
+    
+    socket.on("cars", (data: any) => {
+      console.log(data);
+      setaufladpunkt(data.start);
+      setfertig(data.end);
+      setId(data.id);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const [id, setId] = useState<number>(0);
+  const [Estatus, setEstatus] = useState<number>(0);
+  const [hlabgabe, setHlabgabe] = useState<number>(0);
+  const [hlannahme, setHlannahme] = useState<number>(0);
+  const [aufladpunkt, setaufladpunkt] = useState<string>("20:20");
+  const [fertig, setfertig] = useState<string>("06:06");
+
+  const pushStartChange = (value:string) => {
+    setaufladpunkt(value);
+    currentSocket.emit("startChange", {start: value, id: id});
   };
-
-
-  
-  const [aufladpunkt, setaufladpunkt] = useState<string>("20");
-  const [fertig, setfertig] = useState<string>("06");
+  const pushEndChange = (value:string) => {
+    setfertig(value);
+    currentSocket.emit("endChange", {end: value, id: id});
+  };
 
   return (
     <IonPage>
@@ -37,45 +107,35 @@ const Price: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/dashboard" />
           </IonButtons>
-          <IonTitle>Preisverlauf</IonTitle>
+          <IonTitle>Energiestatus</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonCard>
-          <Line data={dataTag}/>
+          <Line data={dataTag} options={options}/>
           <IonCardHeader>
               <IonCardSubtitle>Tagesüberblick</IonCardSubtitle>
-              <IonCardTitle>10kW</IonCardTitle>
+              <IonCardTitle>{estatusdic[Math.abs(Estatus)]} | {Estatus}</IonCardTitle>
           </IonCardHeader>
         </IonCard>
-        <IonItem>
-          <IonLabel>Auto soll angschlossen sein: </IonLabel>
-          <IonSelect value={aufladpunkt} okText="Okay" cancelText="Cancel" onIonChange={e => setaufladpunkt(e.detail.value)}>
-            <IonSelectOption value="16">16 Uhr</IonSelectOption>
-            <IonSelectOption value="17">17 Uhr</IonSelectOption>
-            <IonSelectOption value="18">18 Uhr</IonSelectOption>
-            <IonSelectOption value="19">19 Uhr</IonSelectOption>
-            <IonSelectOption value="20">20 Uhr</IonSelectOption>
-            <IonSelectOption value="21">21 Uhr</IonSelectOption>
-            <IonSelectOption value="22">22 Uhr</IonSelectOption>
-            <IonSelectOption value="23">23 Uhr</IonSelectOption>
-            <IonSelectOption value="24">24 Uhr</IonSelectOption>
-          </IonSelect>
-        </IonItem>
-        <IonItem>
-          <IonLabel>Auto soll aufgeladen sein: </IonLabel>
-          <IonSelect value={fertig} okText="Okay" cancelText="Cancel" onIonChange={e => setfertig(e.detail.value)}>
-            <IonSelectOption value="05">05 Uhr</IonSelectOption>
-            <IonSelectOption value="06">06 Uhr</IonSelectOption>
-            <IonSelectOption value="07">07 Uhr</IonSelectOption>
-            <IonSelectOption value="08">08 Uhr</IonSelectOption>
-            <IonSelectOption value="09">09 Uhr</IonSelectOption>
-            <IonSelectOption value="10">10 Uhr</IonSelectOption>
-            <IonSelectOption value="11">11 Uhr</IonSelectOption>
-            <IonSelectOption value="12">12 Uhr</IonSelectOption>
-            <IonSelectOption value="13">13 Uhr</IonSelectOption>
-          </IonSelect>
-        </IonItem>
+        <IonList>
+          <IonItemDivider>Stromaustauch mit der Hauptleitung</IonItemDivider>
+          <IonItem>
+            <IonLabel>An die Hauptleitung abgegebener Strom: {hlabgabe}kWh</IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Von der Hauptleitung bezogener Strom: {hlannahme}kWh</IonLabel>
+          </IonItem>
+          <IonItemDivider>E-Auto Aufladeplan</IonItemDivider>
+          <IonItem>
+            <IonLabel>Auto wird angeschlossen ab: </IonLabel>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={aufladpunkt} onIonChange={e => {console.log(e.detail.value!); pushStartChange(e.detail.value!);}}></IonDatetime>
+          </IonItem>
+          <IonItem>
+            <IonLabel>Auto soll aufgeladen sein bis: </IonLabel>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={fertig} onIonChange={e => {console.log(e.detail.value!); pushEndChange(e.detail.value!);}}></IonDatetime>
+          </IonItem>
+        </IonList>
       </IonContent>
     </IonPage>
   );

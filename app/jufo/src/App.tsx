@@ -39,21 +39,25 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/price" component={Price} />
-        <Route path="/consum" component={Consum} />
-        <Route path="/settings" component={Settings} />
-        <Route path="/company" component={Company} />
-        <Route path="/manipulateModel" component={ModelManipulation} />
-        <Route path="/battery" component={Battery} />
-        <Redirect exact from="/" to="/dashboard" />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  
+
+  return(
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/price" component={Price} />
+          <Route path="/consum" component={Consum} />
+          <Route path="/settings" component={Settings} />
+          <Route path="/company" component={Company} />
+          <Route path="/manipulateModel" component={ModelManipulation} />
+          <Route path="/battery" component={Battery} />
+          <Redirect exact from="/" to="/dashboard" />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
