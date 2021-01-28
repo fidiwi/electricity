@@ -97,14 +97,15 @@ class Storage():
 
     def startCharging(self, power):  # Power ist die abzugebende Leistung (kW)
         self.capacity += power
-        hauptleitung = 0
+        hauptleitungAbgeben = 0
+        hauptleitungBeziehen = 0
         if self.capacity > self.max:
             self.capacity = self.max
-            hauptleitung += power
+            hauptleitungAbgeben += power
             print("full")
         if self.capacity < self.min:
             self.capacity = self.min
-            hauptleitung += power
+            hauptleitungBeziehen -= power
             print("empty")
         
         sio.emit("storageChange", {'value': self.capacity})
