@@ -17,7 +17,7 @@ const Battery: React.FC = () => {
                 hourList.push(data[i].hour);
               }
               console.log(batterylist);
-        setProzent(data[23].value);
+        setProzent(Math.round(data[23].value));
           
           let batterylistfinal = {
             labels: hourList,
