@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">electriCITY</string>
+    <string name="title_activity_main">electriCITY</string>
+    <string name="package_name">eu.blattgruen.electricity</string>
+    <string name="custom_url_scheme">eu.blattgruen.electricity</string>
+</resources>
