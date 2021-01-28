@@ -107,6 +107,7 @@ try{
       socket.on("time", (data) => {
         SQLconnection.query(`UPDATE dashboard SET time = ${data} WHERE id=1`, (err) => {
           if (err) throw err;
+        });
       });
   
       socket.on("disconnect", () => {
