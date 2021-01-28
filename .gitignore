@@ -1,9 +1,4 @@
-/app/jufo
-
 /steuerung/node_modules
 /steuerung/config.json
 
-/server/file.pem
 /server/logs
-
-./vscode
