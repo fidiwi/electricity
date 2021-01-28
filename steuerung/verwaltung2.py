@@ -1,13 +1,8 @@
 import time
 import hardware
-import socketio
 from rpi_ws281x import Color
 
-sio = socketio.Client()
-
 houses = {}
-
-SOCKETIO_ENDPOINT = "http://blattgruen.eu:4001"
 
 # LED strip configuration:
 LED_COUNT      = 180     # Number of LED pixels.
@@ -19,29 +14,11 @@ LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-verbrauch_haus = None
-erzeugung_solar = None
-verbrauch_firma = None
-erzeugung_wind = None
-preis_vorhersage = None
+storage = 0
 
-hausA = None
-sunA = None
-firmaA = None
-windA = None
-preisA = None
-
-
-@sio.event
-def connect():
-    print("Connected to Socket!")
-    sio.emit("raspberry")
-    startScript()
-
-
-@sio.on("FromAPI")
-def message(data):
-    updateDBPotiValues(data)
+verbrauch_hausliste = [0.2, 0.2, 0.2, 0.2, 0.2, 0.3, 0.5, 0.7, 0.8, 0.6, 0.5, 0.5, 0.6, 0.6, 0.6, 0.6, 0.6, 0.7, 0.8, 0.8, 0.6, 0.5, 0.4, 0.3]
+erzeugung_solarliste = [0, 0, 0, 0, 0, 0, 0, 0.07, 0.28, 0.49, 0.63, 0.73, 0.3, 0.8, 0.76, 0.68, 0.52, 0.31, 0.24, 0.07, 0.05, 0, 0, 0]
+erzeugung_windliste = [0.61, 0.5, 0.5, 0.39, 0.39, 0.33, 0.39, 0.39, 0.5, 0.61, 0.72, 0.83, 0.83, 0.94, 0.94, 0.94, 1.06, 1.06, 0.94, 0.94, 0.72, 0.61, 0.5, 0.5]
 
 
 class House:
@@ -84,7 +61,7 @@ class Firma(House):
 
 class Windpark():
     def __init__(self, slot):
-        self.windenergy = 20  # maximale Produktion
+        self.windenergy = 5  # maximale Produktion
         self.way = hardware.ways[slot]
         self.slot = slot
 
@@ -106,8 +83,6 @@ class Storage():
             self.capacity = self.min
             hauptleitung += power
             print("empty")
-        
-        sio.emit("storageChange", {'value': self.capacity})
 
 
 def speed(dif):
@@ -196,181 +171,12 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
             ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
 
 
-def checkPotiValues():
-    global verbrauch_haus
-    global erzeugung_solar
-    global verbrauch_firma
-    global erzeugung_wind
-    global preis_vorhersage
-
-    global hausA
-    global sunA
-    global firmaA
-    global windA
-    global preisA
-
-    mVerbrauch_haus = hardware.getAnalogPercent(0)
-    mErzeugung_solar = hardware.getAnalogPercent(1)
-    mVerbrauch_firma = hardware.getAnalogPercent(2)
-    mErzeugung_wind = hardware.getAnalogPercent(3)
-    mPreis_vorhersage = hardware.getAnalogPercent(4)
-
-    new = [mVerbrauch_haus, mErzeugung_solar, mVerbrauch_firma, mErzeugung_wind, mPreis_vorhersage]
-    old = [hausA, sunA, firmaA, windA, preisA]
-    tags = ["housevb", "sun", "companyvb", "wind", "ekarma"]
-
-    for i in range(5):
-        if abs(new[i] - old[i]) > .02:
-            sio.emit("rangeChange", {'param':tags[i], 'value': new[i]})
-            if i == 0:
-                verbrauch_haus = new[i]
-            elif i == 1:
-                erzeugung_solar = new[i]
-            elif i == 2:
-                verbrauch_firma = new[i]
-            elif i == 3:
-                erzeugung_wind = new[i]
-            elif i == 4:
-                preis_vorhersage = new[i]
-        old[i] = new[i]
-
-    print("Verbrauch Haus ", verbrauch_haus)
-    print("Solar ", erzeugung_solar)
-    print("Verbrauch Firma ", verbrauch_firma)
-    print("Wind ", erzeugung_wind)
-    print("Preisvorhersage ", preis_vorhersage)
-
-
-def updateDBPotiValues(data):
-    global verbrauch_haus
-    global erzeugung_solar
-    global verbrauch_firma
-    global erzeugung_wind
-    global preis_vorhersage
-
-    verbrauch_haus = data['housevb']
-    erzeugung_solar = data['sun']
-    verbrauch_firma = data['companyvb']
-    erzeugung_wind = data['wind']
-    preis_vorhersage = data['ekarma']
-    print(data)
-
-
-def startScript():
-    try:
-        while True:
-            global verbrauch_haus
-            global erzeugung_solar
-            global verbrauch_firma
-            global erzeugung_wind
-            global preis_vorhersage
-            global hours
-            global houses
-
-            checkPotiValues()
-            """dif = {}
-            total_dif = 0  # Verbrauch der Siedlung
-            for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption * verbrauch_haus
-                house_erzeugung = houses[house_key].solar_space * erzeugung_solar
-                difference = house_erzeugung - house_verbrauch
-                dif[house_key] = difference
-                total_dif = total_dif + difference
-            print(dif)
-            print(total_dif)
-            storage.startCharging(total_dif)
-            print("storage: ", storage.capacity)
-            hours += 1
-            print(hours)
-            verbrauchfirma = firma.solar_space * erzeugung_solar
-            + windpark.windenergy * erzeugung_wind
-            - firma.max_consumption * verbrauch_firma
-            print("Firma ", verbrauchfirma)
-            total_dif += verbrauchfirma
-            print("Endverbrauch ", total_dif)"""
-
-            houses[1].setCarsCharging(1)
-            # led rechnen
-            housevb = []
-            for i in range(5):
-                housevb.append(-(houses[i].max_consumption * verbrauch_haus + houses[i].carsCurrentlyCharging * ladeleistung) + houses[i].solar_space * erzeugung_solar)
-            # Windpark
-            housevb.append(windpark.windenergy * erzeugung_wind)
-
-            # Firma Produktivität festlegen
-            dif = houses[5].solar_space * erzeugung_solar
-            for vb in housevb:
-                dif += vb
-
-            print("dif: ", dif)
-            verbrauch_firma = 0.5
-            if dif > houses[5].max_consumption / 2:
-                verbrauch_firma = dif/houses[5].max_consumption
-                if dif > houses[5].max_consumption:
-                    verbrauch_firma = 1
-            print("verbrauch_firma: ", verbrauch_firma)
-
-            # Firma
-            housevb.append(-(houses[5].max_consumption * verbrauch_firma) + houses[5].solar_space * erzeugung_solar)
-
-            dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[6], windpark: housevb[5]}
-            vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
-
-            print(dic)
-            # Items mit VB = 0
-            keys_with_zero = []
-            for key in vb_sortiert.keys():
-                if vb_sortiert[key] == 0:
-                    keys_with_zero.append(key)
-            for key in keys_with_zero:
-                del vb_sortiert[key]
-
-            keys = list(vb_sortiert.keys())
-
-            total_dif = 0  # Verbrauch der Siedlung
-
-            for items in vb_sortiert.values():
-                total_dif += items
-                print(items)
-            storage.startCharging(total_dif)
-
-            print("storage: ", storage.capacity)
-            print("Totale Differenz: ", total_dif)
-            print(vb_sortiert)
-            calcled(0, len(vb_sortiert) - 1, vb_sortiert, keys)
-
-            # hardware.sonne(erzeugung_solar)
-            hours += 1
-            time.sleep(2)
-
-    except KeyboardInterrupt:
-        sio.disconnect()
-        pass
-
-
 if __name__ == "__main__":
-
-    verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
-    erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
-    verbrauch_firma = hardware.getAnalogPercent(2)  # 1
-    erzeugung_wind = hardware.getAnalogPercent(3)  # 0.5
-    preis_vorhersage = hardware.getAnalogPercent(4)  # 0
-
-    hausA = verbrauch_haus
-    sunA = erzeugung_solar
-    firmaA = verbrauch_firma
-    windA = erzeugung_wind
-    preisA = preis_vorhersage
-
-
-    # SocketIO Connection herstellen und als Raspberry anmelden
-
     houses = {}
-    storage = Storage(200, 0, 350)
+    storage = Storage(0, 0, 350)
 
     verbrauchfirma = 0
-    
-    hours = 0
+
     ladeleistung = 11  # in kW
 
     # Häuser mit jeweiligen Slots, jeder Slot nur einmal!!
@@ -387,6 +193,73 @@ if __name__ == "__main__":
                                  LED_CHANNEL)
     ledStrip.begin()
 
-    sio.connect(SOCKETIO_ENDPOINT)
+    Stunde = 0
 
-    
+    for z in range(24):
+        verbrauch_haus = verbrauch_hausliste[Stunde]
+        erzeugung_solar = erzeugung_solarliste[Stunde]
+        erzeugung_wind = erzeugung_windliste[Stunde]
+
+        houses[1].setCarsCharging(1)
+        # led rechnen
+        housevb = []
+        for i in range(5):
+            housevb.append(-(houses[i].max_consumption * verbrauch_haus + houses[i].carsCurrentlyCharging * ladeleistung) + houses[i].solar_space * erzeugung_solar)
+        # Windpark
+        housevb.append(windpark.windenergy * erzeugung_wind)
+
+        # Firma Produktivität festlegen
+        if Stunde > 5 and Stunde < 22:
+            dif = houses[5].solar_space * erzeugung_solar - 11
+            for vb in housevb:
+                dif += vb
+
+            print("dif: ", dif)
+            verbrauch_firma = 0.5
+            if dif > houses[5].max_consumption / 2:
+                verbrauch_firma = dif/houses[5].max_consumption
+                if dif > houses[5].max_consumption:
+                    verbrauch_firma = 1
+            print("verbrauch_firma: ", verbrauch_firma)
+        else:
+            verbrauch_firma = 0
+
+        # Firma
+        housevb.append(-(houses[5].max_consumption * verbrauch_firma) + houses[5].solar_space * erzeugung_solar)
+
+        dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[6], windpark: housevb[5]}
+        vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
+
+        print(dic)
+        # Items mit VB = 0
+        keys_with_zero = []
+        for key in vb_sortiert.keys():
+            if vb_sortiert[key] == 0:
+                keys_with_zero.append(key)
+        for key in keys_with_zero:
+            del vb_sortiert[key]
+
+        keys = list(vb_sortiert.keys())
+
+        total_dif = 0  # Verbrauch der Siedlung
+
+        for items in vb_sortiert.values():
+            total_dif += items
+            print(items)
+
+        if Stunde < 6 and Stunde > 21:
+            total_dif -= 11
+
+        storage.startCharging(total_dif)
+
+        print("storage: ", storage.capacity)
+        print("Totale Differenz: ", total_dif)
+        print(vb_sortiert)
+        calcled(0, len(vb_sortiert) - 1, vb_sortiert, keys)
+
+        # hardware.sonne(erzeugung_solar)
+        Stunde += 1
+        if Stunde == 24:
+            Stunde = 0
+        print("Stunde: ", Stunde)
+        time.sleep(2)
