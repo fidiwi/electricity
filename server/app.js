@@ -51,6 +51,7 @@ var batterySockets = [];
 var estatusSockets = [];
 var companySockets = [];
 var senderSockets = [];
+var raspiSockets = [];
 
 try{
   io.on("connection", (socket) => {
@@ -89,7 +90,10 @@ try{
   
     socket.on("raspberry", () => {
       manipulationSockets.push(socket);
+      raspiSockets.push(socket);
+
       startManipulationSocket(socket);
+      sendHouses(socket);
   
       socket.on("storageChange", (data) => {
         const value = data.value;
@@ -174,6 +178,10 @@ try{
         const index = manipulationSockets.indexOf(socket);
         if (index > -1) {
           manipulationSockets.splice(index, 1);
+        }
+        index = raspiSockets.indexOf(socket);
+        if (index > -1) {
+          raspiSockets.splice(index, 1);
         }
   
       });
@@ -289,6 +297,9 @@ try{
             sendHouses(settingsSocket);
           }
         });
+        raspiSockets.forEach(function(raspiSocket){
+          sendHouses(raspiSocket);
+        })
       });
   
       socket.on("disconnect", () => {
@@ -434,7 +445,7 @@ try{
   function sendHouses(socket){
     SQLconnection.query("SELECT * FROM houses", (err, rows) => {
       if (err) throw err;
-      socket.emit("FromAPI", rows);
+      socket.emit("houses", rows);
     });
   }
   

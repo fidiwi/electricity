@@ -6,6 +6,7 @@ from rpi_ws281x import Color
 sio = socketio.Client()
 
 houses = {}
+house_id = {0: Apartment, 1: Reihenhaus, 2: Mehrfamilienhaus, 3: Einfamilienhaus}
 
 SOCKETIO_ENDPOINT = "https://blattgruen.eu:4001"
 
@@ -44,6 +45,11 @@ def connect():
 @sio.on("FromAPI")
 def message(data):
     updateDBPotiValues(data)
+
+@sio.on("houses")
+def message(data):
+    for item in data:
+        houses[item.id - 1] = house_id[item.house](item.id-1)
 
 
 class House:
@@ -401,7 +407,6 @@ if __name__ == "__main__":
 
     # SocketIO Connection herstellen und als Raspberry anmelden
 
-    houses = {}
     storage = Storage(200, 0, 350)
 
     verbrauchfirma = 0
