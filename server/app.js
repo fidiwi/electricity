@@ -177,7 +177,7 @@ try{
 
       socket.on("sendersChange", data => {
         getTime(hour => {
-          for (let i = 0; i <= 7; i++){
+          for (let i = 0; i <= 6; i++){
             SQLconnection.query(`UPDATE senders SET abgabe=(${data.abgabe[i]}), annahme=(${data.annahme[i]}) WHERE slot=${i+1}`, err => {if (err) throw err;});;
           }
         });
