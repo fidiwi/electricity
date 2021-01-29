@@ -175,7 +175,7 @@ try{
       socket.on("disconnect", () => {
         console.log("Raspberry Pi disconnected");
   
-        const index = manipulationSockets.indexOf(socket);
+        let index = manipulationSockets.indexOf(socket);
         if (index > -1) {
           manipulationSockets.splice(index, 1);
         }
