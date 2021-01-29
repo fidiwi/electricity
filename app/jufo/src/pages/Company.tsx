@@ -156,7 +156,7 @@ const Company: React.FC = () => {
           <IonCardContent>
             <IonCardTitle>Produktivität</IonCardTitle>
             <Line data={Produktivität} options={options}/>
-            <IonCardSubtitle>Produktivität: {produktschnitt}%</IonCardSubtitle>
+            <IonCardSubtitle>Durchschnittl. Produktivität: {produktschnitt}%</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
         <IonCard>
