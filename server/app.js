@@ -139,6 +139,9 @@ try{
             });
           });          
         });
+        estatusSockets.forEach(function(ESsocket){
+          sendEStatus(ESsocket);
+        });
         companySockets.forEach(function(companySocket){
           sendProductivity(companySocket);
         });
@@ -146,11 +149,8 @@ try{
 
       socket.on("estatusChange", (data) => {
         getTime(hour => {
-          SQLconnection.query(`UPDATE estatus_hour SET value = (${value}) WHERE hour=${hour}`, err => {
+          SQLconnection.query(`UPDATE estatus_hour SET value = (${data}) WHERE hour=${hour}`, err => {
             if (err) throw err;
-            estatusSockets.forEach(function(ESsocket){
-              sendEStatus(ESsocket);
-            });
           })
         })
       });
