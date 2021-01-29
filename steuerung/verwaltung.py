@@ -223,12 +223,32 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
 
 def estatus(dif, storage):
     status = 0
-    if abs(dif) < 2 and storage.capacity > storage.min:
+    if abs(dif) < 2 and storage.capacity > storage.min + 49 and storage.capacity < storage.max - 49:
         status = 0
-    elif abs(dif) < 10 and storage.capacity < storage.max and storage:
+    elif abs(dif) < 2 and storage.capacity >= storage.min and storage.capacity <= storage.max:
         status = 1
-    elif abs(dif) >= 10 and storage.capacity < storage.max:
+    elif abs(dif) < 10 and storage.capacity > storage.min + 49 and storage.capacity < storage.max - 49:
+        status = 1
+    elif abs(dif) < 10 and storage.capacity >= storage.min and storage.capacity <= storage.max:
         status = 2
+    elif abs(dif) < 25 and storage.capacity > storage.min + 49 and storage.capacity < storage.max - 49:
+        status = 2
+    elif abs(dif) < 25 and storage.capacity >= storage.min and storage.capacity <= storage.max:
+        status = 3
+    elif abs(dif) >= 25 and storage.capacity > storage.min + 49 and storage.capacity < storage.max - 49:
+        status = 3
+    elif abs(dif) >= 25 and storage.capacity >= storage.min and storage.capacity <= storage.max:
+        status = 4
+    elif abs(dif) < 25 and storage.capacity == storage.min or storage.capacity == storage.max:
+        status = 4
+    elif abs(dif) >= 25 and storage.capacity == storage.min or storage.capacity == storage.max:
+        status = 5
+    else:
+        status = "error"
+
+    if dif < -2:
+        status = status * -1
+    sio.emit("estatusChange", status)
     
 
 def checkPotiValues():
