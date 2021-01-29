@@ -139,6 +139,9 @@ try{
             });
           });          
         });
+        senderSockets.forEach(function(senderSockket){
+          sendSenders(senderSocket);
+        });
       });
 
       socket.on("estatusChange", (data) => {
@@ -169,6 +172,14 @@ try{
               sendProductivity(companySocket);
             });
           });
+        });
+      });
+
+      socket.on("sendersChange", data => {
+        getTime(hour => {
+          for (let i = 0; i <= 7; i++){
+            SQLconnection.query(`UPDATE senders SET abgabe=(${data.abgabe[i]}), annahme=(${data.annahme[i]}) WHERE slot=${i+1}`, err => {if (err) throw err;});;
+          }
         });
       });
   
