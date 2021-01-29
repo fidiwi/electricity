@@ -135,6 +135,9 @@ try{
             });
           });          
         });
+        companySockets.forEach(function(companySocket){
+          sendProductivity(companySocket);
+        });
       });
 
       socket.on("estatusChange", (data) => {
@@ -161,9 +164,6 @@ try{
         getTime(hour => {
           SQLconnection.query(`UPDATE firma_produktivität SET produktivität = (${data}) WHERE hour=${hour}`, err => {
             if (err) throw err;
-            companySockets.forEach(function(companySocket){
-              sendProductivity(companySocket);
-            });
           });
         });
       });
