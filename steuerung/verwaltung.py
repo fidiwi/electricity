@@ -359,11 +359,14 @@ def startScript():
                 dif += vb
 
             print("dif: ", dif)
-            verbrauch_firma = 0.5
-            if dif > houses[5].max_consumption / 2:
-                verbrauch_firma = dif/houses[5].max_consumption
-                if dif > houses[5].max_consumption:
-                    verbrauch_firma = 1
+            if hours%24 > 5 and hours%24 <22:
+                verbrauch_firma = 0.5
+                if dif > houses[5].max_consumption / 2:
+                    verbrauch_firma = dif/houses[5].max_consumption
+                    if dif > houses[5].max_consumption:
+                        verbrauch_firma = 1
+            else:
+                verbrauch_firma = 0
             print("verbrauch_firma: ", verbrauch_firma)
 
             # Firma
