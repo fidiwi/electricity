@@ -41,7 +41,7 @@ const Settings: React.FC = () => {
     setSocket(socket);
 
     socket.emit("settings");
-    socket.on("FromAPI", (data: Array<{
+    socket.on("houses", (data: Array<{
       id: number;
       house: number;
     }>) => {
