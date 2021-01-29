@@ -139,7 +139,7 @@ try{
             });
           });          
         });
-        senderSockets.forEach(function(senderSockket){
+        senderSockets.forEach(function(senderSocket){
           sendSenders(senderSocket);
         });
       });
