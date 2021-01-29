@@ -139,18 +139,15 @@ try{
             });
           });          
         });
-        estatusSockets.forEach(function(ESsocket){
-          sendEStatus(ESsocket);
-        });
-        companySockets.forEach(function(companySocket){
-          sendProductivity(companySocket);
-        });
       });
 
       socket.on("estatusChange", (data) => {
         getTime(hour => {
           SQLconnection.query(`UPDATE estatus_hour SET value = (${data}) WHERE hour=${hour}`, err => {
             if (err) throw err;
+            estatusSockets.forEach(function(ESsocket){
+              sendEStatus(ESsocket);
+            });
           })
         })
       });
@@ -168,6 +165,9 @@ try{
         getTime(hour => {
           SQLconnection.query(`UPDATE firma_produktivität SET produktivität = (${data}) WHERE hour=${hour}`, err => {
             if (err) throw err;
+            companySockets.forEach(function(companySocket){
+              sendProductivity(companySocket);
+            });
           });
         });
       });
