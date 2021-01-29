@@ -6,7 +6,6 @@ from rpi_ws281x import Color
 sio = socketio.Client()
 
 houses = {}
-house_id = {0: Apartment, 1: Reihenhaus, 2: Mehrfamilienhaus, 3: Einfamilienhaus}
 
 SOCKETIO_ENDPOINT = "https://blattgruen.eu:4001"
 
@@ -49,7 +48,7 @@ def message(data):
 @sio.on("houses")
 def message(data):
     for item in data:
-        houses[item.id - 1] = house_id[item.house](item.id-1)
+        houses[item['id'] - 1] = house_id[item['house']](item['id']-1)
 
 
 class House:
@@ -82,6 +81,8 @@ class Reihenhaus(House):
 class Mehrfamilienhaus(House):
     def __init__(self, slot):
         super().__init__(4, 8.75, slot, 0)
+
+house_id = {0: Apartment, 1: Reihenhaus, 2: Mehrfamilienhaus, 3: Einfamilienhaus}
 
 
 class Firma(House):
