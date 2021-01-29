@@ -51,7 +51,6 @@ var batterySockets = [];
 var estatusSockets = [];
 var companySockets = [];
 var senderSockets = [];
-var HLSockets = [];
 
 try{
   io.on("connection", (socket) => {
@@ -94,9 +93,8 @@ try{
   
       socket.on("storageChange", (data) => {
         const value = data.value;
-        SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
-          let hour = rows[0].time;
 
+        getTime(hour => {
           SQLconnection.query(`UPDATE battery SET capacity = (${value}) WHERE hour=${hour}`, (err) => {if (err) throw err;
             dashboardSockets.forEach(function(dashboardSocket){
               sendStorage(dashboardSocket);
@@ -108,9 +106,54 @@ try{
         });
       });
 
-      socket.on("time", (data) => {
-        SQLconnection.query(`UPDATE dashboard SET time = ${data} WHERE id=1`, (err) => {
+      socket.on("time", (time) => {
+        SQLconnection.query(`UPDATE dashboard SET time = ${time} WHERE id=1`, (err) => {if (err) throw err;});
+        SQLconnection.query("SELECT * FROM sliders", (err, rows) => {
           if (err) throw err;
+          let data = rows[0]
+          
+          SQLconnection.query(`UPDATE vb_hour SET vb=(${data.housevb}) WHERE hour=${time}`, err => {
+            if (err) throw err;
+
+
+            SQLconnection.query(`UPDATE wind_produktion SET produktion=(${data.wind}) WHERE hour=${time}`, err => {
+              if (err) throw err;
+  
+              SQLconnection.query(`UPDATE sonne_produktion SET produktion=(${data.sun}) WHERE hour=${time}`, err => {
+                if (err) throw err;
+                dashboardSockets.forEach(function(dashboardSocket){
+                  sendSun(dashboardSocket);
+                  sendVB(dashboardSocket)
+                });
+                companySockets.forEach(function(companySocket){
+                  sendWindSun(companySocket);
+                });
+                houseStatSockets.forEach(function(houseStatSocket){
+                  sendHouseStat(houseStatSocket);
+                });
+              });
+            });
+          });          
+        });
+      });
+
+      socket.on("estatusChange", (data) => {
+        getTime(hour => {
+          SQLconnection.query(`UPDATE estatus_hour SET value = (${value}) WHERE hour=${hour}`, err => {
+            if (err) throw err;
+            estatusSockets.forEach(function(ESsocket){
+              sendEStatus(ESsocket);
+            });
+          })
+        })
+      });
+
+      socket.on("hlChange", data => {
+        SQLconnection.query(`UPDATE hauptleitung SET annahme=(${data.annahme}), abgabe=(${data.abgabe}) WHERE id=1`, err =>{
+          if (err) throw err;
+          estatusSockets.forEach(function(ESsocket){
+            sendHLStats(ESsocket);
+          });
         });
       });
   
@@ -193,7 +236,6 @@ try{
   
    socket.on("estatus", () =>{
     estatusSockets.push(socket);
-    HLSockets.push(socket);
     sendEStatus(socket);
     sendHLStats(socket);
     sendCar(Math.floor(Math.random() * 15) + 1, socket);
@@ -214,10 +256,6 @@ try{
       let index = estatusSockets.indexOf(socket);
       if (index > -1) {
         estatusSockets.splice(index, 1);
-      }
-      index = HLSockets.indexOf(socket);
-      if (index > -1) {
-        HLSockets.splice(index, 1);
       }
       console.log("E-Status disconnected");
 
@@ -497,6 +535,11 @@ try{
     });
   }
 
+  /**
+   * 
+   * Util Functions 
+   * 
+   */
   function sortValues(data, callback){
     SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
       if (err) throw err;
@@ -510,6 +553,13 @@ try{
         output.push({hour: i, value: data[i]});
       }
       callback(output);
+    });
+  }
+
+  function getTime(callback){
+    SQLconnection.query("SELECT * FROM dashboard WHERE id=1", (err, rows) => {
+      let hour = rows[0].time;
+      callback(hour);
     });
   }
   
