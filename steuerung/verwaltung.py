@@ -254,7 +254,7 @@ class Kreisdiagramm():
         self.values = [[], [], [], [], [], [], []]
         for i in range(7):
             for j in range(24):
-                self.values[i][j] = {"abgabe": 0, "annahme": 0}
+                self.values[i].append({"abgabe": 0, "annahme": 0})
     def addValue(self, dic):
         abgabe = []
         annahme = []
