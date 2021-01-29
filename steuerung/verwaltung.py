@@ -133,10 +133,6 @@ class Storage():
         sio.emit("hlChange", {"abgabe": abgabe, "annahme": beziehen})
 
 
-
-
-
-
 def speed(dif):
     if abs(dif) > 10:
         dif = 10
@@ -222,6 +218,7 @@ def calcled(i, j, vb_sortiert, keys):  # i = erstes haus von links; j = rechtes 
                 i += 1
             ledStrip.stromfluss(Color(50, 0, 0), speed(speedSR/speedTeiler), hardware.begin, receiver)
 
+
 def estatus(dif, storage):
     status = 0
     if abs(dif) < 2 and storage.capacity > storage.min + 49 and storage.capacity < storage.max - 49:
@@ -250,7 +247,31 @@ def estatus(dif, storage):
     if dif < -2:
         status = status * -1
     sio.emit("estatusChange", status)
-    
+
+
+class Kreisdiagramm():
+    def __init__(self):
+        self.values = []
+        for i in range(7):
+            for j in range(24):
+                self.values[i][j] = {"abgabe": 0, "annahme": 0}
+    def addValue(self, dic):
+        abgabe = []
+        annahme = []
+        for item in dic.keys():
+            if dic[item] >= 0:
+                self.values[item.slot][hours%24] = {"abgabe": dic[item], "annahme": 0}
+            else:
+                self.values[item.slot][hours%24] = {"abgabe": 0, "annahme": abs(dic[item])}
+            tempAbgabe = 0
+            tempAnnahme = 0
+            for value in self.values[item.slot]:
+                tempAbgabe += value["abgabe"]
+                tempAnnahme += value["annahme"]
+            abgabe.append(tempAbgabe)
+            annahme.append(tempAnnahme)
+        sio.emit("sendersChange", {"abgabe": abgabe, "annahme": annahme})
+
 
 def checkPotiValues():
     global verbrauch_haus
@@ -377,6 +398,8 @@ def startScript():
             dic = {houses[0]: housevb[0], houses[1]: housevb[1], houses[2]: housevb[2], houses[3]: housevb[3], houses[4]: housevb[4], houses[5]: housevb[6], windpark: housevb[5]}
             vb_sortiert = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1], reverse=True)}
 
+            kreisdiagramm.addValue(dic)
+
             print(dic)
             # Items mit VB = 0
             keys_with_zero = []
@@ -433,6 +456,7 @@ if __name__ == "__main__":
     # SocketIO Connection herstellen und als Raspberry anmelden
 
     storage = Storage(200, 0, 350)
+    kreisdiagramm = Kreisdiagramm()
 
     verbrauchfirma = 0
 
