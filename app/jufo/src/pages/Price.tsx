@@ -121,10 +121,10 @@ const Price: React.FC = () => {
         <IonList>
           <IonItemDivider>Stromaustauch mit der Hauptleitung</IonItemDivider>
           <IonItem>
-            <IonLabel>An die Hauptleitung abgegebener Strom: {hlabgabe}kWh</IonLabel>
+            <IonLabel>An die Hauptleitung abgegebener Strom: {Math.round(hlabgabe)}kWh</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel>Von der Hauptleitung bezogener Strom: {hlannahme}kWh</IonLabel>
+            <IonLabel>Von der Hauptleitung bezogener Strom: {Math.round(hlannahme)}kWh</IonLabel>
           </IonItem>
           <IonItemDivider>E-Auto Aufladeplan</IonItemDivider>
           <IonItem>
