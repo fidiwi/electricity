@@ -367,7 +367,7 @@ def startScript():
             print("Totale Differenz: ", total_dif)
             print(vb_sortiert)
 
-            estatus(total_dif, storage)
+            # estatus(total_dif, storage)
             calcled(0, len(vb_sortiert) - 1, vb_sortiert, keys)
 
             # hardware.sonne(erzeugung_solar)
