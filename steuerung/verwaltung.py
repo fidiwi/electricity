@@ -389,6 +389,8 @@ def startScript():
             else:
                 verbrauch_firma = 0
             print("verbrauch_firma: ", verbrauch_firma)
+            sio.emit("companyChange", verbrauch_firma)
+
 
             # Firma
             housevb.append(-(houses[5].max_consumption * verbrauch_firma) + houses[5].solar_space * erzeugung_solar)
@@ -425,7 +427,6 @@ def startScript():
 
             # hardware.sonne(erzeugung_solar)
 
-            sio.emit("companyChange", verbrauch_firma)
             hours += 1
             sio.emit("time", hours%24)
 
