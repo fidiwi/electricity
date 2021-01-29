@@ -107,8 +107,8 @@ const Company: React.FC = () => {
         let windlist = [];
         let hourList = [];
         for(let i = 0; i <=23; i++){;
-          windlist.push(Math.round(data.wind[i].value*100*5)/100)
-          temp = temp + data.wind[i].value*40;
+          windlist.push(Math.round(data.wind[i].value*100*20)/100)
+          temp = temp + data.wind[i].value*20;
           hourList.push(data.wind[i].hour)
         };
         setWind(Math.round(temp));
@@ -163,8 +163,8 @@ const Company: React.FC = () => {
           <IonCardContent>
             <IonCardTitle>Tagesüberblick</IonCardTitle>
             <Line data={Firma}/>
-            <IonCardSubtitle>Stromproduktion Solar: {sonne}kW</IonCardSubtitle>
-            <IonCardSubtitle>Stromproduktion Wind: {wind}kW</IonCardSubtitle>
+            <IonCardSubtitle>Stromproduktion Solar: {Math.round(sonne)}kW</IonCardSubtitle>
+            <IonCardSubtitle>Stromproduktion Wind: {Math.round(wind)}kW</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
     </IonContent>
