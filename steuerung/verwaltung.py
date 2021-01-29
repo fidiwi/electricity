@@ -400,8 +400,8 @@ def startScript():
             # hardware.sonne(erzeugung_solar)
 
             sio.emit("companyChange", verbrauch_firma)
-            sio.emit("time", hours%24)
             hours += 1
+            sio.emit("time", hours%24)
 
 
             time.sleep(2)
