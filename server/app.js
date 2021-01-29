@@ -156,6 +156,17 @@ try{
           });
         });
       });
+
+      socket.on("companyChange", data => {
+        getTime(hour => {
+          SQLconnection.query(`UPDATE firma_produktivität SET produktivität = (${data}) WHERE hour=${hour}`, err => {
+            if (err) throw err;
+            companySockets.forEach(function(companySocket){
+              sendProductivity(companySocket);
+            });
+          });
+        });
+      });
   
       socket.on("disconnect", () => {
         console.log("Raspberry Pi disconnected");
