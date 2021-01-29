@@ -282,8 +282,8 @@ def checkPotiValues():
                 verbrauch_haus = new[i]
             elif i == 1:
                 erzeugung_solar = new[i]
-            elif i == 2:
-                verbrauch_firma = new[i]
+            #elif i == 2:
+                #verbrauch_firma = new[i]
             elif i == 3:
                 erzeugung_wind = new[i]
             elif i == 4:
@@ -306,7 +306,7 @@ def updateDBPotiValues(data):
 
     verbrauch_haus = data['housevb']
     erzeugung_solar = data['sun']
-    verbrauch_firma = data['companyvb']
+    #verbrauch_firma = data['companyvb']
     erzeugung_wind = data['wind']
     preis_vorhersage = data['ekarma']
     print(data)
