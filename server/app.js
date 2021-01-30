@@ -273,12 +273,18 @@ try{
     socket.on("startChange", (data) => {
       SQLconnection.query(`UPDATE cars SET start="${data.start}" WHERE id=${data.id}`, (err) => {
         if (err) throw err;
+        raspiSockets.forEach(function(raspiSocket){
+          sendCars(raspiSocket);
+        });
       });
     });
 
     socket.on("endChange", (data) => {
       SQLconnection.query(`UPDATE cars SET end="${data.end}" WHERE id=${data.id}`, (err) => {
         if (err) throw err;
+        raspiSockets.forEach(function(raspiSocket){
+          sendCars(raspiSocket);
+        });
       });
     });
   
@@ -449,6 +455,13 @@ try{
     SQLconnection.query(`SELECT * FROM cars WHERE id=${id}`, (err, rows) => {
       if (err) throw err;
       socket.emit("cars", rows[0]);
+    });
+  }
+
+  function sendCars(id, socket){
+    SQLconnection.query(`SELECT * FROM cars`, (err, rows) => {
+      if (err) throw err;
+      socket.emit("cars", rows);
     });
   }
   
