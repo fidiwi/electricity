@@ -32,7 +32,7 @@ firmaA = None
 windA = None
 preisA = None
 
-hours = 0
+hours = 1
 
 
 @sio.event
