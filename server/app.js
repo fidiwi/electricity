@@ -94,6 +94,7 @@ try{
 
       startManipulationSocket(socket);
       sendHouses(socket);
+      sendCars(socket);
   
       socket.on("storageChange", (data) => {
         const value = data.value;
