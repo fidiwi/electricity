@@ -459,7 +459,7 @@ try{
     });
   }
 
-  function sendCars(id, socket){
+  function sendCars(socket){
     SQLconnection.query(`SELECT * FROM cars`, (err, rows) => {
       if (err) throw err;
       socket.emit("cars", rows);
