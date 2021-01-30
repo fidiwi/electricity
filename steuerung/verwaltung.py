@@ -32,7 +32,7 @@ firmaA = None
 windA = None
 preisA = None
 
-hours = 1
+hours = 22
 
 
 @sio.event
@@ -311,7 +311,7 @@ class Planner():
         
         # Endzeiten reversed sortieren (23, 22, ...)
         endTimes = {k: v for k, v in sorted(endTimes.items(), key=lambda item: item[1], reverse=True)}
-        keys = endTimes.keys()
+        keys = list(endTimes.keys())
 
         i = 0
         while i < len(keys):
@@ -330,7 +330,7 @@ class Planner():
                     eqElementsDif[keys[j]] = carData[keys[j]]["dif"]
                     j+=1
                 eqElementsDif = {k: v for k, v in sorted(eqElementsDif.items(), key=lambda item: item[1], reverse=True)}
-                equalKeys = eqElementsDif.keys()
+                equalKeys = list(eqElementsDif.keys())
                 for equalKey in equalKeys:
                     self.plan[equalKey] = endTimes[equalKey] - 1
 
