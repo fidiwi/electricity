@@ -59,6 +59,10 @@ def message(data):
         newDataset = dataset
         startTime = int(dataset["start"][:2])
         endTime = int(dataset["end"][:2])
+
+        newDataset["start"] = startTime
+        newDataset["end"] = endTime
+
         if startTime > endTime:
             newDataset["dif"] = (endTime + 24) - startTime
         else:
@@ -293,13 +297,46 @@ class Planner():
         self.plan = {}
     # Plane die zukünftige Autoaufladung für das schlimmste Szenario
     def makePlan(self, hours, status):
-        if hours%48 == 24:
-            startTimes = {}
-            for i in range(8):
-                startTimes[i] = carData[i]["start"]
-            startTimes = {k: v for k, v in sorted(startTimes.items(), key=lambda item: item[1])}
-            print(startTimes)
 
+        endTimes = {}
+        
+        if hours%48 == 24:
+            # Endzeiten der ersten 8 Datensätze
+            for i in range(8):
+                endTimes[i] = carData[i]["end"]
+        elif hours%48 == 0:
+            # Endzeiten der letzten 7 Datensätze
+            for i in range(8, 15):
+                endTimes[i] = carData[i]["end"]
+        
+        # Endzeiten reversed sortieren (23, 22, ...)
+        endTimes = {k: v for k, v in sorted(endTimes.items(), key=lambda item: item[1], reverse=True)}
+        keys = endTimes.keys()
+
+        i = 0
+        while i < len(keys):
+
+            # Wenn aktuelle Endzeit min. 1h von nächstem Wert entfernt ist
+            if endTimes[keys[i]] - 1 >= endTimes[keys[i+1]] :
+                self.plan[keys[i]] = endTimes[keys[i]] - 1
+
+                i += 1
+            else:
+                # Gleiche Endzeiten (Dif < 1) zusammentragen
+                eqElementsDif = {}
+                eqElementsDif[keys[i]] = carData[keys[i]]["dif"]
+                j = i+1
+                while endTimes[keys[i]] == endTimes[keys[j]] and j < len(endTimes):
+                    eqElementsDif[keys[j]] = carData[keys[j]]["dif"]
+                    j+=1
+                eqElementsDif = {k: v for k, v in sorted(eqElementsDif.items(), key=lambda item: item[1], reverse=True)}
+                equalKeys = eqElementsDif.keys()
+                for equalKey in equalKeys:
+                    self.plan[equalKey] = endTimes[equalKey] - 1
+
+                i = j
+        return self.plan
+                        
 
 def checkPotiValues():
     global verbrauch_haus
@@ -375,7 +412,8 @@ def startScript():
             checkPotiValues()
             
             if hours%24 == 0:
-                planner.makePlan(hours, "")
+                print("Plan: ", planner.makePlan(hours, ""))
+                
 
             houses[1].setCarsCharging(1)
             # led rechnen
