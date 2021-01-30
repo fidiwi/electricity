@@ -464,6 +464,8 @@ try{
       if (err) throw err;
       let newRows = rows.shift();
       socket.emit("cars", newRows);
+      console.log(rows);
+      console.log(newRows);
     });
   }
   
