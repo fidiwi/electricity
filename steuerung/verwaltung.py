@@ -6,6 +6,7 @@ from rpi_ws281x import Color
 sio = socketio.Client()
 
 houses = {}
+carData = []
 
 SOCKETIO_ENDPOINT = "https://blattgruen.eu:4001"
 
@@ -49,6 +50,20 @@ def message(data):
 def message(data):
     for item in data:
         houses[item['id'] - 1] = house_id[item['house']](item['id']-1)
+
+@sio.on("cars")
+def message(data):
+    global carData
+    carData = []
+    for dataset in data:
+        newDataset = dataset
+        startTime = int(dataset["start"][:2])
+        endTime = int(dataset["end"][:2])
+        if startTime > endTime:
+            newDataset["dif"] = (endTime + 24) - startTime
+        else:
+            newDataset["dif"] = endTime - startTime
+        carData.append(newDataset)
 
 
 class House:
@@ -273,6 +288,19 @@ class Kreisdiagramm():
         sio.emit("sendersChange", {"abgabe": abgabe, "annahme": annahme})
 
 
+class Planner():
+    def __init__(self):
+        self.plan = {}
+    # Plane die zukünftige Autoaufladung für das schlimmste Szenario
+    def makePlan(self, hours, status):
+        if hours%48 == 24:
+            startTimes = {}
+            for i in range(8):
+                startTimes[i] = carData[i]["start"]
+            startTimes = {k: v for k, v in sorted(startTimes.items(), key=lambda item: item[1])}
+            print(startTimes)
+
+
 def checkPotiValues():
     global verbrauch_haus
     global erzeugung_solar
@@ -345,26 +373,9 @@ def startScript():
             global houses
 
             checkPotiValues()
-            """dif = {}
-            total_dif = 0  # Verbrauch der Siedlung
-            for house_key in houses:
-                house_verbrauch = houses[house_key].max_consumption * verbrauch_haus
-                house_erzeugung = houses[house_key].solar_space * erzeugung_solar
-                difference = house_erzeugung - house_verbrauch
-                dif[house_key] = difference
-                total_dif = total_dif + difference
-            print(dif)
-            print(total_dif)
-            storage.startCharging(total_dif)
-            print("storage: ", storage.capacity)
-            hours += 1
-            print(hours)
-            verbrauchfirma = firma.solar_space * erzeugung_solar
-            + windpark.windenergy * erzeugung_wind
-            - firma.max_consumption * verbrauch_firma
-            print("Firma ", verbrauchfirma)
-            total_dif += verbrauchfirma
-            print("Endverbrauch ", total_dif)"""
+            
+            if hours%24 == 0:
+                planner.makePlan(hours, "")
 
             houses[1].setCarsCharging(1)
             # led rechnen
@@ -457,6 +468,7 @@ if __name__ == "__main__":
 
     storage = Storage(200, 0, 350)
     kreisdiagramm = Kreisdiagramm()
+    planner = Planner()
 
     verbrauchfirma = 0
 
