@@ -314,7 +314,7 @@ class Planner():
         keys = list(endTimes.keys())
 
         i = 0
-        while i < len(keys):
+        while i < len(keys) - 1:
 
             # Wenn aktuelle Endzeit min. 1h von nächstem Wert entfernt ist
             if endTimes[keys[i]] - 1 >= endTimes[keys[i+1]] :
@@ -335,6 +335,7 @@ class Planner():
                     self.plan[equalKey] = endTimes[equalKey] - 1
 
                 i = j
+        self.plan[keys[-1]] = endTimes[keys[-1]] - 1
         return self.plan
                         
 
