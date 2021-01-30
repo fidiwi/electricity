@@ -462,10 +462,8 @@ try{
   function sendCars(socket){
     SQLconnection.query(`SELECT * FROM cars`, (err, rows) => {
       if (err) throw err;
-      let newRows = rows.shift();
-      socket.emit("cars", newRows);
-      console.log(rows);
-      console.log(newRows);
+      rows.shift();
+      socket.emit("cars", rows);
     });
   }
   
