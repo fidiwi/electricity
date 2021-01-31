@@ -340,18 +340,6 @@ class Planner():
         self.plan[keys[-1]] = {"last": endTimes[keys[-1]] - 1, "first": carData[keys[-1]]["start"]}
         return self.plan
 
-def eautosAufladen(plan, difAutos, totaldiff, hours):
-    anzahlGeladeneAutos = 0
-
-    if hours == plan[value]:
-        anzahlGeladeneAutos += 1
-        delete item
-
-    if totaldiff >= 11:
-        anzahlGeladeneAutos += int(totaldiff / 11) # runterrunden
-        
-    return anzahlGeladeneAutos
-
                         
 
 def checkPotiValues():
