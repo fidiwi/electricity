@@ -403,6 +403,7 @@ def updateDBPotiValues(data):
 
 
 def startScript():
+    plan = {}
     try:
         while True:
             global verbrauch_haus
@@ -412,8 +413,6 @@ def startScript():
             global preis_vorhersage
             global hours
             global houses
-
-            plan = {}
 
             total_dif = 0  # Verbrauch der Siedlung
 
