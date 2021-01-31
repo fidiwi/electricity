@@ -296,7 +296,9 @@ class Planner():
     def __init__(self):
         self.plan = {}
     # Plane die zukünftige Autoaufladung für das schlimmste Szenario
-    def makePlan(self, hours, status):
+
+    # Erstellen eines Plans {id: {last: spätester Ladezeitpunkt, first: Frühester Ladezeitpunkt}}
+    def makePlan(self, hours):
 
         endTimes = {}
         
@@ -318,7 +320,7 @@ class Planner():
     
             # Wenn aktuelle Endzeit min. 1h von nächstem Wert entfernt ist
             if endTimes[keys[i]] - 1 >= endTimes[keys[i+1]] :
-                self.plan[keys[i]] = endTimes[keys[i]] - 1
+                self.plan[keys[i]] = {"last": endTimes[keys[i]] - 1, "first": carData[keys[i]]["start"]}
 
                 i += 1
             else:
@@ -332,10 +334,10 @@ class Planner():
                 eqElementsDif = {k: v for k, v in sorted(eqElementsDif.items(), key=lambda item: item[1], reverse=True)}
                 equalKeys = list(eqElementsDif.keys())
                 for equalKey in equalKeys:
-                    self.plan[equalKey] = endTimes[equalKey] - 1
+                    self.plan[equalKey] = {"last": endTimes[equalKey] - 1, "first": carData[equalKey]["start"]}
 
                 i = j
-        self.plan[keys[-1]] = endTimes[keys[-1]] - 1
+        self.plan[keys[-1]] = {"last": endTimes[keys[-1]] - 1, "first": carData[keys[-1]]["start"]}
         return self.plan
 
 def eautosAufladen(plan, difAutos, totaldiff, hours):
@@ -423,10 +425,15 @@ def startScript():
             global hours
             global houses
 
+            plan = {}
+
+            total_dif = 0  # Verbrauch der Siedlung
+
             checkPotiValues()
             
             if hours%24 == 0:
-                print("Plan: ", planner.makePlan(hours, ""))
+                plan = planner.makePlan(hours)
+                print("Plan: ", plan)
                 
 
             houses[1].setCarsCharging(1)
@@ -437,11 +444,20 @@ def startScript():
             # Windpark
             housevb.append(windpark.windenergy * erzeugung_wind)
 
-            # Firma Produktivität festlegen
+            # Firma Produktion festlegen
             dif = houses[5].solar_space * erzeugung_solar
             for vb in housevb:
                 dif += vb
 
+            print("Plan vorher: ", plan)
+            for entry in plan.keys():
+                if hours%24 == plan[entry]["last"]:
+                    dif -= 11
+                    total_dif -= 11
+                    del plan[entry]
+            print("Plan nachher: ", plan)
+            
+            # Firma Produktiviät errechnen
             print("dif: ", dif)
             if hours%24 > 5 and hours%24 <22:
                 verbrauch_firma = 0.5
@@ -474,11 +490,21 @@ def startScript():
 
             keys = list(vb_sortiert.keys())
 
-            total_dif = 0  # Verbrauch der Siedlung
-
             for items in vb_sortiert.values():
                 total_dif += items
                 print(items)
+
+            # Optional weitere Autos laden
+            if total_dif >= 11:
+                capability = int(total_dif / 11)
+                for item in range(capability):
+                    for entry in plan.keys():
+                        if plan[entry]["first"] <= hours%24:
+                            total_dif -= 11
+                            del plan[entry]
+                            break
+            print("Plan optional: ", plan)
+            
             storage.startCharging(total_dif)
 
             print("storage: ", storage.capacity)
