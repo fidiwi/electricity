@@ -315,7 +315,7 @@ class Planner():
 
         i = 0
         while i < len(keys) - 1:
-
+    
             # Wenn aktuelle Endzeit min. 1h von nächstem Wert entfernt ist
             if endTimes[keys[i]] - 1 >= endTimes[keys[i+1]] :
                 self.plan[keys[i]] = endTimes[keys[i]] - 1
@@ -337,6 +337,19 @@ class Planner():
                 i = j
         self.plan[keys[-1]] = endTimes[keys[-1]] - 1
         return self.plan
+
+def eautosAufladen(plan, difAutos, totaldiff, hours):
+    anzahlGeladeneAutos = 0
+
+    if hours == plan[value]:
+        anzahlGeladeneAutos += 1
+        delete item
+
+    if totaldiff >= 11:
+        anzahlGeladeneAutos += int(totaldiff / 11) # runterrunden
+        
+    return anzahlGeladeneAutos
+
                         
 
 def checkPotiValues():
