@@ -429,6 +429,7 @@ def startScript():
             global preis_vorhersage
             global hours
             global houses
+            global studie
 
             if hours == 24 and studie:
                 studie = False
