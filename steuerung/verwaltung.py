@@ -404,7 +404,7 @@ def updateDBPotiValues(data):
     print(data)
 
 def showDemo():
-    ledStrip.
+    ledStrip.showDemo()
 
 def startScript():
     plan = {}
