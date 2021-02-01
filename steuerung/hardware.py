@@ -54,8 +54,8 @@ class LEDStrip(Adafruit_NeoPixel):
         self.stromfluss(Color(0, 50, 0), 0.5, house1, firma)
 
         # Türkiser Stromfluss von Haus 1 zu Storage
-        self.stromfluss(Color(0, 50, 0), 0.5, house1, firma)
-        self.stromfluss(Color(0, 50, 0), 0.5, house1, firma)
+        self.stromfluss(Color(0, 150, 50), 0.5, house1, storage)
+        self.stromfluss(Color(0, 150, 50), 0.5, house1, storage)
 
         # Gelbes Entladen vom Storage
         self.stromfluss(Color(80, 50, 0), 0.75, storage, house1)
