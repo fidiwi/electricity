@@ -519,7 +519,7 @@ def startScript():
 
 
 if __name__ == "__main__":
-    ledStrip.showDemo()
+
 
     verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
     erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
@@ -557,6 +557,7 @@ if __name__ == "__main__":
                                  LED_DMA, LED_INVERT, LED_BRIGHTNESS,
                                  LED_CHANNEL)
     ledStrip.begin()
+    ledStrip.showDemo()
 
     sio.connect(SOCKETIO_ENDPOINT)
     
