@@ -557,7 +557,8 @@ if __name__ == "__main__":
                                  LED_DMA, LED_INVERT, LED_BRIGHTNESS,
                                  LED_CHANNEL)
     ledStrip.begin()
-    ledStrip.showDemo()
+    while(not input("lel")):
+        ledStrip.showDemo()
 
     sio.connect(SOCKETIO_ENDPOINT)
     
