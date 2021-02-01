@@ -437,8 +437,7 @@ def startScript():
                 dif += vb
 
             print("Plan vorher: ", plan)
-            planKeys = plan.keys()
-            for entry in planKeys:
+            for entry in list(plan.keys()):
                 if hours%24 == plan[entry]["last"]:
                     dif -= 11
                     total_dif -= 11
