@@ -45,13 +45,26 @@ const Company: React.FC = () => {
     ]
   });
 
-  const options = {
+  const optionsProduktivität = {
     scales: {
         yAxes: [
         {
             ticks: {
             suggestedMin: 0,
             suggestedMax: 100
+            }
+        }
+        ]
+    }
+    
+  };
+
+  const optionsWindSonne = {
+    scales: {
+        yAxes: [
+        {
+            ticks: {
+            suggestedMin: 0
             }
         }
         ]
@@ -155,14 +168,14 @@ const Company: React.FC = () => {
         <IonCard>
           <IonCardContent>
             <IonCardTitle>Produktivität</IonCardTitle>
-            <Line data={Produktivität} options={options}/>
+            <Line data={Produktivität} options={optionsProduktivität}/>
             <IonCardSubtitle>Durchschnittl. Produktivität: {produktschnitt}%</IonCardSubtitle>
           </IonCardContent>
         </IonCard>
         <IonCard>
           <IonCardContent>
             <IonCardTitle>Tagesüberblick</IonCardTitle>
-            <Line data={Firma}/>
+            <Line data={Firma} options={optionsWindSonne}/>
             <IonCardSubtitle>Stromproduktion Solar: {Math.round(sonne)}kW</IonCardSubtitle>
             <IonCardSubtitle>Stromproduktion Wind: {Math.round(wind)}kW</IonCardSubtitle>
           </IonCardContent>

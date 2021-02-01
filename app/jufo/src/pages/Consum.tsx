@@ -20,6 +20,19 @@ const Consum: React.FC = () => {
   const [tagesvbr, settagesvbr] = useState<number>(0);
   const [tagesprd, settagesprd] = useState<number>(0);
 
+  const optionsVerbrauchSonne = {
+    scales: {
+        yAxes: [
+        {
+            ticks: {
+            suggestedMin: 0
+            }
+        }
+        ]
+    }
+    
+  };
+
   const [dataJahr, setJahr] = useState<{
     labels: string[];
     datasets: {
@@ -219,7 +232,7 @@ const Consum: React.FC = () => {
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle>Tagesüberblick</IonCardTitle>
-                <Line data={dataTag}/>
+                <Line data={dataTag} options={optionsVerbrauchSonne}/>
               </IonCardHeader>
               <IonCardContent>
                 <IonCardSubtitle>Stromverbrauch: {Math.round(tagesvbr)}kWh</IonCardSubtitle>
