@@ -519,7 +519,7 @@ def startScript():
 
 
 if __name__ == "__main__":
-    showDemo()
+    ledStrip.showDemo()
 
     verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
     erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
