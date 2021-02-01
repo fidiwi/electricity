@@ -316,11 +316,12 @@ class Planner():
         keys = list(endTimes.keys())
 
         i = 0
+        verzug = 1
         while i < len(keys) - 1:
     
             # Wenn aktuelle Endzeit min. 1h von nächstem Wert entfernt ist
             if endTimes[keys[i]] - 1 >= endTimes[keys[i+1]] :
-                self.plan[keys[i]] = {"last": endTimes[keys[i]] - 1, "first": carData[keys[i]]["start"]}
+                self.plan[keys[i]] = {"last": endTimes[keys[i]] - verzug, "first": carData[keys[i]]["start"]}
 
                 i += 1
             else:
@@ -331,10 +332,11 @@ class Planner():
                 while endTimes[keys[i]] == endTimes[keys[j]] and j < len(endTimes):
                     eqElementsDif[keys[j]] = carData[keys[j]]["dif"]
                     j+=1
-                eqElementsDif = {k: v for k, v in sorted(eqElementsDif.items(), key=lambda item: item[1], reverse=True)}
+                eqElementsDif = {k: v for k, v in sorted(eqElementsDif.items(), key=lambda item: item[1])}
                 equalKeys = list(eqElementsDif.keys())
                 for equalKey in equalKeys:
-                    self.plan[equalKey] = {"last": endTimes[equalKey] - 1, "first": carData[equalKey]["start"]}
+                    self.plan[equalKey] = {"last": endTimes[equalKey] - equalKeys.index(equalKey) - verzug, "first": carData[equalKey]["start"]}
+                    verzug += 1
 
                 i = j
         self.plan[keys[-1]] = {"last": endTimes[keys[-1]] - 1, "first": carData[keys[-1]]["start"]}
