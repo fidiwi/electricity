@@ -561,7 +561,7 @@ if __name__ == "__main__":
 
     # SocketIO Connection herstellen und als Raspberry anmelden
 
-    storage = Storage(200, 0, 350)
+    storage = Storage(0, 0, 350)
     kreisdiagramm = Kreisdiagramm()
     planner = Planner()
 
