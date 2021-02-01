@@ -536,7 +536,7 @@ def startScript():
             sio.emit("time", hours%24)
 
 
-            time.sleep(2)
+            time.sleep(0.2)
 
     except KeyboardInterrupt:
         sio.disconnect()
