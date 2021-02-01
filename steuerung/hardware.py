@@ -48,6 +48,23 @@ pins = [MCP.P0, MCP.P1, MCP.P2, MCP.P3, MCP.P4, MCP.P5, MCP.P6, MCP.P7]
 
 
 class LEDStrip(Adafruit_NeoPixel):
+    def showDemo(self):
+        # Grüner Stromfluss von Haus zu Firma
+        self.stromfluss(Color(0, 50, 0), 50, house1, firma)
+
+        # Türkiser Stromfluss von Haus 1 zu Storage
+        self.stromfluss(Color(0, 150, 50), 25, house1, storage)
+
+        # Gelbes Entladen vom Storage
+        self.stromfluss(Color(80, 50, 0), 75, storage, house1)
+        self.stromfluss(Color(80, 50, 0), 75, storage, house1)
+
+        # Blaues Abgeben des Strom an HL
+        self.stromfluss(Color(0, 0, 50), 50, house1, end)
+
+        # Rotes Annehmen vom Strom der HL
+        self.stromfluss(Color(50, 0, 0), 50, begin, house1)
+
     def calculateSingleWay(self, sender_object_way, receiver_object_way):
         way = []
         # Stromfluss von kleinerem Pixelindex zu größerem

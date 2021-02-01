@@ -403,6 +403,8 @@ def updateDBPotiValues(data):
     preis_vorhersage = data['ekarma']
     print(data)
 
+def showDemo():
+    ledStrip.
 
 def startScript():
     plan = {}
@@ -517,6 +519,7 @@ def startScript():
 
 
 if __name__ == "__main__":
+    showDemo()
 
     verbrauch_haus = hardware.getAnalogPercent(0)  # 0.5
     erzeugung_solar = hardware.getAnalogPercent(1)  # 0.25
@@ -556,5 +559,4 @@ if __name__ == "__main__":
     ledStrip.begin()
 
     sio.connect(SOCKETIO_ENDPOINT)
-
     
