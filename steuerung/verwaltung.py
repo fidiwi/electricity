@@ -446,7 +446,7 @@ def startScript():
                 erzeugung_solar = erzeugung_solarliste_studie[hours]
                 erzeugung_wind = erzeugung_windliste_studie[hours] / 4
                 sio.emit("rangeChange", {'param':"housevb", 'value': verbrauch_haus})
-                sio.emit("rangeChange", {'param':"sun", 'value': erzeugung_solar}})
+                sio.emit("rangeChange", {'param':"sun", 'value': erzeugung_solar})
                 sio.emit("rangeChange", {'param':"wind", 'value': erzeugung_wind})
             
             if hours%24 == 0 and not studie:
