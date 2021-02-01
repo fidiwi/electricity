@@ -32,7 +32,12 @@ firmaA = None
 windA = None
 preisA = None
 
-hours = 22
+hours = 0
+studie = True
+
+verbrauch_hausliste_studie = [0.2, 0.2, 0.2, 0.2, 0.2, 0.3, 0.5, 0.7, 0.8, 0.6, 0.5, 0.5, 0.6, 0.6, 0.6, 0.6, 0.6, 0.7, 0.8, 0.8, 0.6, 0.5, 0.4, 0.3]
+erzeugung_solarliste_studie = [0, 0, 0, 0, 0, 0, 0, 0.07, 0.28, 0.49, 0.63, 0.73, 0.3, 0.8, 0.76, 0.68, 0.52, 0.31, 0.24, 0.07, 0.05, 0, 0, 0]
+erzeugung_windliste_studie = [0.61, 0.5, 0.5, 0.39, 0.39, 0.33, 0.39, 0.39, 0.5, 0.61, 0.72, 0.83, 0.83, 0.94, 0.94, 0.94, 1.06, 1.06, 0.94, 0.94, 0.72, 0.61, 0.5, 0.5]
 
 
 @sio.event
@@ -44,30 +49,33 @@ def connect():
 
 @sio.on("FromAPI")
 def message(data):
-    updateDBPotiValues(data)
+    if not studie:
+        updateDBPotiValues(data)
 
 @sio.on("houses")
 def message(data):
-    for item in data:
-        houses[item['id'] - 1] = house_id[item['house']](item['id']-1)
+    if not studie:
+        for item in data:
+            houses[item['id'] - 1] = house_id[item['house']](item['id']-1)
 
 @sio.on("cars")
 def message(data):
-    global carData
-    carData = []
-    for dataset in data:
-        newDataset = dataset
-        startTime = int(dataset["start"][:2])
-        endTime = int(dataset["end"][:2])
+    if not studie:
+        global carData
+        carData = []
+        for dataset in data:
+            newDataset = dataset
+            startTime = int(dataset["start"][:2])
+            endTime = int(dataset["end"][:2])
 
-        newDataset["start"] = startTime
-        newDataset["end"] = endTime
+            newDataset["start"] = startTime
+            newDataset["end"] = endTime
 
-        if startTime > endTime:
-            newDataset["dif"] = (endTime + 24) - startTime
-        else:
-            newDataset["dif"] = endTime - startTime
-        carData.append(newDataset)
+            if startTime > endTime:
+                newDataset["dif"] = (endTime + 24) - startTime
+            else:
+                newDataset["dif"] = endTime - startTime
+            carData.append(newDataset)
 
 
 class House:
@@ -357,6 +365,10 @@ def checkPotiValues():
     global windA
     global preisA
 
+    global verbrauch_hausliste_studie
+    global erzeugung_solarliste_studie
+    global erzeugung_windliste_studie
+
     mVerbrauch_haus = hardware.getAnalogPercent(0)
     mErzeugung_solar = hardware.getAnalogPercent(1)
     mVerbrauch_firma = hardware.getAnalogPercent(2)
@@ -418,13 +430,26 @@ def startScript():
             global hours
             global houses
 
+            if hours == 24 and studie:
+                studie = False
+                sio.disconnect()
+                print("Studie beendet.")
+                return
+
             total_dif = 0  # Verbrauch der Siedlung
 
-            checkPotiValues()
+            if not studie:
+                checkPotiValues()
+            else:
+                verbrauch_haus = verbrauch_hausliste_studie[hours]
+                erzeugung_solar = erzeugung_solarliste_studie[hours]
+                erzeugung_wind = erzeugung_windliste_studie[hours] / 4
             
-            if hours%24 == 0:
+            if hours%24 == 0 and not studie:
                 plan = planner.makePlan(hours)
                 print("Plan: ", plan)
+            elif hours == 0 and studie:
+                plan = {0: {"last": 22, "first": 22}, 1: {"last": 23, "first": 22}, 2: {"last": 0, "first": 22}, 3: {"last": 1, "first": 22}, 4: {"last": 2, "first": 22}, 5: {"last": 3, "first": 22}, 6: {"last": 4, "first": 22}, 7: {"last": 5, "first": 22}}
                 
 
             houses[1].setCarsCharging(1)
@@ -560,5 +585,8 @@ if __name__ == "__main__":
     while(not input("lel")):
         ledStrip.showDemo()
 
+    studie = True
+    sio.connect(SOCKETIO_ENDPOINT)
+    input("Studie beenden / Skript beginnen")
     sio.connect(SOCKETIO_ENDPOINT)
     
