@@ -453,11 +453,10 @@ def startScript():
                 plan = {0: {"last": 22, "first": 22}, 1: {"last": 23, "first": 22}, 2: {"last": 0, "first": 22}, 3: {"last": 1, "first": 22}, 4: {"last": 2, "first": 22}, 5: {"last": 3, "first": 22}, 6: {"last": 4, "first": 22}, 7: {"last": 5, "first": 22}}
                 
 
-            houses[1].setCarsCharging(1)
             # led rechnen
             housevb = []
             for i in range(5):
-                housevb.append(-(houses[i].max_consumption * verbrauch_haus + houses[i].carsCurrentlyCharging * ladeleistung) + houses[i].solar_space * erzeugung_solar)
+                housevb.append(-(houses[i].max_consumption * verbrauch_haus) + houses[i].solar_space * erzeugung_solar)
             # Windpark
             housevb.append(windpark.windenergy * erzeugung_wind)
 
