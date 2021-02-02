@@ -51,22 +51,17 @@ class LEDStrip(Adafruit_NeoPixel):
     def showDemo(self):
         # Grüner Stromfluss von Haus zu Firma
         self.stromfluss(Color(0, 50, 0), 0.5, house1, firma)
-        self.stromfluss(Color(0, 50, 0), 0.5, house1, firma)
 
         # Türkiser Stromfluss von Haus 1 zu Storage
-        self.stromfluss(Color(0, 150, 50), 0.5, house1, storage)
         self.stromfluss(Color(0, 150, 50), 0.5, house1, storage)
 
         # Gelbes Entladen vom Storage
         self.stromfluss(Color(80, 50, 0), 0.75, storage, house1)
-        self.stromfluss(Color(80, 50, 0), 0.75, storage, house1)
 
         # Blaues Abgeben des Strom an HL
         self.stromfluss(Color(0, 0, 50), 0.5, house1, end)
-        self.stromfluss(Color(0, 0, 50), 0.5, house1, end)
 
         # Rotes Annehmen vom Strom der HL
-        self.stromfluss(Color(50, 0, 0), 0.5, begin, house1)
         self.stromfluss(Color(50, 0, 0), 0.5, begin, house1)
 
     def calculateSingleWay(self, sender_object_way, receiver_object_way):
