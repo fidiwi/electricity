@@ -588,8 +588,8 @@ if __name__ == "__main__":
     while(not input("lel")):
         ledStrip.showDemo()
 
-    studie = True
-    sio.connect(SOCKETIO_ENDPOINT)
-    input("Studie beenden / Skript beginnen")
+    # studie = True
+    # sio.connect(SOCKETIO_ENDPOINT)
+    # input("Studie beenden / Skript beginnen")
     sio.connect(SOCKETIO_ENDPOINT)
     
