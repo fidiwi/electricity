@@ -66,7 +66,7 @@ const ModelManipulation: React.FC = () => {
         <IonList>
         <IonListHeader>Passwort eingeben</IonListHeader>
           <IonItem>
-            <IonInput placeholder="Passwort" type="password" debounce={1083} onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
+            <IonInput placeholder="Passwort" type="password" debounce={503} onIonChange={e => passwordCheck(e.detail.value!)} ></IonInput>
           </IonItem>
           <IonItemDivider>Häuserverbauch</IonItemDivider>
           <IonItem>
