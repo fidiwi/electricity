@@ -15,12 +15,14 @@ const SlidesTest: React.FC = () => (
     <IonSlides pager={true} options={slideOpts}>
       <IonSlide>
         <img src="https://hackr.io/blog/ionic-framework/thumbnail/large"/>
+        <h2>Welcome</h2>
       </IonSlide>
       <IonSlide>
       <h2>What is Ionic?</h2>
           <p><b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies like HTML, CSS, and JavaScript.</p>
       </IonSlide>
       <IonSlide>
+        <h2>Ready to Play?</h2>
         <IonButton routerLink="/dashboard" fill="clear">Weiter zur Dashboard <IonIcon slot="end" icon={arrowForward}></IonIcon></IonButton>
       </IonSlide>
     </IonSlides>
