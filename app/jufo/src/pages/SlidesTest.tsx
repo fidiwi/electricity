@@ -6,6 +6,7 @@ import logo from '../bilder/logo.svg'
 import modell from '../bilder/modell.jpg'
 import schieberegler from '../bilder/schieberegler.jpg'
 import dashboard from '../bilder/dashboard.jpg'
+import server from '../bilder/server.png'
 
 // Optional parameters to pass to the swiper instance.
 // See http://idangero.us/swiper/api/ for valid options.
@@ -28,6 +29,7 @@ const SlidesTest: React.FC = () => (
         <img src={modell}/>
         <h2>Die App</h2>
         <p>Über die <b>App</b> können sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App und die Siedlung mit einem <b>Server</b> in Verbindung stehen.</p>
+        <img src={server}/>
       </IonSlide>
       <IonSlide>
         <img src={schieberegler}/>
