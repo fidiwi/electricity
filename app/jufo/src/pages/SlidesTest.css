@@ -9,9 +9,12 @@ ion-slides {
 display: block;
 }
 
+.swiper-slide h1 {
+margin-top: 2rem;
+}
+
 .swiper-slide h2 {
-margin-top: 3.2rem;
-font-size: 30px;
+margin-top: 2.8rem;
 }
 
 .swiper-slide img {
@@ -23,6 +26,7 @@ pointer-events: none;
 
 b {
 font-weight: 500;
+color: var(--ion-text-color, #000000);
 }
 
 p {
@@ -34,4 +38,8 @@ color: var(--ion-color-step-600, #60646b);
 
 p b {
 color: var(--ion-text-color, #000000);
+}
+
+.blau {
+color: var(--ion-text-color, #3880ff);    
 }
