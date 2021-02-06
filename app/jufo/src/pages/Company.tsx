@@ -89,7 +89,6 @@ const Company: React.FC = () => {
         hourList.push(data[i].hour)
       }
       setproduktschnitt(Math.round(temp / 15));
-      console.log(hourPrd);
 
       let newDataProduktivität = {
         labels: hourList,

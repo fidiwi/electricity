@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput, IonItemDivider } from '@ionic/react';
+import { IonContent, IonItem, IonLabel, IonList, IonListHeader, IonSelect, IonSelectOption, IonPage, IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
 import { io } from "socket.io-client";
 import { urls } from '../vars/urls';
 import { passwordExport } from '../vars/password';
@@ -45,13 +45,11 @@ const Settings: React.FC = () => {
       id: number;
       house: number;
     }>) => {
-      console.log(data);
       data.forEach((slot) => {
         const id = slot.id;
         const value = slot.house;
         stateList[id-1](String(value));
       });
-      console.log(slot1.current?.value);
     });
   }, []);
 

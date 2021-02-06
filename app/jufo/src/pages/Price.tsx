@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonBackButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonDatetime, IonHeader, IonItem, IonItemDivider, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Price.css';
 
@@ -73,7 +73,6 @@ const Price: React.FC = () => {
       });
     
     socket.on("cars", (data: any) => {
-      console.log(data);
       setaufladpunkt(data.start);
       setfertig(data.end);
       setId(data.id);
@@ -129,11 +128,11 @@ const Price: React.FC = () => {
           <IonItemDivider>E-Auto Aufladeplan</IonItemDivider>
           <IonItem>
             <IonLabel>Auto wird angeschlossen ab: </IonLabel>
-            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={aufladpunkt} onIonChange={e => {console.log(e.detail.value!); pushStartChange(e.detail.value!);}}></IonDatetime>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={aufladpunkt} onIonChange={e => {pushStartChange(e.detail.value!);}}></IonDatetime>
           </IonItem>
           <IonItem>
             <IonLabel>Auto soll aufgeladen sein bis: </IonLabel>
-            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={fertig} onIonChange={e => {console.log(e.detail.value!); pushEndChange(e.detail.value!);}}></IonDatetime>
+            <IonDatetime display-format="HH:mm" picker-format="HH:mm" value={fertig} onIonChange={e => {pushEndChange(e.detail.value!);}}></IonDatetime>
           </IonItem>
         </IonList>
       </IonContent>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonSlides, IonSlide, IonContent, IonItem, IonLabel, IonCard, IonButton, IonIcon, IonText } from '@ionic/react';
+import { IonSlides, IonSlide, IonContent, IonButton, IonIcon, IonText } from '@ionic/react';
 import './SlidesTest.css';
 import { arrowForward } from 'ionicons/icons';
 import logo from '../bilder/logo.svg'
@@ -23,12 +23,12 @@ const SlidesTest: React.FC = () => (
         <IonText color="dark">CITY</IonText></h1>
         <img src={logo}/>
         <h2>Willkommen</h2>
-        <p>In dieser kurzen <b>Einführung</b> lernen sie unsere App näher kennen.</p>
+        <p>In dieser kurzen <b>Einführung</b> lernen Sie unsere App näher kennen.</p>
       </IonSlide>
       <IonSlide>
         <img src={modell}/>
         <h2>Die App</h2>
-        <p>Über die <b>App</b> können sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App über den <b>Server</b> mit dieser in Verbindung steht.</p>
+        <p>Über die <b>App</b> können Sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App über den <b>Server</b> mit dieser in Verbindung steht.</p>
         <img src={server}/>
       </IonSlide>
       <IonSlide>

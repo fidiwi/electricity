@@ -157,9 +157,6 @@ const Consum: React.FC = () => {
     socket.emit("housestat");
     socket.on("FromAPI", (data: any) => {
 
-      console.log("api received:");
-      console.log(data);
-
       let hourVerbrauch = [];
       var temp = 0;
 
@@ -167,7 +164,6 @@ const Consum: React.FC = () => {
         hourVerbrauch.push(Math.round(data.vb[i].value*100*hausvbr)/100);
         temp = temp + Math.round(data.vb[i].value*100*hausvbr)/100;
       } 
-      console.log(hourVerbrauch);
       settagesvbr(temp);
 
       let hourSonne = [];
@@ -179,9 +175,7 @@ const Consum: React.FC = () => {
         temp = temp + Math.round(data.sun[i].value*100*prd)/100;
         hourList.push(data.sun[i].hour);
       } 
-      console.log(hourSonne);
       settagesprd(temp);
-
 
       let newDataTag = {
         labels: hourList,
@@ -202,9 +196,7 @@ const Consum: React.FC = () => {
           }
         ]
       }
-      console.log(newDataTag);
       setTag(newDataTag);
-      console.log(dataTag);
     });
 
     return () => {

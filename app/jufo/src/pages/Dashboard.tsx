@@ -46,8 +46,6 @@ const Dashboard: React.FC = () => {
 
     socket.emit("estatus");
     socket.on("estatus", (data: any) => {
-      console.log("api received:");
-      console.log(data);
       let karma = [];
       let hourList = [];
 
@@ -56,7 +54,6 @@ const Dashboard: React.FC = () => {
         hourList.push(data[i].hour);
       }
       setEstatus(data[23].value);
-      console.log(karma);
       let newDataStatus = {
         labels: hourList,
         datasets: [
@@ -144,8 +141,7 @@ const Dashboard: React.FC = () => {
         <IonPopover
           event={popoverState.event}
           isOpen={popoverState.showPopover}
-          onDidDismiss={() => setShowPopover({ showPopover: false, event: undefined })}
-        >
+          onDidDismiss={() => setShowPopover({ showPopover: false, event: undefined })}>
           <IonList onClick={
               (e: any) => {
                 e.persist();
@@ -179,7 +175,7 @@ const Dashboard: React.FC = () => {
                     <IonCardTitle text-center>{moin} kWh | {Math.round(moin/3.5)}%</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
-                  <div  className="bar">
+                  <div className="bar">
                     <IonProgressBar color="success" value={moin/350}/>
                   </div>
                 </IonCardContent>
