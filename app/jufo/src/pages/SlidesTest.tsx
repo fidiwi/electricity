@@ -1,10 +1,11 @@
 import React from 'react';
 import { IonSlides, IonSlide, IonContent, IonItem, IonLabel } from '@ionic/react';
+import './SlidesTest.css';
 
 // Optional parameters to pass to the swiper instance.
 // See http://idangero.us/swiper/api/ for valid options.
 const slideOpts = {
-  initialSlide: 1,
+  initialSlide: 0,
   speed: 400
 };
 
