@@ -22,23 +22,23 @@ const SlidesTest: React.FC = () => (
         <IonText color="dark">CITY</IonText></h1>
         <img src={logo}/>
         <h2>Willkommen</h2>
-        <p>In dieser kurzen <b>Einführung</b> lernen sie unsere App kennen.</p>
+        <p>In dieser kurzen <b>Einführung</b> lernen sie unsere App näher kennen.</p>
       </IonSlide>
       <IonSlide>
         <img src={modell}/>
         <h2>Die App</h2>
-        <p>Über die <b>App</b> können sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App und die Siedlung mit einem <b>Server</b> in Verbindung stehen.</p>
+        <p>Über die <b>App</b> können sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App über den <b>Server</b> mit dieser in Verbindung steht.</p>
       </IonSlide>
       <IonSlide>
         <img src={schieberegler}/>
-        <h2>Interaktion mit der App</h2>
-        <p>Mit den <b>Schieberegler</b> können Sie die Modellwerte der App ändern. Dafür müssen Sie das von uns genannte <b>Passwort</b> eingeben. Das Gleiche gilt für die <b>Einstellungen</b>, wenn Sie die Grundstücke ändern möchten.</p>
+        <h2>Benutzung mit der App</h2>
+        <p>Mit den <b>Schiebereglern</b> können Sie die Modellwerte ändern. Dafür müssen Sie das von uns in der Präsentation genannte <b>Passwort</b> eingeben. Das Gleiche gilt für die <b>Einstellungen</b>, wenn Sie die Grundstücke ändern möchten.</p>
       </IonSlide>
       <IonSlide>
         <img src={dashboard}/>
         <h2>Viel Spaß beim Ausprobieren!</h2>
         <IonButton routerLink="/dashboard" fill="clear">Weiter zum Dashboard <IonIcon slot="end" icon={arrowForward}></IonIcon></IonButton>
-        <p><b>Info:</b> Es kann manchmal ein paar Sekunden dauern, bis Ihr Smartphone die Werte vom Server erhält. Wie bitten Sie um etwas Geduld.</p>
+        <p><b>Info:</b> Es kann manchmal ein paar Sekunden dauern, bis Ihr Smartphone die Werte vom Server erhält. Wie bitten Sie daher um etwas Geduld.</p>
       </IonSlide>
     </IonSlides>
   </IonContent>
