@@ -10,7 +10,8 @@ display: block;
 }
 
 .swiper-slide h2 {
-margin-top: 2.8rem;
+margin-top: 3.2rem;
+font-size: 30px;
 }
 
 .swiper-slide img {
@@ -26,7 +27,7 @@ font-weight: 500;
 
 p {
 padding: 0 40px;
-font-size: 14px;
+font-size: 20px;
 line-height: 1.5;
 color: var(--ion-color-step-600, #60646b);
 }
