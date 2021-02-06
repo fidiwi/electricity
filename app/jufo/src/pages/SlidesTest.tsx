@@ -16,10 +16,11 @@ const SlidesTest: React.FC = () => (
       <IonSlide>
         <img src="https://hackr.io/blog/ionic-framework/thumbnail/large"/>
         <h2>Welcome</h2>
+        <p>The <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper code use.</p>
       </IonSlide>
       <IonSlide>
-      <h2>What is Ionic?</h2>
-          <p><b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies like HTML, CSS, and JavaScript.</p>
+        <h2>What is Ionic?</h2>
+        <p><b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies like HTML, CSS, and JavaScript.</p>
       </IonSlide>
       <IonSlide>
         <h2>Ready to Play?</h2>
