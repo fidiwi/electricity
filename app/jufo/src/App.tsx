@@ -1,16 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs
-} from '@ionic/react';
+import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
 import Dashboard from './pages/Dashboard';
 import Price from './pages/Price';
 import Consum from './pages/Consum';
@@ -18,6 +9,7 @@ import Settings from './pages/Settings';
 import Company from './pages/Company';
 import ModelManipulation from './pages/ModelManipulation';
 import Battery from './pages/Battery';
+import SlidesTest from './pages/SlidesTest';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -53,7 +45,8 @@ const App: React.FC = () => {
           <Route path="/company" component={Company} />
           <Route path="/manipulateModel" component={ModelManipulation} />
           <Route path="/battery" component={Battery} />
-          <Redirect exact from="/" to="/dashboard" />
+          <Route path="/slidestest" component={SlidesTest} />
+          <Redirect exact from="/" to="/slidestest" />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
