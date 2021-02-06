@@ -28,7 +28,7 @@ const SlidesTest: React.FC = () => (
       <IonSlide>
         <img src={modell}/>
         <h2>Die App</h2>
-        <p>Über die <b>App</b> können sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App und die Siedlung mit einem <b>Server</b> in Verbindung stehen.</p>
+        <p>Über die <b>App</b> können sie mit dem <b>Modell</b> interagieren. Die Werte und Graphen zeigen die aktuellen Daten der Siedlung, da die App über den <b>Server</b> mit dieser in Verbindung steht.</p>
         <img src={server}/>
       </IonSlide>
       <IonSlide>
