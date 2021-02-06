@@ -14,13 +14,13 @@ margin-top: 2rem;
 }
 
 .swiper-slide h2 {
-margin-top: 2.4rem;
+margin-top: 0rem;
 }
 
 .swiper-slide img {
 max-height: 50%;
 max-width: 80%;
-margin: 30px 0 20px;
+margin: 25px 0 20px;
 pointer-events: none;
 }
 
