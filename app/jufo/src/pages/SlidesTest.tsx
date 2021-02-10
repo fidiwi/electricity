@@ -23,7 +23,7 @@ const SlidesTest: React.FC = () => (
         <IonText color="dark">CITY</IonText></h1>
         <img src={logo}/>
         <h2>Willkommen</h2>
-        <p>In dieser kurzen <b>Einführung</b> lernen Sie unsere App näher kennen.</p>
+        <p>In dieser kurzen <b>Einführung</b> lernen Sie unsere App näher kennen. Einfach nach rechts swipen!</p>
       </IonSlide>
       <IonSlide>
         <img src={modell}/>
