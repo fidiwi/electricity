@@ -44,6 +44,7 @@ erzeugung_windliste_studie = [0.61, 0.5, 0.5, 0.39, 0.39, 0.33, 0.39, 0.39, 0.5,
 def connect():
     print("Connected to Socket!")
     sio.emit("raspberry")
+    time.sleep(3)
     startScript()
 
 
