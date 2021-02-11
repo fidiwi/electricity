@@ -310,11 +310,11 @@ class Planner():
 
         endTimes = {}
         
-        if hours%48 == 24:
+        if hours%48 == 25:
             # Endzeiten der ersten 8 Datensätze
             for i in range(8):
                 endTimes[i] = carData[i]["end"]
-        elif hours%48 == 0:
+        elif hours%48 == 1:
             # Endzeiten der letzten 7 Datensätze
             for i in range(8, 15):
                 endTimes[i] = carData[i]["end"]
