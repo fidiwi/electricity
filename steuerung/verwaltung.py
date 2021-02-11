@@ -60,6 +60,7 @@ def message(data):
 
 @sio.on("cars")
 def message(data):
+    print(data)
     if not studie:
         global carData
         carData = []
