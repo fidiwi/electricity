@@ -12,11 +12,11 @@ const Company: React.FC = () => {
   const [wind, setWind] = useState<number>(0);
 
   const [Produktivität, setProduktivität] = useState({
-    labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
+    labels: ["00", "01", "02", "03", "04", "05","06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"],
     datasets: [
       {
         label: "Produktivität",
-        data: [33, 53, 85, 41, 44, 65, 33, 100, 45, 32, 24, 23, 32, 100, 78, 86],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(204,0,0,1)",
@@ -30,14 +30,14 @@ const Company: React.FC = () => {
     datasets: [
       {
         label: "Solar in kW",
-        data: [33, 25, 35, 51, 54, 76, 33, 33, 25, 35, 51, 54, 76, 33, 33, 25, 35, 51, 54, 76, 33, 33, 25, 35],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
       },
       {
         label: "Wind in kW",
-        data: [3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5, 51, 3, 53, 5, 41, 24, 5],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
@@ -88,7 +88,7 @@ const Company: React.FC = () => {
         temp = temp + data[i].value*100;
         hourList.push(data[i].hour)
       }
-      setproduktschnitt(Math.round(temp / 15));
+      setproduktschnitt(Math.round(temp / 16));
 
       let newDataProduktivität = {
         labels: hourList,
