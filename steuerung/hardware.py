@@ -20,7 +20,7 @@ mcp = MCP.MCP3008(spi, cs)
 gpio.setmode(gpio.BCM)
 
 # LED strip configuration:
-LED_COUNT      = 180     # Number of LED pixels.
+LED_COUNT      = 138     # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -37,7 +37,6 @@ storage = [*range(112, 119)]
 house5 = [*range(128, 135)]
 wind = [*range(8, 17)]
 firma = [*range(28, 37)]
-sun = [*range(139, 179)]
 end = [138]
 begin = [0]
 
