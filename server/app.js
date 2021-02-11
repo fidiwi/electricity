@@ -152,6 +152,9 @@ try{
             estatusSockets.forEach(function(ESsocket){
               sendEStatus(ESsocket);
             });
+            dashboardSockets.forEach(function(DBsocket){
+              sendEStatus(DBsocket);
+            });
           })
         })
       });
