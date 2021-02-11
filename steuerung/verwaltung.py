@@ -61,7 +61,6 @@ def message(data):
 
 @sio.on("cars")
 def message(data):
-    print(data)
     if not studie:
         global carData
         carData = []
@@ -310,14 +309,14 @@ class Planner():
     # Erstellen eines Plans {id: {last: spätester Ladezeitpunkt, first: Frühester Ladezeitpunkt}}
     def makePlan(self, hours):
         global carData
-        
+
         endTimes = {}
         
-        if hours%48 == 25:
+        if hours%48 == 24:
             # Endzeiten der ersten 8 Datensätze
             for i in range(8):
                 endTimes[i] = carData[i]["end"]
-        elif hours%48 == 1:
+        elif hours%48 == 0:
             # Endzeiten der letzten 7 Datensätze
             for i in range(8, 15):
                 endTimes[i] = carData[i]["end"]
@@ -329,6 +328,7 @@ class Planner():
         i = 0
         verzug = 1
         while i < len(keys) - 1:
+            print
     
             # Wenn aktuelle Endzeit min. 1h von nächstem Wert entfernt ist
             if endTimes[keys[i]] - 1 >= endTimes[keys[i+1]] :
@@ -350,9 +350,6 @@ class Planner():
                     verzug += 1
 
                 i = j
-        print("keys: ", keys)
-        print("EndTimes: ", endTimes)
-        print("CarData: ", carData)
         self.plan[keys[-1]] = {"last": endTimes[keys[-1]] - 1, "first": carData[keys[-1]]["start"]}
         return self.plan
 
