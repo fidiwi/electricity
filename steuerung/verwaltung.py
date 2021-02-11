@@ -309,7 +309,8 @@ class Planner():
 
     # Erstellen eines Plans {id: {last: spätester Ladezeitpunkt, first: Frühester Ladezeitpunkt}}
     def makePlan(self, hours):
-
+        global carData
+        
         endTimes = {}
         
         if hours%48 == 25:
@@ -349,6 +350,9 @@ class Planner():
                     verzug += 1
 
                 i = j
+        print("keys: ", keys)
+        print("EndTimes: ", endTimes)
+        print("CarData: ", carData)
         self.plan[keys[-1]] = {"last": endTimes[keys[-1]] - 1, "first": carData[keys[-1]]["start"]}
         return self.plan
 
