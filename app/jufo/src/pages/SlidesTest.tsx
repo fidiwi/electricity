@@ -16,7 +16,7 @@ const slideOpts = {
 };
 
 const SlidesTest: React.FC = () => (
-  <IonContent fullscreen class="ion-padding">
+  <IonContent fullscreen class="ion-padding" className="rand">
     <IonSlides pager={false} options={slideOpts}>
       <IonSlide>
         <h1><IonText color="primary">  electri</IonText>

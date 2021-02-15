@@ -136,14 +136,14 @@ const Consum: React.FC = () => {
     datasets: [
       {
         label: "Stromverbrauch in kWh",
-        data: [33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76, 12, 33, 53, 85, 41, 44, 65, 33, 25, 35, 51, 54, 76, 12],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(204,0,0,1)"
       },
       {
         label: "Stromproduktion in kWh",
-        data: [33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23, 33, 25, 35, 51, 54, 76, 33, 53, 85, 41, 44, 65, 23],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: true,
         backgroundColor: "rgba(0,204,0,0.2)",
         borderColor: "rgba(0,204,0,1)"
